@@ -13,7 +13,17 @@ return new class extends Migration
     {
         Schema::create('camps', function (Blueprint $table) {
             $table->id();
-            
+            $table->string('name');
+            $table->string('location');
+            $table->string('contactPerson');
+            $table->string('contactPhone');
+            $table->string('contactEmail');
+            $table->string('mikritikIP');
+            $table->string('mikrotikUsername');
+            $table->string('mikrotikPassword');
+            $table->string('radiusSecret');
+            $table->string('radiusIP');
+            $table->tinyInteger('status');
             $table->timestamps();
         });
     }

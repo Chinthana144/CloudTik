@@ -8,4 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Camps extends Model
 {
     use HasFactory;
+
+    protected $fillable  = [
+        'name',
+        'location',
+        'contactPerson',
+        'contactPhone',
+        'contactEmail',
+        'mikrotikUsername',
+        'mikrotikPassword',
+        'radiusSecret',
+        'radiusIP',
+        'status',
+    ];
 }
