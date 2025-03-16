@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CampController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,6 +31,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/template', function () {
         return view('layouts.template');
     });
+
+    //camps
+    Route::get('/camps', [CampController::class, 'index'])->name('camps.index');
+    Route::get('/add-camp', [CampController::class, 'create'])->name('camps.create');
+    Route::post('/store-camp', [CampController::class, 'store'])->name('camps.store');
 });
 
 require __DIR__ . '/auth.php';

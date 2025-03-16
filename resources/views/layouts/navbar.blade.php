@@ -12,31 +12,47 @@
             <li class="sidebar-item">
                 <a href="#" class="sidebar-link">
                     <i class="lni lni-user"></i>
-                    <span>Profile</span>
+                    <span>Invoice</span>
                 </a>
             </li>
             <li class="sidebar-item">
                 <a href="#" class="sidebar-link">
                     <i class="lni lni-agenda"></i>
-                    <span>Task</span>
+                    <span>Customers</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link">
+                    <i class="lni lni-agenda"></i>
+                    <span>Packages</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link">
+                    <i class="lni lni-agenda"></i>
+                    <span>Subscriptions</span>
                 </a>
             </li>
             <li class="sidebar-item">
                 <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
                     data-bs-target="#auth" aria-expanded="false" aria-controls="auth">
                     <i class="lni lni-protection"></i>
-                    <span>Auth</span>
+                    <span>Control</span>
                 </a>
                 <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                     <li class="sidebar-item">
-                        <a href="#" class="sidebar-link">Login</a>
+                        <a href="#" class="sidebar-link">User Access</a>
                     </li>
                     <li class="sidebar-item">
-                        <a href="#" class="sidebar-link">Register</a>
+                        <a href="#" class="sidebar-link">Camp Access</a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link">Pages</a>
                     </li>
                 </ul>
             </li>
-            <li class="sidebar-item">
+
+            {{-- <li class="sidebar-item">
                 <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
                     data-bs-target="#multi" aria-expanded="false" aria-controls="multi">
                     <i class="lni lni-layout"></i>
@@ -58,19 +74,30 @@
                         </ul>
                     </li>
                 </ul>
-            </li>
+            </li> --}}
+
             <li class="sidebar-item">
-                <a href="#" class="sidebar-link">
-                    <i class="lni lni-popup"></i>
-                    <span>Notification</span>
+                <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
+                    data-bs-target="#settings" aria-expanded="false" aria-controls="auth">
+                    <i class="lni lni-cog"></i>
+                    <span>Settings</span>
                 </a>
+                <ul id="settings" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                    <li class="sidebar-item">
+                        <a href="/camps" class="sidebar-link">Camps</a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link">Users</a>
+                    </li>
+                </ul>
             </li>
-            <li class="sidebar-item">
+
+            {{-- <li class="sidebar-item">
                 <a href="#" class="sidebar-link">
                     <i class="lni lni-cog"></i>
                     <span>Setting</span>
                 </a>
-            </li>
+            </li> --}}
         </ul>
         <div class="sidebar-footer">
             <a href="#" class="sidebar-link">

@@ -1,0 +1,79 @@
+Table Structure for CloudTik Project
+
+Camps table columns
+    Id
+    Name
+    Location
+    Contact person
+    Contact phone
+    Contact email
+    Mikrotik ip
+    Mikrotik port
+    Mikrotik username
+    Mikrotik password
+    Radius secret
+    Radius ip
+    Status
+    Created at
+    Updated at
+
+Customers table columns
+    Id
+    Camp id
+    Full Name
+    Phone
+    Email (optional)
+    Username
+    Password
+    Status
+    Created at
+    Updated at
+
+Packages
+    id
+    Name
+    Duration (days)
+    Price (AED)
+    Bandwidth
+    Speed limit
+    Status
+    Created at
+    Updated at
+
+Subscriptions table columns
+    Id
+    Customer id
+    Package id
+    Purchase datetime
+    Subscription start
+    Subscription end
+    Price (AED)
+    Mac address
+    Status (active, pending, expired)
+    Created at
+    Updated at
+
+Camp Users table
+    Id
+    Camp id
+    User id
+    Created at
+    Updated at
+
+Roles table
+    Id
+    Name
+    Created at
+    Updated at
+
+Pages table
+    Id
+    Page name (camps, customers, packages, invoice)
+
+Page access table
+    Id
+    Page id
+    Role id
+    Permission (text with json format)
+    Status
+
