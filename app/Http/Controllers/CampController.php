@@ -30,7 +30,24 @@ class CampController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $camp = new Camps();
+
+        $camp->name = $request->input('name');
+        $camp->location = $request->input('location');
+        $camp->contactPerson = $request->input('contactPerson');
+        $camp->contactPhone = $request->input('contactPhone');
+        $camp->contactEmail = $request->input('contactEmail');
+        $camp->mikritikIP = $request->input('mikritikIP');
+        $camp->mikritikPort = $request->input('mikritikPort');
+        $camp->mikrotikUsername = $request->input('mikrotikUsername');
+        $camp->mikrotikPassword = $request->input('mikrotikPassword');
+        $camp->radiusSecret = $request->input('radiusSecret');
+        $camp->radiusIP = $request->input('radiusIP');
+        $camp->status = $request->has('chk_camp_stat') ? 1 : 0;
+
+        $camp->save();
+
+        return redirect()->route('camps.index');
     }
 
     /**
@@ -44,17 +61,38 @@ class CampController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request)
     {
-        //
+        $camp_id = $request->input('hide_camp_id');
+        $camp = Camps::find($camp_id);
+
+        return view('camps.camp_edit', compact('camp'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        $camp_id = $request->input('camp_id');
+        $camp = Camps::find($camp_id);
+
+        $camp->name = $request->input('name');
+        $camp->location = $request->input('location');
+        $camp->contactPerson = $request->input('contactPerson');
+        $camp->contactPhone = $request->input('contactPhone');
+        $camp->contactEmail = $request->input('contactEmail');
+        $camp->mikritikIP = $request->input('mikritikIP');
+        $camp->mikritikPort = $request->input('mikritikPort');
+        $camp->mikrotikUsername = $request->input('mikrotikUsername');
+        $camp->mikrotikPassword = $request->input('mikrotikPassword');
+        $camp->radiusSecret = $request->input('radiusSecret');
+        $camp->radiusIP = $request->input('radiusIP');
+        $camp->status = $request->has('chk_camp_stat') ? 1 : 0;
+
+        $camp->save();
+
+        return redirect()->route('camps.index');
     }
 
     /**

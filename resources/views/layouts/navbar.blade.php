@@ -44,7 +44,7 @@
                         <a href="#" class="sidebar-link">User Access</a>
                     </li>
                     <li class="sidebar-item">
-                        <a href="#" class="sidebar-link">Camp Access</a>
+                        <a href="/campusers" class="sidebar-link">Camp Access</a>
                     </li>
                     <li class="sidebar-item">
                         <a href="#" class="sidebar-link">Pages</a>

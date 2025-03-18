@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('contactPhone');
             $table->string('contactEmail');
             $table->string('mikritikIP');
+            $table->string('mikritikPort');
             $table->string('mikrotikUsername');
             $table->string('mikrotikPassword');
             $table->string('radiusSecret');

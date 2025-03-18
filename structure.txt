@@ -63,6 +63,7 @@ Camp Users table
 Roles table
     Id
     Name
+    User id
     Created at
     Updated at
 

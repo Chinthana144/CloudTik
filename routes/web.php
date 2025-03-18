@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\CampController;
+use App\Http\Controllers\CampUserController;
 use App\Http\Controllers\ProfileController;
+use App\Models\CampUsers;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,6 +38,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/camps', [CampController::class, 'index'])->name('camps.index');
     Route::get('/add-camp', [CampController::class, 'create'])->name('camps.create');
     Route::post('/store-camp', [CampController::class, 'store'])->name('camps.store');
+    Route::post('/edit-camp', [CampController::class, 'edit'])->name('camps.edit');
+    Route::put('/update-camp', [CampController::class, 'update'])->name('camps.update');
+
+    //camp users
+    Route::get('/campusers', [CampUserController::class, 'index'])->name('campusers.index');
+    Route::post('/add-campusers', [CampUserController::class, 'store'])->name('campusers.store');
 });
 
 require __DIR__ . '/auth.php';

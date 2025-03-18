@@ -15,10 +15,17 @@ class Camps extends Model
         'contactPerson',
         'contactPhone',
         'contactEmail',
+        'mikritikIP',
+        'mikritikPort',
         'mikrotikUsername',
         'mikrotikPassword',
         'radiusSecret',
         'radiusIP',
         'status',
     ];
+
+    public function campusers()
+    {
+        return $this->hasMany('camp_id');
+    }
 }

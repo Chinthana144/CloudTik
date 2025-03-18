@@ -42,4 +42,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    //has many camp users
+    public function campusers()
+    {
+        return $this->hasMany('user_id');
+    }
 }
