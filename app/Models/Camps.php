@@ -26,6 +26,11 @@ class Camps extends Model
 
     public function campusers()
     {
-        return $this->hasMany('camp_id');
+        return $this->hasMany(campusers::class, 'camp_id');
+    }
+
+    public function customers()
+    {
+        return $this->hasMany(Customers::class, 'camp_id');
     }
 }

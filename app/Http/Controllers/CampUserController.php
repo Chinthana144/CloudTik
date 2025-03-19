@@ -76,16 +76,53 @@ class CampUserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        $campuser_id = $request->input('hide_campuser_id');
+        $camp_id = $request->input('cmb_edit_camps');
+        $user_id = $request->input('cmb_edit_users');
+
+        $exists = CampUsers::where('camp_id', $camp_id)
+            ->where('user_id', $user_id)
+            ->exists();
+
+        if ($exists) {
+            return redirect()->route('campusers.index');
+
+            session()->flash('failed', 'camp user already added!');
+        } else {
+            $campuser = CampUsers::find($campuser_id);
+
+            $campuser->camp_id = $camp_id;
+            $campuser->user_id = $user_id;
+
+            $campuser->save();
+
+            session()->flash('success', 'Shop added successfully!');
+            return redirect()->route('campusers.index');
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-        //
+        $campuser_id = $request->input('hide_campuser_id');
+
+        $campuser = CampUsers::find($campuser_id);
+        $campuser->delete();
+
+        return redirect()->route('campusers.index');
+    }
+
+    //ajax methods
+    public function getOneCampuser(Request $request)
+    {
+        $campuser_id = $request->campuser_id;
+
+        $campuser = CampUsers::find($campuser_id);
+
+        return response()->json(['success' => true, 'message' => 'show one camp user', 'data' => $campuser]);
     }
 }

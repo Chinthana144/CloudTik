@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CampController;
 use App\Http\Controllers\CampUserController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProfileController;
 use App\Models\CampUsers;
 use Illuminate\Support\Facades\Route;
@@ -21,9 +22,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/dashboard', [CampController::class, 'campPortal'])->middleware('auth', 'verified')->name('camp.campPortal');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -40,10 +43,23 @@ Route::middleware('auth')->group(function () {
     Route::post('/store-camp', [CampController::class, 'store'])->name('camps.store');
     Route::post('/edit-camp', [CampController::class, 'edit'])->name('camps.edit');
     Route::put('/update-camp', [CampController::class, 'update'])->name('camps.update');
+    Route::get('gotoCamp/{camp_id}', [CampController::class, 'select'])->name('camp.select');
 
     //camp users
     Route::get('/campusers', [CampUserController::class, 'index'])->name('campusers.index');
     Route::post('/add-campusers', [CampUserController::class, 'store'])->name('campusers.store');
+    Route::get('/getOneCampuser', [CampUserController::class, 'getOneCampuser'])->name('campusers.getOne');
+    Route::put('/update-campusers', [CampUserController::class, 'update'])->name('campusers.update');
+    Route::delete('/delete-campuser', [CampUserController::class, 'destroy'])->name('campuser.delete');
+
+    Route::get('/home', function () {
+        return view('home');
+    });
+
+    //customers
+    Route::get('/customers', [CustomerController::class, 'index'])->name('customer.index');
+    Route::get('/add-customers', [CustomerController::class, 'create'])->name('customer.create');
+    Route::post('/store-customers', [CustomerController::class, 'store'])->name('customer.store');
 });
 
 require __DIR__ . '/auth.php';

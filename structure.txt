@@ -37,6 +37,7 @@ Packages
     Bandwidth
     Speed limit
     Status
+    camp_id
     Created at
     Updated at
 

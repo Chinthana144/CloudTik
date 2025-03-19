@@ -5,7 +5,7 @@
         <div class="card-header">
             <h5>
                 Camps
-                <small><a href="/add-camp" class="btn btn-primary float-end">Add Camp</a></small>
+                <a href="/add-camp" class="btn btn-primary btn-sm float-end">Add Camp</a>
             </h5>
         </div>
         <div class="card-body">

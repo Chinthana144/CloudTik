@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Camps;
+use App\Models\CampUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class CampController extends Controller
 {
@@ -101,5 +104,22 @@ class CampController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    //camp portal
+    public function campPortal()
+    {
+        $user_id = Auth::id();
+        $allowed_camps = CampUsers::where('user_id', $user_id)->get();
+
+        return view('camps.camp_portal', compact('allowed_camps'));
+    }
+
+    public function select(Request $request)
+    {
+        $camp_id = $request->route('camp_id');
+        Session::put('active_camp_id', $camp_id);
+
+        return view('home');
     }
 }
