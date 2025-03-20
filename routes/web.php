@@ -3,6 +3,7 @@
 use App\Http\Controllers\CampController;
 use App\Http\Controllers\CampUserController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ProfileController;
 use App\Models\CampUsers;
 use Illuminate\Support\Facades\Route;
@@ -62,6 +63,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/store-customers', [CustomerController::class, 'store'])->name('customer.store');
     Route::post('/edit-customers', [CustomerController::class, 'edit'])->name('customer.edit');
     Route::put('/update-customers', [CustomerController::class, 'update'])->name('customer.update');
+
+    //packages
+    Route::get('/packages', [PackageController::class, 'index'])->name('packages.index');
+    Route::get('/add-packages', [PackageController::class, 'create'])->name('packages.create');
+    Route::post('/store-packages', [PackageController::class, 'store'])->name('packages.store');
+    Route::post('/edit-packages', [PackageController::class, 'edit'])->name('packages.edit');
+    Route::put('/update-packages', [PackageController::class, 'update'])->name('packages.update');
 });
 
 require __DIR__ . '/auth.php';

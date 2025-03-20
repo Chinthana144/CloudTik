@@ -14,7 +14,7 @@ class Packages extends Model
         'customerType_id',
         'name',
         'duration',
-        'price' => 'decimal:2',
+        'price',
         'bandwidth',
         'speedLimit',
         'status',
