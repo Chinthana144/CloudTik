@@ -17,6 +17,10 @@ Camps table columns
     Created at
     Updated at
 
+Customer Type table columns
+    id
+    customerType (labor/cleaner/Security/Staff/Salesman/Technician/Manager)
+
 Customers table columns
     Id
     Camp id
@@ -31,13 +35,14 @@ Customers table columns
 
 Packages
     id
+    camp_id
+    customerType_id
     Name
     Duration (days)
     Price (AED)
     Bandwidth
     Speed limit
     Status
-    camp_id
     Created at
     Updated at
 

@@ -33,4 +33,9 @@ class Camps extends Model
     {
         return $this->hasMany(Customers::class, 'camp_id');
     }
+
+    public function packages()
+    {
+        return $this->hasMany(Packages::class, 'camp_id');
+    }
 }

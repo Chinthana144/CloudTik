@@ -17,7 +17,7 @@
             </li>
             <li class="sidebar-item">
                 <a href="/customers" class="sidebar-link">
-                    <i class="lni lni-agenda"></i>
+                    <i class="lni lni-users"></i>
                     <span>Customers</span>
                 </a>
             </li>

@@ -6,11 +6,14 @@
             <h5>Add Customer</h5>
         </div>
         <div class="card-body">
-            <form action="{{ route('customer.store') }}" method="post">
+            <form action="{{ route('customer.update') }}" method="post">
                 @csrf
+                @method('PUT')
+
+                <input type="hidden" name="hide_customer_id" value="{{ $customer->id }}">
                 <div class="row">
                     <div class="col-md-6">
-                        <label for="" class="form-label">Select Camp</label>
+                        <label for="">Select Camp</label>
                         <select name="cmb_camp" class="form-select" id="cmb_camp">
                             @foreach ($camps as $camp)
                                 <option value="{{ $camp->id }}" @selected($camp->id == Session::get('active_camp_id'))> {{ $camp->name }}
@@ -21,25 +24,26 @@
                         <label for="" class="form-label mt-2">Select Customer Type</label>
                         <select name="cmb_customer_type" class="form-select" id="cmb_customer_type">
                             @foreach ($customer_types as $customer_type)
-                                <option value="{{ $customer_type->id }}"> {{ $customer_type->customerType }}
+                                <option value="{{ $customer_type->id }}" @selected($customer_type->id == $customer->customerType_id)>
+                                    {{ $customer_type->customerType }}
                                 </option>
                             @endforeach
                         </select>
 
                         <label for="" class="form-label mt-2">Full Name</label>
-                        <input type="text" name="fullname" class="form-control">
+                        <input type="text" name="fullname" class="form-control" value="{{ $customer->fullname }}">
 
                         <label for="" class="form-label mt-2">Phone</label>
-                        <input type="text" name="phone" class="form-control">
+                        <input type="text" name="phone" class="form-control" value="{{ $customer->phone }}">
 
                         <label for="" class="form-label mt-2">Email</label>
-                        <input type="text" name="email" class="form-control">
+                        <input type="text" name="email" class="form-control" value="{{ $customer->email }}">
 
                         <label for="" class="form-label mt-2">Username</label>
-                        <input type="text" name="username" class="form-control">
+                        <input type="text" name="username" class="form-control" value="{{ $customer->username }}">
 
                         <label for="" class="form-label mt-2">Password</label>
-                        <input type="password" name="password" class="form-control">
+                        <input type="password" name="password" class="form-control" value="{{ $customer->password }}">
 
                         <label for="" class="form-label mt-2">Customer Status</label>
                         <div class="form-check form-switch">
@@ -49,7 +53,7 @@
                                 input</label>
                         </div>
 
-                        <button type="submit" class="btn btn-primary float-end w-25">Save</button>
+                        <button type="submit" class="btn btn-primary float-end w-25">Update</button>
                     </div>
                 </div>
 

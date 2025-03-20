@@ -5,18 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Customers extends Model
+class Packages extends Model
 {
     use HasFactory;
 
-    protected $fillable  = [
+    protected $fillable = [
         'camp_id',
         'customerType_id',
-        'fullname',
-        'phone',
-        'email',
-        'username',
-        'password',
+        'name',
+        'duration',
+        'price' => 'decimal:2',
+        'bandwidth',
+        'speedLimit',
         'status',
     ];
 

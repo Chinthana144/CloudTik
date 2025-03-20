@@ -60,6 +60,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/customers', [CustomerController::class, 'index'])->name('customer.index');
     Route::get('/add-customers', [CustomerController::class, 'create'])->name('customer.create');
     Route::post('/store-customers', [CustomerController::class, 'store'])->name('customer.store');
+    Route::post('/edit-customers', [CustomerController::class, 'edit'])->name('customer.edit');
+    Route::put('/update-customers', [CustomerController::class, 'update'])->name('customer.update');
 });
 
 require __DIR__ . '/auth.php';
