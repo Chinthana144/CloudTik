@@ -30,4 +30,10 @@ class Customers extends Model
     {
         return $this->belongsTo(CustomerType::class, 'customerType_id');
     }
+
+    public function subscription()
+    {
+        return $this->hasMany(Subscriptions::class, 'customer_id');
+    }
+    
 }

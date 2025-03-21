@@ -5,18 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Packages extends Model
+class Counter extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'camp_id',
-        'customerType_id',
-        'name',
-        'duration',
-        'price',
-        'bandwidth',
-        'speedLimit',
+        'user_id',
+        'startAmount',
+        'endAmount',
+        'startTime',
+        'endTime',
         'status',
     ];
 
@@ -25,14 +24,13 @@ class Packages extends Model
         return $this->belongsTo(Camps::class, 'camp_id');
     }
 
-    //belongs to customer type
-    public function customerType()
+    public function user()
     {
-        return $this->belongsTo(CustomerType::class, 'customerType_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function subscription()
     {
-        return $this->hasMany(Subscriptions::class, 'package_id');
+        return $this->hasMany(Subscriptions::class, 'counter_id');
     }
 }

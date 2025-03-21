@@ -10,7 +10,7 @@
         </div>
         <ul class="sidebar-nav">
             <li class="sidebar-item">
-                <a href="#" class="sidebar-link">
+                <a href="/counter" class="sidebar-link">
                     <i class="bx bx-receipt fs-3"></i>
                     <span>Invoice</span>
                 </a>

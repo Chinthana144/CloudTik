@@ -52,6 +52,7 @@ Counter
     end amount
     start time
     end time
+    status
     user_id
     camp_id
 
@@ -59,8 +60,11 @@ Pagination table (optional)
 
 Subscriptions table columns
     Id
-    Customer id
-    Package id
+    camp_id
+    user_id
+    Counter_id
+    Customer_id
+    Package_id
     Purchase datetime
     Subscription start
     Subscription end

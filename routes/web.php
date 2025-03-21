@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\CampController;
 use App\Http\Controllers\CampUserController;
+use App\Http\Controllers\CounterController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SubscriptionController;
 use App\Models\CampUsers;
 use Illuminate\Support\Facades\Route;
 
@@ -70,6 +72,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/store-packages', [PackageController::class, 'store'])->name('packages.store');
     Route::post('/edit-packages', [PackageController::class, 'edit'])->name('packages.edit');
     Route::put('/update-packages', [PackageController::class, 'update'])->name('packages.update');
+
+    //counters
+    Route::get('/counter', [CounterController::class, 'index'])->name('counter.index');
+    Route::post('/add-counter', [CounterController::class, 'store'])->name('counter.store');
+
+    //invoice
+    Route::get('/invoice', [SubscriptionController::class, 'index'])->name('invoice.index');
 });
 
 //user login

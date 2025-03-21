@@ -46,6 +46,16 @@ class User extends Authenticatable
     //has many camp users
     public function campusers()
     {
-        return $this->hasMany('user_id');
+        return $this->hasMany(campusers::class, 'user_id');
+    }
+
+    public function counter()
+    {
+        return $this->hasMany(Counter::class, 'user_id');
+    }
+
+    public function subscription()
+    {
+        return $this->hasMany(Subscriptions::class, 'user_id');
     }
 }
