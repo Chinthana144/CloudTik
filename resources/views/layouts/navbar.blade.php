@@ -2,7 +2,7 @@
     <aside id="sidebar">
         <div class="d-flex">
             <button class="toggle-btn" type="button">
-                <i class="lni lni-grid-alt"></i>
+                <i class="bx bx-grid-alt"></i>
             </button>
             <div class="sidebar-logo">
                 <a href="/dashboard">CloudTik</a>
@@ -11,32 +11,32 @@
         <ul class="sidebar-nav">
             <li class="sidebar-item">
                 <a href="#" class="sidebar-link">
-                    <i class="lni lni-user"></i>
+                    <i class="bx bx-receipt fs-3"></i>
                     <span>Invoice</span>
                 </a>
             </li>
             <li class="sidebar-item">
                 <a href="/customers" class="sidebar-link">
-                    <i class="lni lni-users"></i>
+                    <i class="bx bx-group fs-3"></i>
                     <span>Customers</span>
                 </a>
             </li>
             <li class="sidebar-item">
                 <a href="/packages" class="sidebar-link">
-                    <i class="lni lni-agenda"></i>
+                    <i class="bx bx-layer fs-3"></i>
                     <span>Packages</span>
                 </a>
             </li>
             <li class="sidebar-item">
                 <a href="#" class="sidebar-link">
-                    <i class="lni lni-agenda"></i>
+                    <i class="bx bx-cloud-download fs-3"></i>
                     <span>Subscriptions</span>
                 </a>
             </li>
             <li class="sidebar-item">
                 <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
                     data-bs-target="#auth" aria-expanded="false" aria-controls="auth">
-                    <i class="lni lni-protection"></i>
+                    <i class="bx bx-slider fs-3"></i>
                     <span>Control</span>
                 </a>
                 <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
@@ -79,7 +79,7 @@
             <li class="sidebar-item">
                 <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
                     data-bs-target="#settings" aria-expanded="false" aria-controls="auth">
-                    <i class="lni lni-cog"></i>
+                    <i class="bx bx-cog fs-3"></i>
                     <span>Settings</span>
                 </a>
                 <ul id="settings" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">

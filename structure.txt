@@ -46,6 +46,17 @@ Packages
     Created at
     Updated at
 
+Counter
+    id
+    start amount
+    end amount
+    start time
+    end time
+    user_id
+    camp_id
+
+Pagination table (optional)
+
 Subscriptions table columns
     Id
     Customer id

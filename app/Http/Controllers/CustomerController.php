@@ -66,7 +66,7 @@ class CustomerController extends Controller
                 'status' => $stat,
             ]);
             session()->flash('success', 'Shop added successfully!');
-            return redirect()->route('customer.store');
+            return redirect()->route('customer.create');
         }
     }
 

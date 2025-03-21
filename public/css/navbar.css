@@ -59,7 +59,7 @@ body {
 }
 
 .toggle-btn i {
-    font-size: 1.5rem;
+    font-size: 2rem;
     color: #FFF;
 }
 
@@ -84,10 +84,10 @@ body {
 }
 
 a.sidebar-link {
-    padding: .625rem 1.625rem;
+    padding: .525rem 1.625rem;
     color: #FFF;
     display: block;
-    font-size: 0.9rem;
+    font-size: 1rem;
     white-space: nowrap;
     border-left: 3px solid transparent;
 }

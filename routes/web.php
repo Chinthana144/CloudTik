@@ -72,4 +72,9 @@ Route::middleware('auth')->group(function () {
     Route::put('/update-packages', [PackageController::class, 'update'])->name('packages.update');
 });
 
+//user login
+Route::get('/userlogin', function () {
+    return view('user-login');
+});
+
 require __DIR__ . '/auth.php';
