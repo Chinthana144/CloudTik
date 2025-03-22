@@ -25,7 +25,9 @@ class CounterController extends Controller
             $counter = Counter::where('camp_id', $camp_id)
                 ->where('user_id', $user_id)
                 ->where('status', 1)
-                ->get();
+                ->get()
+                ->first();
+
 
             return view('Invoice.invoice', compact('counter'));
         } else {

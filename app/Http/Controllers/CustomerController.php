@@ -122,4 +122,29 @@ class CustomerController extends Controller
     {
         //
     }
+
+    //ajax methods
+    public function getCustomers(Request $request)
+    {
+        $camp_id = Session::get('active_camp_id');
+        $search = $request->input('q');
+
+        $customer = Customers::where('camp_id', $camp_id)
+            ->where(function ($query) use ($search) {
+                $query->where('username', 'LIKE', "%{$search}%")
+                    ->orwhere('phone', 'LIKE',  "%{$search}%");
+            })
+            ->limit(20)
+            ->get();
+
+        return response()->json($customer);
+    }
+
+    public function getOneCustomer(Request $request)
+    {
+        $customer_id = $request->input('id');
+        $customer = Customers::find($customer_id);
+
+        return response()->json($customer);
+    }
 }

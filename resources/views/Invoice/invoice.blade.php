@@ -5,16 +5,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>CloudTik Invoice</title>
+
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/invoice.css') }}">
+
+    <script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
+
+    {{-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> --}}
+    {{-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> --}}
+
+    <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
+    <script src="{{ asset('js/select2.min.js') }}"></script>
+
 </head>
 
 <body>
-    <h1>Invoice</h1>
+    <div id="div_topbar">
+        <div id="div_navbar">
+            <a href="/home">
+                <img src="{{ asset('images/invoice/home_nav.png') }}" alt="" class="img_navbar">
+            </a>
+            <button class="btn_navbar" id="btn_customers">
+                <img src="{{ asset('images/invoice/customers_nav.png') }}" alt="" class="img_navbar">
+            </button>
+            <button class="btn_navbar" id="btn_sale">
+                <img src="{{ asset('images/invoice/sale_nav.png') }}" alt="" class="img_navbar">
+            </button>
+            <button class="btn_navbar" id="btn_print">
+                <img src="{{ asset('images/invoice/print_nav.png') }}" alt="" class="img_navbar">
+            </button>
+        </div>
 
-    @foreach ($counter as $cnt)
-        <p>{{ $cnt->id }}</p>
-    @endforeach
+        <div>
+            <h5 id="invoice_title">{{ $counter->camp->name }}</h5>
+        </div>
 
+        <div id="div_log">
+            <button class="btn_navbar" id="btn_logout">
+                <img src="{{ asset('images/invoice/logout_nav.png') }}" alt="" class="img_navbar">
+            </button>
+        </div>
+    </div>
+
+    <div class="card mt-2">
+        <div class="card-header">
+            <h5>Invoice</h5>
+        </div>
+        <div class="card-body">
+            <div class="col-md-6">
+                <label for="">Select Customer</label>
+                <select name="cmb_customer" id="cmb_customer" class="form-control" style="width: 100%;">
+                </select>
+
+                <div id="div_customer_details">
+                    <p id="p_customer_details"></p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+
+    <script src="{{ asset('js/invoice.js') }}"></script>
 </body>
 
 </html>
