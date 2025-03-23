@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customers;
 use App\Models\CustomerType;
 use App\Models\Packages;
 use Illuminate\Http\Request;
@@ -110,5 +111,21 @@ class PackageController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    //ajax methods
+    public function getCustomerPackages(Request $request)
+    {
+        $camp_id = Session::get('active_camp_id');
+        $customer_id = $request->input('id');
+        $customer = Customers::find($customer_id);
+        $customer_type_id = $customer->customerType_id;
+
+        $packages = Packages::where('camp_id', $camp_id)
+            ->where('customerType_id', $customer_type_id)
+            ->where('status', 1)
+            ->get();
+
+        return response()->json($packages);
     }
 }

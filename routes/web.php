@@ -74,6 +74,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/store-packages', [PackageController::class, 'store'])->name('packages.store');
     Route::post('/edit-packages', [PackageController::class, 'edit'])->name('packages.edit');
     Route::put('/update-packages', [PackageController::class, 'update'])->name('packages.update');
+    Route::get('/getCustomerPackages', [PackageController::class, 'getCustomerPackages']);
 
     //counters
     Route::get('/counter', [CounterController::class, 'index'])->name('counter.index');

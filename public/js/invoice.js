@@ -1,4 +1,7 @@
 $(document).ready(function () {
+    //initialize
+    $("#btn_customer_history").css('display', 'none');
+
     $("#cmb_customer").select2({
         placeholder: 'Search Customers',
         ajax:{
@@ -42,9 +45,29 @@ $("#cmb_customer").change(function () {
             var customer_username = response['username'];
             var customer_phone = response['phone'];
 
-            var cust_data = "Fullname: " + customer_fullname + "<br>" + "Username: " + customer_username +"<br> Phone: " + customer_phone;
+            var cust_data = "Fullname: <b>" + customer_fullname + "</b><br>" + "Username: <b>" + customer_username +"</b><br> Phone: <b>" + customer_phone + "</b>";
 
             $("#p_customer_details").html(cust_data);
+
+            $("#btn_customer_history").css('display', 'block');
+        }
+
+    });
+
+    var package_data = "<option value='0'>Select Package</option>";
+    $.ajax({
+        type: "get",
+        url: "/getCustomerPackages",
+        data: {
+            id: customer_id,
+        },
+        success: function (response) {
+            $.each(response, function (key, value) {
+                package_data += "<option value='"+value['id']+"'>Name: "+value['name']+" | "+value['duration']+"(days) | Price: "+value['price']+" AED</option>";
+            });
+
+            $("#cmb_packages").empty();
+            $("#cmb_packages").append(package_data);
         }
     });
 });

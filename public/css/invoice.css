@@ -31,3 +31,26 @@
     margin-bottom: 2px;
     margin-top: 10px;
 }
+
+#div_customer_details{
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px dimgray;
+    padding: 5px;
+}
+
+#p_customer_details{
+    padding: 10px;
+}
+
+#div_packages{
+    padding: 10px;
+}
+
+#div_package_details{
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px dimgray;
+    padding: 5px;
+}
+#p_package_details{
+    padding: 10px;
+}

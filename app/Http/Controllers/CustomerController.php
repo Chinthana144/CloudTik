@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Camps;
 use App\Models\Customers;
 use App\Models\CustomerType;
+use App\Models\Packages;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 

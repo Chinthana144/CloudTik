@@ -59,8 +59,23 @@
                 </select>
 
                 <div id="div_customer_details">
-                    <p id="p_customer_details"></p>
+                    <p id="p_customer_details">Select Customer</p>
+
+                    <button type="button" class="btn btn-primary btn-sm" id="btn_customer_history">
+                        Customer History
+                    </button>
                 </div>
+
+                <div id="div_packages">
+                    <label for="">Customer Packages</label>
+                    <select name="cmb_packages" id="cmb_packages" class="form-select"></select>
+                </div>
+
+                <div id="div_package_details">
+                    <p id="p_package_details">Select Package</p>
+
+                </div>
+
             </div>
 
         </div>
