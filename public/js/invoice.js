@@ -1,6 +1,7 @@
 $(document).ready(function () {
     //initialize
     $("#btn_customer_history").css('display', 'none');
+    $("#btn_add_subscription").attr('disabled', 'true');
 
     $("#cmb_customer").select2({
         placeholder: 'Search Customers',
@@ -68,6 +69,43 @@ $("#cmb_customer").change(function () {
 
             $("#cmb_packages").empty();
             $("#cmb_packages").append(package_data);
+        }
+    });
+});
+
+$("#cmb_packages").change(function () {
+    //check values
+    var package_id = $("#cmb_packages").val();
+
+    if(package_id > 0)
+    {
+        var customer_id = $("#cmb_customer").val();
+        var package_id = $("#cmb_packages").val();
+
+        $("#hide_customer_id").val(customer_id);
+        $("#hide_package_id").val(package_id);
+        $("#btn_add_subscription").attr('disabled', false);
+    }
+    else
+    {
+        $("#btn_add_subscription").attr('disabled', true);
+    }
+});
+
+$("#frm_subscription").submit(function (e) {
+    e.preventDefault();
+    var customer_id = $("#hide_customer_id").val();
+    var package_id = $("#hide_package_id").val();
+
+    var counter_id = $("#hide_counter_id").val();
+
+    $.ajax({
+        type: "post",
+        url: "/store-subscription",
+        data: $(this).serialize(),
+        // dataType: "dataType",
+        success: function (response) {
+            console.log(response);
         }
     });
 });

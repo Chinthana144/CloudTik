@@ -74,6 +74,18 @@
                 <div id="div_package_details">
                     <p id="p_package_details">Select Package</p>
 
+                    <form id="frm_subscription">
+                        @csrf
+
+                        <input type="hidden" name="hide_customer_id" id="hide_customer_id" value="0">
+                        <input type="hidden" name="hide_package_id" id="hide_package_id" value="0">
+
+                        <input type="hidden" name="hide_counter_id" id="hide_counter_id" value="{{ $counter->id }}">
+
+                        <button type="submit" id="btn_add_subscription" class="btn btn-primary">Submit</button>
+
+                    </form>
+
                 </div>
 
             </div>
