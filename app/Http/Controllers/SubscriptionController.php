@@ -79,9 +79,13 @@ class SubscriptionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show()
     {
-        //
+        $camp_id = Session::get('active_camp_id');
+
+        $subscriptions = Subscriptions::where('camp_id', $camp_id)->paginate(10);
+
+        return view('Subscriptions.subscription_view', compact('subscriptions'));
     }
 
     /**
@@ -106,5 +110,15 @@ class SubscriptionController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    //receipt print
+    public function receiptPrint(Request $request)
+    {
+        $subscription_id = $request->query('subscription_id');
+
+        $subscription = Subscriptions::find($subscription_id);
+
+        return view('Receipts.receipt01', compact('subscription'));
     }
 }

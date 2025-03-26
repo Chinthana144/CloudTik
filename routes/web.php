@@ -83,6 +83,12 @@ Route::middleware('auth')->group(function () {
     //invoice
     Route::get('/invoice', [SubscriptionController::class, 'index'])->name('invoice.index');
     Route::post('/store-subscription', [SubscriptionController::class, 'store'])->name('subscription.store');
+
+    //receipt print
+    Route::get('/receipt-print', [SubscriptionController::class, 'receiptPrint'])->name('invoice.receiptPrint');
+
+    //subscriptions
+    Route::get('/view-subscription', [SubscriptionController::class, 'show'])->name('subscription.show');
 });
 
 //user login

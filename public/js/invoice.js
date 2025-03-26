@@ -105,7 +105,14 @@ $("#frm_subscription").submit(function (e) {
         data: $(this).serialize(),
         // dataType: "dataType",
         success: function (response) {
-            console.log(response);
+            // console.log(response);
+            var subscription_id = response.subscription_id;
+
+            let printWindow = window.open('/receipt-print?subscription_id='+subscription_id, '_blank');
+
+            setTimeout(function(){
+                window.location.href = '/invoice';
+            }, 500);
         }
     });
 });

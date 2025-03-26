@@ -28,7 +28,7 @@
                 </a>
             </li>
             <li class="sidebar-item">
-                <a href="#" class="sidebar-link">
+                <a href="/view-subscription" class="sidebar-link">
                     <i class="bx bx-cloud-download fs-3"></i>
                     <span>Subscriptions</span>
                 </a>
