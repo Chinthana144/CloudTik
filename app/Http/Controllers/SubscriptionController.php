@@ -121,4 +121,38 @@ class SubscriptionController extends Controller
 
         return view('Receipts.receipt01', compact('subscription'));
     }
+
+    public function getOneSubscription(Request $request)
+    {
+        $subscription_id = $request->input('subscription_id');
+
+        $subscription = Subscriptions::find($subscription_id);
+
+        return response()->json([
+            'success' => true,
+            'subscription_id' => $subscription->id,
+            'customer_name' => $subscription->customer->fullname,
+            'username' => $subscription->customer->username,
+            'package_name' => $subscription->package->name,
+            'package_duration' => $subscription->package->duration,
+            'status' => $subscription->status,
+        ]);
+    }
+
+    public function updateStatus(Request $request)
+    {
+        $subscription_id = $request->input('hide_subscription_id');
+        $status_id = $request->input('cmb_status');
+
+        $subscription = Subscriptions::find($subscription_id);
+
+        $subscription->status = $status_id;
+
+        $subscription->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Successfully status changed',
+        ]);
+    } //update status
 }

@@ -89,6 +89,8 @@ Route::middleware('auth')->group(function () {
 
     //subscriptions
     Route::get('/view-subscription', [SubscriptionController::class, 'show'])->name('subscription.show');
+    Route::get('/getOneSubscription', [SubscriptionController::class, 'getOneSubscription'])->name('subscription.getOneSubscription');
+    Route::post('/updateSubsStatus', [SubscriptionController::class, 'updateStatus']);
 });
 
 //user login

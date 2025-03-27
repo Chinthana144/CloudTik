@@ -99,3 +99,12 @@ Page access table
     Permission (text with json format)
     Status
 
+//todo list
+
+1. subscription page sort by descending order
+2. home page graphs
+3. Reports
+4. index page
+5. user login page
+6. user access
+7. receipt design
