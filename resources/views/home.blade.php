@@ -6,7 +6,14 @@
             <h5>Home</h5>
         </div>
         <div class="card-body">
-            <p>content</p>
+            <div class="row">
+                <div class="col-md-7">
+                    linear graph
+                </div>
+                <div class="col-md-5">
+                    pie graph
+                </div>
+            </div>
         </div>
     </div>
 @endsection

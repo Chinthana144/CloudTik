@@ -10,6 +10,12 @@
         </div>
         <ul class="sidebar-nav">
             <li class="sidebar-item">
+                <a href="/home" class="sidebar-link">
+                    <i class="bx bx-home fs-3"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
                 <a href="/counter" class="sidebar-link">
                     <i class="bx bx-receipt fs-3"></i>
                     <span>Invoice</span>

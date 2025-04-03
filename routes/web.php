@@ -46,7 +46,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/store-camp', [CampController::class, 'store'])->name('camps.store');
     Route::post('/edit-camp', [CampController::class, 'edit'])->name('camps.edit');
     Route::put('/update-camp', [CampController::class, 'update'])->name('camps.update');
-    Route::get('gotoCamp/{camp_id}', [CampController::class, 'select'])->name('camp.select');
+    Route::get('/gotoCamp/{camp_id}', [CampController::class, 'select'])->name('camp.select');
 
     //camp users
     Route::get('/campusers', [CampUserController::class, 'index'])->name('campusers.index');
@@ -91,6 +91,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/view-subscription', [SubscriptionController::class, 'show'])->name('subscription.show');
     Route::get('/getOneSubscription', [SubscriptionController::class, 'getOneSubscription'])->name('subscription.getOneSubscription');
     Route::post('/updateSubsStatus', [SubscriptionController::class, 'updateStatus']);
+    Route::get('/getCounterTotal', [SubscriptionController::class, 'getSubscriptionByCounter'])->name('subscription.total');
 });
 
 //user login

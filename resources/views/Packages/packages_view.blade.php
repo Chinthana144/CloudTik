@@ -3,7 +3,8 @@
 @section('content')
     <div class="card">
         <div class="card-header">
-            <h5>Packages
+            <h5>
+                Packages in <b>{{ $packages->first()->camp->name }}</b>
                 <a href="/add-packages" class="btn btn-primary btn-sm float-end">Add Package</a>
             </h5>
         </div>

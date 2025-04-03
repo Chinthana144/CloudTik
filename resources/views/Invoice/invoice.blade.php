@@ -35,6 +35,9 @@
             <button class="btn_navbar" id="btn_print">
                 <img src="{{ asset('images/invoice/print_nav.png') }}" alt="" class="img_navbar">
             </button>
+            <button class="btn_navbar" id="btn_counter">
+                <img src="{{ asset('images/invoice/counter_nav.png') }}" alt="" class="img_navbar">
+            </button>
         </div>
 
         <div>
@@ -88,10 +91,17 @@
 
                 </div>
 
+                <div id="div_counter_details">
+                    <p id="p_counter_total"></p>
+
+                </div>
+
             </div>
 
         </div>
     </div>
+
+    @include('Invoice.counter_modal')
 
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 

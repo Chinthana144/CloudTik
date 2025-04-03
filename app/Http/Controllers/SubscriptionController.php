@@ -155,4 +155,21 @@ class SubscriptionController extends Controller
             'message' => 'Successfully status changed',
         ]);
     } //update status
+
+    public function getSubscriptionByCounter(Request $request)
+    {
+        $counter_id = $request->input('counter_id');
+
+        $total = Subscriptions::where('counter_id', $counter_id)
+            ->sum('price');
+
+        $count = Subscriptions::where('counter_id', $counter_id)
+            ->count('id');
+
+        return response()->json([
+            'success' => true,
+            'invoice_count' => $count,
+            'total' => $total,
+        ]);
+    }
 }
