@@ -128,4 +128,13 @@ class PackageController extends Controller
 
         return response()->json($packages);
     }
+
+    public function getOnePackage(Request $request)
+    {
+        $package_id = $request->input('package_id');
+
+        $package = Packages::find($package_id);
+
+        return response()->json($package);
+    } //get one package
 }

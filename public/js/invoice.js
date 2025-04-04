@@ -87,6 +87,24 @@ $(document).ready(function () {
             $("#hide_customer_id").val(customer_id);
             $("#hide_package_id").val(package_id);
             $("#btn_add_subscription").attr('disabled', false);
+
+            //get one package
+            $.ajax({
+                type: "get",
+                url: "/getOnePackage",
+                data: {
+                    package_id: package_id,
+                },
+                // dataType: "dataType",
+                success: function (response) {
+                    // console.log(response);
+                    // alert("price = " + price);
+
+                    let package_data = "Package: <b>"+response['name']+"</b><br>Duration: <b>"+response['duration']+"</b><br>Price: <b>"+response['price']+" AED</b>"
+
+                    $("#p_package_details").html(package_data);
+                }
+            });
         }
         else
         {
@@ -123,6 +141,41 @@ $(document).ready(function () {
         $("#counter_modal").modal('toggle');
     });
 
+//=============================== Customer ===========================//
+$("#btn_customers").click(function(){
+    $("#customer_modal").modal('toggle');
+
+    //populate customer types
+    $.ajax({
+        type: "get",
+        url: "/getCustomerTypes",
+        // data: "data",
+        // dataType: "dataType",
+        success: function (response) {
+            // console.log(response);
+            $("#cmb_customer_type").empty();
+            $.each(response, function (key, value) {
+                $("#cmb_customer_type").append("<option value="+value['id']+">"+value['customerType']+"</option>");
+            });
+        }
+    });
+});
+
+$("#frm_customer").submit(function(){
+    // e.preventDefault();
+    $.ajax({
+        type: "post",
+        url: "/storeOneCustomer",
+        data: $(this).serialize(),
+        // dataType: "dataType",
+        success: function (response) {
+            // console.log(response);
+            $("#customer_modal").modal('hide');
+            // alert("pastha... ");
+        }
+    });
+});
+
 //================================= Functions ==================================//
     function getCounterTotal()
     {
@@ -138,8 +191,6 @@ $(document).ready(function () {
                 // alert(response);
                 // console.log(response);
                 var counter_data = "Counter Total: <b>"+response['total']+"</b><br>Invoice Count: <b>"+response['invoice_count']+"</b>";
-                $("#p_counter_total").html(counter_data);
-
                 $("#p_counter_close_data").html(counter_data);
             }
         });

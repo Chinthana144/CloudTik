@@ -67,6 +67,8 @@ Route::middleware('auth')->group(function () {
     Route::put('/update-customers', [CustomerController::class, 'update'])->name('customer.update');
     Route::get('/getCustomers', [CustomerController::class, 'getCustomers']);
     Route::get('/getOneCustomer', [CustomerController::class, 'getOneCustomer']);
+    Route::get('/getCustomerTypes', [CustomerController::class, 'getCustomerTypes']);
+    Route::post('/storeOneCustomer', [CustomerController::class, 'storeOneCustomer']);
 
     //packages
     Route::get('/packages', [PackageController::class, 'index'])->name('packages.index');
@@ -75,6 +77,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/edit-packages', [PackageController::class, 'edit'])->name('packages.edit');
     Route::put('/update-packages', [PackageController::class, 'update'])->name('packages.update');
     Route::get('/getCustomerPackages', [PackageController::class, 'getCustomerPackages']);
+    Route::get('/getOnePackage', [PackageController::class, 'getOnePackage']);
 
     //counters
     Route::get('/counter', [CounterController::class, 'index'])->name('counter.index');

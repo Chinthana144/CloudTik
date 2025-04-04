@@ -148,4 +148,46 @@ class CustomerController extends Controller
 
         return response()->json($customer);
     }
+
+    //get customer types
+    public function getCustomerTypes()
+    {
+        $customer_types = CustomerType::all();
+
+        return response()->json($customer_types);
+    }
+
+    //store customer using AJAX
+    public function storeOneCustomer(Request $request)
+    {
+        $camp_id = Session::get('active_camp_id');
+
+        $customer = new Customers();
+
+        $customer->camp_id = $camp_id;
+        $customer->customerType_id = $request->input('cmb_customer_type');
+        $customer->fullname = $request->input('fullname');
+        $customer->phone = $request->input('phone');
+        $customer->email = $request->input('email');
+        $customer->username = $request->input('username');
+        $customer->password = $request->input('password');
+        $customer->status = $request->has('chk_customer_stat') ? 1 : 0;
+
+        $exists = Customers::where('username',  $customer->username)->exists();
+
+        if ($exists) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Customer already exists',
+            ]);
+        } else {
+
+            $customer->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Customer added successfully',
+            ]);
+        }
+    }
 }

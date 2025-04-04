@@ -54,19 +54,3 @@
 #p_package_details{
     padding: 10px;
 }
-
-#div_counter_details{
-    margin: 5px 0px;
-    border-radius: 5px;
-    box-shadow: 2px 2px 5px dimgray;
-    padding: 5px;
-
-    background-color: aquamarine;
-}
-
-#p_counter_total{
-    margin-top: 10px;
-    margin-bottom: 0px;
-    font-size: 24px;
-    font-family: Calibri, 'Trebuchet MS';
-}

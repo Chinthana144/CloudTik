@@ -91,17 +91,13 @@
 
                 </div>
 
-                <div id="div_counter_details">
-                    <p id="p_counter_total"></p>
-
-                </div>
-
             </div>
 
         </div>
     </div>
 
     @include('Invoice.counter_modal')
+    @include('Invoice.customer_modal')
 
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 
