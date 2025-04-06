@@ -108,3 +108,7 @@ Page access table
 5. user login page
 6. user access
 7. receipt design
+8. invoice page customer history
+9. customer login
+10. Customer profile
+11. customer reset mac address

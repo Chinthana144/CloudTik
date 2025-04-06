@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Counter;
+use App\Models\Subscriptions;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class CounterController extends Controller
@@ -99,5 +101,31 @@ class CounterController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    //close counter
+    public function closeCounter(Request $request)
+    {
+        $counter_id = $request->input('hide_counter_close_id');
+        //get counter total
+        $counter_total = Subscriptions::where('counter_id', $counter_id)
+            ->sum('price');
+
+        $end_time = date('Y-m-d H:i:s');
+
+        $counter = Counter::find($counter_id);
+
+        $counter->endAmount = $counter_total;
+        $counter->endTime = $end_time;
+        $counter->status = 0;
+
+        $counter->save();
+
+        $totals = Subscriptions::where('counter_id', $counter_id)
+            ->select('package_id', DB::raw('SUM(price) as total_price'))
+            ->groupBy('package_id')
+            ->get();
+
+        return view('Receipts.counter01', compact('totals'));
     }
 }

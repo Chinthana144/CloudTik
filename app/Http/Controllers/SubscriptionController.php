@@ -172,4 +172,18 @@ class SubscriptionController extends Controller
             'total' => $total,
         ]);
     }
+
+    public function getSubscriptionByCustomer(Request $request)
+    {
+        $customer_id = $request->input('customer_id');
+
+        $subs = Subscriptions::join('packages', 'subscriptions.package_id', '=', 'packages.id')
+            ->where('customer_id', $customer_id)
+            ->select('packages.name', 'packages.duration', 'subscriptions.subscriptionStartTime', 'subscriptions.subscriptionEndTime', 'subscriptions.price', 'subscriptions.status')
+            ->orderBy('subscriptions.id', 'DESC')
+            ->limit(10)
+            ->get();
+
+        return response()->json($subs, 200);
+    }
 }

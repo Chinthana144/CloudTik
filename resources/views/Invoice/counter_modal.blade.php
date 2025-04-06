@@ -11,7 +11,9 @@
             <div class="modal-body">
                 <p>Do you want to close the counter? </p>
                 <p id="p_counter_close_data"></p>
-                <form action="" method="post">
+                <form action="{{ route('counter.close') }}" method="post">
+                    @csrf
+                    @method('PUT')
                     <input type="hidden" name="hide_counter_close_id" id="hide_counter_close_id"
                         value="{{ $counter->id }}">
 

@@ -171,10 +171,81 @@ $("#frm_customer").submit(function(){
         success: function (response) {
             // console.log(response);
             $("#customer_modal").modal('hide');
-            // alert("pastha... ");
         }
     });
 });
+
+$("#btn_customer_history").click(function(){
+    $("#history_modal").modal('toggle');
+
+    var customer_id = $("#cmb_customer").val();
+
+    //get customer details
+    $.ajax({
+        type: "get",
+        url: "/getOneCustomer",
+        data: {
+            id: customer_id,
+        },
+        // dataType: "dataType",
+        success: function (response) {
+            // console.log(response);
+            var customer_name = response['fullname'];
+            var customer_phone = response['phone'];
+            var customer_username = response['username'];
+
+            $("#h5_customer_detail").text(customer_name+" | " + customer_phone + " | " + customer_username);
+        }
+    });
+
+    $.ajax({
+        type: "get",
+        url: "/getCustomerSubscriptions",
+        data: {
+            customer_id:customer_id,
+        },
+        // dataType: "dataType",
+        success: function (response) {
+            // console.log(response);
+            var status = "";
+            var sub_data = "";
+            sub_data += "<tr>";
+            sub_data += "<th>Package</th>";
+            sub_data += "<th>Duration</th>";
+            sub_data += "<th>Start Time</th>";
+            sub_data += "<th>End Time</th>";
+            sub_data += "<th>Price</th>";
+            sub_data += "<th>Status</th>";
+            sub_data += "</tr>";
+            $.each(response, function (key, value) {
+                sub_data += "<tr>";
+                sub_data += "<td>"+value['name']+"</td>";
+                sub_data += "<td>"+value['duration']+"</td>";
+                sub_data += "<td>"+value['subscriptionStartTime']+"</td>";
+                sub_data += "<td>"+value['subscriptionEndTime']+"</td>";
+                sub_data += "<td>"+value['price']+"</td>";
+                switch (value['status']) {
+                    case 1:
+                        status = "<p class='text-success border border-success rounded text-center' style='padding: 0px; margin:0px;'>Active</p>";
+                    break;
+                    case 2:
+                        status = "<p class='text-warning border border-warning rounded text-center' style='padding: 0px; margin:0px;'>Pending</p>";
+                    break;
+                    case 3:
+                        status = "<p class='text-primary border border-primary rounded text-center' style='padding: 0px; margin:0px;'>Cancled</p>";
+                    break;
+                    default:
+                        status = "<p class='text-danger border border-danger rounded text-center' style='padding: 0px; margin:0px;'>Expired</p>";
+                    break;
+                }
+                sub_data += "<td>"+status+"</td>";
+                sub_data += "</tr>";
+            });
+
+            $("#tbl_customer_subscriptions").html(sub_data);
+        }
+    });
+});//history
 
 //================================= Functions ==================================//
     function getCounterTotal()

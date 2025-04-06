@@ -98,6 +98,7 @@
 
     @include('Invoice.counter_modal')
     @include('Invoice.customer_modal')
+    @include('Invoice.history_modal')
 
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 

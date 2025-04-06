@@ -82,6 +82,8 @@ Route::middleware('auth')->group(function () {
     //counters
     Route::get('/counter', [CounterController::class, 'index'])->name('counter.index');
     Route::post('/add-counter', [CounterController::class, 'store'])->name('counter.store');
+    Route::put('/close-counter', [CounterController::class, 'closeCounter'])->name('counter.close');
+    Route::get('/counterReceipt', [CounterController::class, 'counterReceipt'])->name('counter.receipt');
 
     //invoice
     Route::get('/invoice', [SubscriptionController::class, 'index'])->name('invoice.index');
@@ -95,6 +97,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/getOneSubscription', [SubscriptionController::class, 'getOneSubscription'])->name('subscription.getOneSubscription');
     Route::post('/updateSubsStatus', [SubscriptionController::class, 'updateStatus']);
     Route::get('/getCounterTotal', [SubscriptionController::class, 'getSubscriptionByCounter'])->name('subscription.total');
+    Route::get('/getCustomerSubscriptions', [SubscriptionController::class, 'getSubscriptionByCustomer'])->name('subscription.customer');
 });
 
 //user login
