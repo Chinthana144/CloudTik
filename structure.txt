@@ -84,7 +84,6 @@ Camp Users table
 Roles table
     Id
     Name
-    User id
     Created at
     Updated at
 
@@ -112,3 +111,15 @@ Page access table
 9. customer login
 10. Customer profile
 11. customer reset mac address
+
+//user role list
+1. Admin
+2. Owner
+3. Manager
+4. Client
+5. Assistant Manager
+6. Engineer
+7. Accountant
+8. Technician
+9. Salesman
+10. Intern

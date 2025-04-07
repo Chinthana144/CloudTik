@@ -93,7 +93,7 @@
                         <a href="/camps" class="sidebar-link">Camps</a>
                     </li>
                     <li class="sidebar-item">
-                        <a href="#" class="sidebar-link">Users</a>
+                        <a href="/users-list" class="sidebar-link">Users</a>
                     </li>
                 </ul>
             </li>
