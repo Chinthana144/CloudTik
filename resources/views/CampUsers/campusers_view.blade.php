@@ -21,14 +21,14 @@
                         <td>{{ $campuser->users->name }}</td>
                         <td>{{ $campuser->camps->name }}</td>
                         <td>
-                            <button class="btn btn-info btn_open_edit">Edit</button>
+                            <button class="btn btn-info btn-sm btn_open_edit">Edit</button>
                         </td>
                         <td>
                             <form action="{{ route('campuser.delete') }}" method="post">
                                 @csrf
                                 @method('DELETE')
                                 <input type="hidden" name="hide_campuser_id" value="{{ $campuser->id }}">
-                                <button id="btn_remove" class="btn btn-danger">Remove</button>
+                                <button id="btn_remove" class="btn btn-danger btn-sm">Remove</button>
                             </form>
                         </td>
 

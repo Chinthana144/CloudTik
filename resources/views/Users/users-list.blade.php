@@ -9,19 +9,24 @@
             </h5>
         </div>
         <div class="card-body">
-            <table class="table">
+            <table class="table" id="tbl_users">
                 <tr>
                     <th>ID</th>
+                    <th>Role</th>
                     <th>Name</th>
                     <th>Email</th>
                     <th>Action</th>
                 </tr>
                 @foreach ($users as $user)
-                    <tr>
+                    <tr data-id="{{ $user->id }}">
                         <td>{{ $user->id }}</td>
+                        <td>{{ $user->role->name }}</td>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
-                        <td>Action</td>
+                        <td>
+                            <button class="btn btn-primary btn-sm btn_change_password">Change Password</button>
+                            <button class="btn btn-info btn-sm btn_open_edit">Edit</button>
+                        </td>
                     </tr>
                 @endforeach
             </table>
@@ -29,6 +34,8 @@
     </div>
 
     @include('Users.register_modal')
+    @include('Users.password_modal')
+    @include('Users.edit_modal')
 
     <script src="{{ asset('js/users.js') }}"></script>
 @endsection

@@ -76,9 +76,34 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        $user_id = $request->input('hide_edit_user_id');
+
+        $user = User::find($user_id);
+
+        $user->name = $request->input('edit_name');
+        $user->email = $request->input('edit_email');
+        $user->role_id = $request->input('cmb_role');
+
+        $user->save();
+
+        return redirect()->route('users.index');
+    }
+
+    public function update_pwd(Request $request)
+    {
+        $user_id = $request->input('hide_user_id');
+
+        $new_password = Hash::make($request->input('re_password'));
+
+        $user = User::find($user_id);
+
+        $user->password = $new_password;
+
+        $user->save();
+
+        return redirect()->route('users.index');
     }
 
     /**
@@ -87,5 +112,15 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    //ajax methods
+    public function getOneUser(Request $request)
+    {
+        $user_id = $request->input('user_id');
+
+        $user = User::find($user_id);
+
+        return response()->json($user);
     }
 }

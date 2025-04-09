@@ -101,8 +101,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/getCustomerSubscriptions', [SubscriptionController::class, 'getSubscriptionByCustomer'])->name('subscription.customer');
 
     //users
-    Route::get('users-list', [UserController::class, 'index'])->name('users.index');
-    Route::post('store-user', [UserController::class, 'store'])->name('users.store');
+    Route::get('/users-list', [UserController::class, 'index'])->name('users.index');
+    Route::post('/store-user', [UserController::class, 'store'])->name('users.store');
+    Route::put('/update-user', [UserController::class, 'update'])->name('users.update');
+    Route::put('/update-pwd-user', [UserController::class, 'update_pwd'])->name('users.updatepwd');
+    Route::get('/getOneUser', [UserController::class, 'getOneUser']);
 });
 
 //user login

@@ -134,5 +134,8 @@ manage 2 sheets with one database
 Subscription method
 our RADIUS server
 register customers
-Invoice page
+Invoice page (no sheets)
 manage 2 sheets in database
+user camp access
+can show user remaining time
+
