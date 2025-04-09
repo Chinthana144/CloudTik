@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Camps;
 use App\Models\Counter;
 use App\Models\Packages;
 use App\Models\Subscriptions;
@@ -85,7 +86,9 @@ class SubscriptionController extends Controller
 
         $subscriptions = Subscriptions::where('camp_id', $camp_id)->paginate(10);
 
-        return view('Subscriptions.subscription_view', compact('subscriptions'));
+        $camp = Camps::find($camp_id);
+
+        return view('Subscriptions.subscription_view', compact('subscriptions', 'camp'));
     }
 
     /**

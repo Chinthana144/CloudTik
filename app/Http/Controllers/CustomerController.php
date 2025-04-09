@@ -18,8 +18,9 @@ class CustomerController extends Controller
     {
         $camp_id = Session::get('active_camp_id');
         $customers = Customers::where('camp_id', $camp_id)->get();
+        $camp = Camps::find($camp_id);
 
-        return view('Customers.customer_view', compact('customers'));
+        return view('Customers.customer_view', compact('customers', 'camp'));
     }
 
     /**
@@ -133,6 +134,7 @@ class CustomerController extends Controller
         $customer = Customers::where('camp_id', $camp_id)
             ->where(function ($query) use ($search) {
                 $query->where('username', 'LIKE', "%{$search}%")
+                    ->orwhere('fullname', 'LIKE',  "%{$search}%")
                     ->orwhere('phone', 'LIKE',  "%{$search}%");
             })
             ->limit(20)

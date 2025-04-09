@@ -33,18 +33,28 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required' | 'string' | 'max:255',
-            'email' => 'required' | 'string' | 'email' | 'max:255',
-            'password' => 'required' | 'string',
-        ]);
+        //data
+        $username = $request->input('name');
+        $email = $request->input('email');
+        //check duplicates
+        $exists = User::where('name', $username)
+            ->orwhere('email', $email)
+            ->exists();
 
-        User::create([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'password' => Hash::make($request->input('password')),
-            'role_id' => $request->input('cmb_role'),
-        ]);
+        if ($exists) {
+            return redirect()->route('users.index');
+        } else {
+            $password = Hash::make($request->input('password'));
+            $user = new User();
+            $user->name = $request->input('name');
+            $user->email = $request->input('email');
+            $user->password = $password;
+            $user->role_id = $request->input('cmb_role');
+
+            $user->save();
+
+            return redirect()->route('users.index');
+        }
     }
 
     /**

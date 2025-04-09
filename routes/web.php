@@ -41,6 +41,10 @@ Route::middleware('auth')->group(function () {
         return view('layouts.template');
     });
 
+    Route::get('/home', function () {
+        return view('home');
+    });
+
     //camps
     Route::get('/camps', [CampController::class, 'index'])->name('camps.index');
     Route::get('/add-camp', [CampController::class, 'create'])->name('camps.create');
@@ -55,10 +59,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/getOneCampuser', [CampUserController::class, 'getOneCampuser'])->name('campusers.getOne');
     Route::put('/update-campusers', [CampUserController::class, 'update'])->name('campusers.update');
     Route::delete('/delete-campuser', [CampUserController::class, 'destroy'])->name('campuser.delete');
-
-    Route::get('/home', function () {
-        return view('home');
-    });
 
     //customers
     Route::get('/customers', [CustomerController::class, 'index'])->name('customer.index');
@@ -102,6 +102,7 @@ Route::middleware('auth')->group(function () {
 
     //users
     Route::get('users-list', [UserController::class, 'index'])->name('users.index');
+    Route::post('store-user', [UserController::class, 'store'])->name('users.store');
 });
 
 //user login

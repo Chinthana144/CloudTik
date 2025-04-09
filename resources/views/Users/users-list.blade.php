@@ -9,7 +9,22 @@
             </h5>
         </div>
         <div class="card-body">
-            <p>content</p>
+            <table class="table">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Action</th>
+                </tr>
+                @foreach ($users as $user)
+                    <tr>
+                        <td>{{ $user->id }}</td>
+                        <td>{{ $user->name }}</td>
+                        <td>{{ $user->email }}</td>
+                        <td>Action</td>
+                    </tr>
+                @endforeach
+            </table>
         </div>
     </div>
 

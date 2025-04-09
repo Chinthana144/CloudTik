@@ -98,8 +98,19 @@ Page access table
     Permission (text with json format)
     Status
 
-//todo list
+//user role list
+1. Admin
+2. Owner
+3. Manager
+4. Client
+5. Assistant Manager
+6. Engineer
+7. Accountant
+8. Technician
+9. Salesman
+10. Intern
 
+//todo list
 1. subscription page sort by descending order
 2. home page graphs
 3. Reports
@@ -112,14 +123,16 @@ Page access table
 10. Customer profile
 11. customer reset mac address
 
-//user role list
-1. Admin
-2. Owner
-3. Manager
-4. Client
-5. Assistant Manager
-6. Engineer
-7. Accountant
-8. Technician
-9. Salesman
-10. Intern
+//cloud plan One
+give username and password print or write
+our RADIUS server
+manage 2 sheets
+invoice page
+manage 2 sheets with one database
+
+//cloud plan two
+Subscription method
+our RADIUS server
+register customers
+Invoice page
+manage 2 sheets in database

@@ -22,7 +22,7 @@ $(document).ready(function () {
                 return {
                     results: data.map(customer => ({
                         id: customer.id,
-                        text: customer.username + ' - ' + customer.phone
+                        text: customer.fullname + ' - ' + customer.username + ' - ' + customer.phone
                     }))
                 };
             },

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Camps;
 use App\Models\Customers;
 use App\Models\CustomerType;
 use App\Models\Packages;
@@ -18,8 +19,9 @@ class PackageController extends Controller
         //
         $active_camp_id = Session::get('active_camp_id');
         $packages = Packages::where('camp_id', $active_camp_id)->get();
+        $camp = Camps::find($active_camp_id);
 
-        return view('Packages.packages_view', compact('packages'));
+        return view('Packages.packages_view', compact('packages', 'camp'));
     }
 
     /**

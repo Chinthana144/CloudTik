@@ -7,7 +7,7 @@
                     {{-- <span aria-hidden="true">&times;</span> --}}
                 </button>
             </div>
-            <form action="" method="post">
+            <form action="{{ route('users.store') }}" method="post">
                 @csrf
                 <div class="modal-body">
                     <label for="">Select User Role</label>
@@ -18,7 +18,7 @@
                     </select>
 
                     <label for="">Username</label>
-                    <input type="text" name="username" class="form-control">
+                    <input type="text" name="name" class="form-control">
 
                     <label for="">Email</label>
                     <input type="email" name="email" class="form-control">
