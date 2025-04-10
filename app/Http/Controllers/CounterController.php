@@ -111,6 +111,9 @@ class CounterController extends Controller
         $counter_total = Subscriptions::where('counter_id', $counter_id)
             ->sum('price');
 
+        $invoice_count = Subscriptions::where('counter_id', $counter_id)
+            ->count('id');
+
         $end_time = date('Y-m-d H:i:s');
 
         $counter = Counter::find($counter_id);
@@ -122,10 +125,10 @@ class CounterController extends Controller
         $counter->save();
 
         $totals = Subscriptions::where('counter_id', $counter_id)
-            ->select('package_id', DB::raw('SUM(price) as total_price'))
+            ->select('package_id', DB::raw('SUM(price) as total_price'), DB::raw('COUNT(id) as total_count'))
             ->groupBy('package_id')
             ->get();
 
-        return view('Receipts.counter01', compact('totals'));
+        return view('Receipts.counter01', compact('totals', 'counter_total', 'invoice_count'));
     }
 }
