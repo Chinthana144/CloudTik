@@ -98,12 +98,13 @@
                 </ul>
             </li>
 
-            {{-- <li class="sidebar-item">
-                <a href="#" class="sidebar-link">
-                    <i class="lni lni-cog"></i>
-                    <span>Setting</span>
+            <li class="sidebar-item">
+                <a href="/mikrotik" class="sidebar-link">
+                    <i class="bx bx-box fs-3"></i>
+                    <span>Mikrotik</span>
                 </a>
-            </li> --}}
+            </li>
+
         </ul>
         <div class="sidebar-footer">
             <a href="#" class="sidebar-link">

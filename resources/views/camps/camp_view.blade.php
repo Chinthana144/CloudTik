@@ -13,7 +13,7 @@
                 <tr>
                     <th>Name</th>
                     <th>Location</th>
-                    <th>IP</th>
+                    <th>Host</th>
                     <th>Port</th>
                     <th>Status</th>
                     <th>Action</th>

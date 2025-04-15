@@ -45,7 +45,8 @@ class PackageController extends Controller
             'duration' => 'required|integer',
             'price' => 'required|numeric',
             'bandwidth' => 'required|max:6',
-            'speedLimit' => 'required|max:6',
+            'downloadlimit' => 'required|max:6',
+            'uploadlimit' => 'required|max:6',
         ]);
 
         $active_camp_id = Session::get('active_camp_id');
@@ -58,9 +59,12 @@ class PackageController extends Controller
             'duration' => $validated['duration'],
             'price' => $validated['price'],
             'bandwidth' => $validated['bandwidth'],
-            'speedLimit' => $validated['speedLimit'],
+            'downloadlimit' => $validated['downloadlimit'],
+            'uploadlimit' => $validated['uploadlimit'],
             'status' => $stat,
         ]);
+
+        
 
         return redirect()->route('packages.create');
     }
@@ -99,7 +103,8 @@ class PackageController extends Controller
         $package->duration = $request->input('duration');
         $package->price = $request->input('price');
         $package->bandwidth = $request->input('bandwidth');
-        $package->speedLimit = $request->input('speedLimit');
+        $package->downloadlimit = $request->input('downloadlimit');
+        $package->uploadlimit = $request->input('uploadlimit');
         $package->status = $request->has('chk_package_stat') ? 1 : 0;
 
         $package->save();

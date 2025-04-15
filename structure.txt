@@ -122,19 +122,16 @@ Page access table
 9. customer login
 10. Customer profile
 11. customer reset mac address
-
-//cloud plan One
-give username and password print or write
-our RADIUS server
-manage 2 sheets
-invoice page
-manage 2 sheets with one database
+12. package, customer validate frontend
 
 //cloud plan two
 Subscription method
-our RADIUS server
+API connection with Mikrotik
 register customers
 Invoice page (no sheets)
 manage 2 sheets in database
 user camp access
 can show user remaining time
+
+Mikrotik API implementation
+

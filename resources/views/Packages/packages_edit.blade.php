@@ -34,8 +34,12 @@
                         <label for="" class="form-label mt-2">Bandwidth</label>
                         <input type="text" name="bandwidth" class="form-control" value="{{ $package->bandwidth }}">
 
-                        <label for="" class="form-label mt-2">Speed Limit</label>
-                        <input type="text" name="speedLimit" class="form-control" value="{{ $package->speedLimit }}">
+                        <label for="" class="form-label mt-2">Download Limit (MB)</label>
+                        <input type="text" name="downloadlimit" class="form-control"
+                            value="{{ $package->downloadlimit }}">
+
+                        <label for="" class="form-label mt-2">Upload Limit (MB)</label>
+                        <input type="text" name="uploadlimit" class="form-control" value="{{ $package->uploadlimit }}">
 
                         <label for="" class="form-label mt-2">Package Status</label>
                         <div class="form-check form-switch">

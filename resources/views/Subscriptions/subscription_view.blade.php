@@ -4,7 +4,11 @@
     <div class="card">
         <div class="card-header">
             <h5>
-                Subscriptions in <b>{{ $camp->name }}</b>
+                @if (is_null($camp))
+                    Subscriptions
+                @else
+                    Subscriptions in <b>{{ $camp->name }}</b>
+                @endif
             </h5>
         </div>
         <div class="card-body">

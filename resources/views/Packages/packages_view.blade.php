@@ -4,7 +4,11 @@
     <div class="card">
         <div class="card-header">
             <h5>
-                Packages in <b>{{ $camp->name }}</b>
+                @if (is_null($camp))
+                    Packages
+                @else
+                    Packages in <b>{{ $camp->name }}</b>
+                @endif
                 <a href="/add-packages" class="btn btn-primary btn-sm float-end">Add Package</a>
             </h5>
         </div>

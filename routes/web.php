@@ -4,6 +4,7 @@ use App\Http\Controllers\CampController;
 use App\Http\Controllers\CampUserController;
 use App\Http\Controllers\CounterController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\MikrotikController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubscriptionController;
@@ -106,6 +107,9 @@ Route::middleware('auth')->group(function () {
     Route::put('/update-user', [UserController::class, 'update'])->name('users.update');
     Route::put('/update-pwd-user', [UserController::class, 'update_pwd'])->name('users.updatepwd');
     Route::get('/getOneUser', [UserController::class, 'getOneUser']);
+
+    //testing delete this one  testing is over
+    Route::get('/mikrotik', [MikrotikController::class, 'index']);
 });
 
 //user login

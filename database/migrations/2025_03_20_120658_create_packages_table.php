@@ -19,7 +19,8 @@ return new class extends Migration
             $table->integer('duration');
             $table->decimal('price');
             $table->string('bandwidth');
-            $table->string('speedLimit');
+            $table->integer('downloadlimit');
+            $table->integer('uploadlimit');
             $table->tinyInteger('status');
             $table->timestamps();
         });

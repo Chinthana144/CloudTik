@@ -36,7 +36,7 @@
 
                     <div class="col-md-6">
 
-                        <label for="" class="form-label">Mikrotik IP</label>
+                        <label for="" class="form-label">Mikrotik Host</label>
                         <input type="text" class="form-control" name="mikritikIP" value="{{ $camp->mikritikIP }}">
 
                         <label for="" class="form-label mt-2">Mikrotik Port</label>
