@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Services;
+
 use RouterOS\Client;
 use RouterOS\Query;
 
@@ -13,7 +15,7 @@ class UserProfiles
             'host' => $host,
             'user' => $user,
             'pass' => $pwd,
-            'port' => $port,
+            'port' => (int)$port,
         ]);
     }
 
@@ -37,22 +39,38 @@ class UserProfiles
         $this->client->query($query);
     }
 
-    public function updatePackage($package_name, $download, $upload, $duration)
+    public function updatePackage($old_name, $package_name, $download, $upload, $duration)
     {
         $speed = $download . "M/" . $upload . "M";
         $duration = $duration . "d";
 
         $findQuery = (new Query('/ip/hotspot/user/profile/print'))
-            ->where('name', $package_name);
+            ->where('name', $old_name);
         if (!empty($findQuery)) {
             $profile = $this->client->query($findQuery)->read()[0];
 
             $editQuery = new Query('/ip/hotspot/user/profile/set');
             $editQuery->equal('.id', $profile['.id']);
+            $editQuery->equal('name', $package_name);
             $editQuery->equal('rate-limit', $speed);
             $editQuery->equal('session-timeout', $duration);
 
             $this->client->query($editQuery);
+        }
+    }
+
+    //check connection
+    public function CheckConnection()
+    {
+        try {
+            // Attempt a lightweight command
+            $query = new \RouterOS\Query('/system/identity/print');
+            $this->client->query($query)->read();
+            return true;
+        } catch (\Exception $e) {
+            // Log the error or handle it as needed
+            //Log::error('MikroTik connection failed: ' . $e->getMessage());
+            return false;
         }
     }
 }//class user profiles

@@ -16,7 +16,8 @@ class Packages extends Model
         'duration',
         'price',
         'bandwidth',
-        'speedLimit',
+        'downloadlimit',
+        'uploadlimit',
         'status',
     ];
 

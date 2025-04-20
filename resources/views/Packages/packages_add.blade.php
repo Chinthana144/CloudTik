@@ -6,9 +6,13 @@
             <h5>Add Package</h5>
         </div>
         <div class="card-body">
+
+            @if (session('error'))
+                <div class="alert alert-danger">{{ session('error') }}</div>
+            @endif
+
             <form action="{{ route('packages.store') }}" method="post">
                 @csrf
-
                 <div class="row">
                     <div class="col-md-6">
                         <label for="" class="form-label">Select Customer Type</label>
