@@ -7,7 +7,8 @@
         </div>
         <div class="card-body">
 
-            <form action="" method="post">
+            <form action="{{ route('mikrotik.store') }}" method="post">
+                @csrf
                 <div class="col-md-6">
                     <label for="" class="form-label">Username</label>
                     <input type="text" name="username" class="form-control">
@@ -21,6 +22,14 @@
 
             @foreach ($users as $user)
                 <p>{{ $user['name'] }}</p>
+            @endforeach
+
+            <hr>
+
+            <p>get profiles</p>
+
+            @foreach ($profiles as $pro)
+                <p>{{ $pro['name'] }}</p>
             @endforeach
         </div>
     </div>

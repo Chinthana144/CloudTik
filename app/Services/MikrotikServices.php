@@ -12,9 +12,9 @@ class MikrotikServices
     public function __construct()
     {
         $this->client = new Client([
-            'host' => '192.168.1.242',
+            'host' => '192.168.22.1',
             'user' => 'admin',
-            'pass' => 'bluecat4',
+            'pass' => 'Tri@1234',
             'port' => 8728,
         ]);
     }
@@ -37,5 +37,8 @@ class MikrotikServices
         $query->equal('name', $name)->equal('password', $password)->equal('group', 'read');
 
         return $this->client->query($query)->read();
+
+        $response = $this->client->read();
+        dd($response);
     }
 }//class

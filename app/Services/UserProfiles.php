@@ -27,16 +27,17 @@ class UserProfiles
 
     public function createPackage($package_name, $download, $upload, $duration)
     {
-        $speed = $download . "M/" . $upload . "M";
+        $speed = $upload . "M/" . $download . "M";
         $duration = $duration . "d";
         $query = new Query('/ip/hotspot/user/profile/add');
         $query->equal('name', $package_name);
         $query->equal('rate-limit', $speed);          // Upload/Download limit
-        $query->equal('shared-users', 1);              // Number of concurrent logins
-        $query->equal('session-timeout', $duration);        // Optional timeout
-        $query->equal('keepalive-timeout', '30m');      // Optional
+        $query->equal('shared-users', 1);             // Number of concurrent logins
+        $query->equal('session-timeout', $duration);  // Optional timeout
+        //$query->equal('keepalive-timeout', '30m');  // dont add this occur errors for API
 
         $this->client->query($query);
+        $response = $this->client->read();
     }
 
     public function updatePackage($old_name, $package_name, $download, $upload, $duration)
@@ -56,6 +57,7 @@ class UserProfiles
             $editQuery->equal('session-timeout', $duration);
 
             $this->client->query($editQuery);
+            $response = $this->client->read();
         }
     }
 
@@ -72,5 +74,17 @@ class UserProfiles
             //Log::error('MikroTik connection failed: ' . $e->getMessage());
             return false;
         }
+    }
+
+    public function addHotspotUser($user_name, $user_pwd)
+    {
+        $query = new Query('/ip/hotspot/user/add');
+        $query->equal('name', $user_name);
+        $query->equal('password', $user_pwd);
+
+        $this->client->query($query);
+
+        $response = $this->client->read();
+        //dd($response);
     }
 }//class user profiles

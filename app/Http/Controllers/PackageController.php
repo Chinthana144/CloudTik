@@ -19,7 +19,9 @@ class PackageController extends Controller
     {
         //
         $active_camp_id = Session::get('active_camp_id');
-        $packages = Packages::where('camp_id', $active_camp_id)->get();
+        $packages = Packages::where('camp_id', $active_camp_id)
+            ->where('status', 1)
+            ->get();
         $camp = Camps::find($active_camp_id);
 
         return view('Packages.packages_view', compact('packages', 'camp'));

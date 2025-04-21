@@ -110,6 +110,7 @@ Route::middleware('auth')->group(function () {
 
     //testing delete this one  testing is over
     Route::get('/mikrotik', [MikrotikController::class, 'index']);
+    Route::post('/mikrotik_store', [MikrotikController::class, 'store'])->name('mikrotik.store');
 });
 
 //user login

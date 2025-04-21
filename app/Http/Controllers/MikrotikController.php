@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Camps;
 use App\Services\MikrotikServices;
+use App\Services\UserProfiles;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class MikrotikController extends Controller
 {
@@ -15,7 +18,18 @@ class MikrotikController extends Controller
         $service = new MikrotikServices();
         $users = $service->getUsers();
 
-        return view('Test.mikrotik', compact('users'));
+        $active_camp_id = Session::get('active_camp_id');
+        $camp_data = Camps::find($active_camp_id);
+        $host = $camp_data->mikritikIP;
+        $camp_user = $camp_data->mikrotikUsername;
+        $camp_password = $camp_data->mikrotikPassword;
+        $port = $camp_data->mikritikPort;
+
+        $user_profile = new UserProfiles($host, $camp_user, $camp_password, $port);
+
+        $profiles = $user_profile->getPackages();
+
+        return view('Test.mikrotik', compact('users', 'profiles'));
     }
 
     /**
@@ -31,7 +45,19 @@ class MikrotikController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user_name = $request->input('username');
+        $user_pwd = $request->input('pwd');
+
+        $active_camp_id = Session::get('active_camp_id');
+        $camp_data = Camps::find($active_camp_id);
+        $host = $camp_data->mikritikIP;
+        $camp_user = $camp_data->mikrotikUsername;
+        $camp_password = $camp_data->mikrotikPassword;
+        $port = $camp_data->mikritikPort;
+
+        $user_profile = new UserProfiles($host, $camp_user, $camp_password, $port);
+
+        $user_profile->addHotspotUser($user_name, $user_pwd);
     }
 
     /**

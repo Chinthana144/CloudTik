@@ -134,4 +134,13 @@ user camp access
 can show user remaining time
 
 Mikrotik API implementation
+customer login
+get mac address username and password
+verify subscription
+update subscription
+add customer to Mikrotik
 
+//Advancement
+ Replace the MikroTik login page with your own (custom captive portal)
+ Do user session tracking or API-based accounting
+ Build traffic reporting tools
