@@ -9,10 +9,26 @@
                 @else
                     Packages in <b>{{ $camp->name }}</b>
                 @endif
-                <a href="/add-packages" class="btn btn-primary btn-sm float-end">Add Package</a>
             </h5>
         </div>
         <div class="card-body">
+
+            <div class="row">
+                <div class="col-md-6">
+                    <a href="/add-packages" class="btn btn-primary">Add Package</a>
+                </div>
+                <div class="col-md-6">
+                    <form action="{{ route('package.search') }}" method="get">
+                        @csrf
+                        <div class="input-group">
+                            <input type="text" name="package_search" class="form-control" placeholder="Search..."
+                                value="{{ isset($search) ? $search : '' }}">
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
             <table class="table">
                 <tr>
                     <th>Type</th>
@@ -45,6 +61,9 @@
                     </tr>
                 @endforeach
             </table>
+            <div>
+                {{ $packages->links() }}
+            </div>
         </div>
     </div>
 @endsection

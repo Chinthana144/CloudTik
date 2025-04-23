@@ -71,6 +71,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/getOneCustomer', [CustomerController::class, 'getOneCustomer']);
     Route::get('/getCustomerTypes', [CustomerController::class, 'getCustomerTypes']);
     Route::post('/storeOneCustomer', [CustomerController::class, 'storeOneCustomer']);
+    Route::get('/getCustomerByUsername', [CustomerController::class, 'getCustomerByUsername']);
+    Route::get('/customer-search', [CustomerController::class, 'customerSearch'])->name('customer.search');
 
     //packages
     Route::get('/packages', [PackageController::class, 'index'])->name('packages.index');
@@ -80,6 +82,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/update-packages', [PackageController::class, 'update'])->name('packages.update');
     Route::get('/getCustomerPackages', [PackageController::class, 'getCustomerPackages']);
     Route::get('/getOnePackage', [PackageController::class, 'getOnePackage']);
+    Route::get('/package-search', [PackageController::class, 'packageSearch'])->name('package.search');
 
     //counters
     Route::get('/counter', [CounterController::class, 'index'])->name('counter.index');
@@ -100,6 +103,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/updateSubsStatus', [SubscriptionController::class, 'updateStatus']);
     Route::get('/getCounterTotal', [SubscriptionController::class, 'getSubscriptionByCounter'])->name('subscription.total');
     Route::get('/getCustomerSubscriptions', [SubscriptionController::class, 'getSubscriptionByCustomer'])->name('subscription.customer');
+    Route::get('/subscription-search', [SubscriptionController::class, 'subscriptionSearch'])->name('subscription.search');
 
     //users
     Route::get('/users-list', [UserController::class, 'index'])->name('users.index');

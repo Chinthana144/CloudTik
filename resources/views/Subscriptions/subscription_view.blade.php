@@ -12,8 +12,26 @@
             </h5>
         </div>
         <div class="card-body">
+
+            <div class="row">
+                <div class="col-md-6">
+                    Subscriptions
+                </div>
+                <div class="col-md-6">
+                    <form action="{{ route('subscription.search') }}" method="get">
+                        @csrf
+                        <div class="input-group">
+                            <input type="text" name="subscription_search" class="form-control" placeholder="Search..."
+                                value="{{ isset($search) ? $search : '' }}">
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
             <table class="table" id="tbl_subscription">
                 <tr>
+                    <th>Date</th>
                     <th>Customer</th>
                     <th>Phone</th>
                     <th>Package</th>
@@ -26,6 +44,7 @@
 
                 @foreach ($subscriptions as $subs)
                     <tr data-id="{{ $subs->id }}">
+                        <td>{{ Str::substr($subs->purchaseDateTime, 0, 10) }}</td>
                         <td>{{ $subs->customer->fullname }}</td>
                         <td>{{ $subs->customer->phone }}</td>
                         <td>{{ $subs->package->name }}</td>
@@ -33,11 +52,13 @@
                         <td>{{ $subs->price }}</td>
                         <td>
                             @if ($subs->status == 1)
-                                <p class="text-success border border-success rounded text-center">Active</p>
+                                <p class="text-warning border border-warning rounded text-center">Active</p>
                             @elseif($subs->status == 2)
-                                <p class="text-warning border border-warning rounded text-center">Pending</p>
+                                <p class="text-success border border-success rounded text-center">Running</p>
                             @elseif($subs->status == 3)
-                                <p class="text-primary border border-primary rounded text-center">Cancled</p>
+                                <p class="text-primary border border-primary rounded text-center">Pending</p>
+                            @elseif($subs->status == 4)
+                                <p class="text-secondary border border-secondary rounded text-center">Cancled</p>
                             @else
                                 <p class="text-danger border border-danger rounded text-center">Expired</p>
                             @endif
@@ -52,7 +73,6 @@
                 @endforeach
             </table>
 
-            <!-- Pagination Links -->
             <div class="mt-3">
                 {{ $subscriptions->links() }}
             </div>

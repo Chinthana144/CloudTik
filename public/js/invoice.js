@@ -247,6 +247,33 @@ $("#btn_customer_history").click(function(){
     });
 });//history
 
+//validate username
+$("#txt_add_username").change(function(){
+    var username = $(this).val();
+
+    $.ajax({
+        type: "get",
+        url: "/getCustomerByUsername",
+        data: {
+            username: username,
+        },
+        // dataType: "dataType",
+        success: function (response) {
+            if(response)
+            {
+                alert("customer already exists.");
+                $("#txt_add_username").val("");
+                $("#txt_add_username").css('border-color', 'red');
+                $("#txt_add_username").focus();
+            }
+            else
+            {
+                $("#txt_add_username").css('border-color', 'green');
+            }
+        }
+    });
+});
+
 //================================= Functions ==================================//
     function getCounterTotal()
     {

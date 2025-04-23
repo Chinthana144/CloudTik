@@ -123,11 +123,12 @@ Page access table
 10. Customer profile
 11. customer reset mac address
 12. package, customer validate frontend
+13. check the date and counter status when going to invoice
 
 //cloud plan two
 Subscription method
 API connection with Mikrotik
-register customers
+register customers in Mikrotik
 Invoice page (no sheets)
 manage 2 sheets in database
 user camp access

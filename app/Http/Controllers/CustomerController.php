@@ -17,11 +17,27 @@ class CustomerController extends Controller
     public function index()
     {
         $camp_id = Session::get('active_camp_id');
-        $customers = Customers::where('camp_id', $camp_id)->get();
+        $customers = Customers::where('camp_id', $camp_id)->paginate(10);
         $camp = Camps::find($camp_id);
 
         return view('Customers.customer_view', compact('customers', 'camp'));
     }
+
+    public function customerSearch(Request $request)
+    {
+        $camp_id = Session::get('active_camp_id');
+        $camp = Camps::find($camp_id);
+        $search = $request->input('customer_search');
+
+        $customers = Customers::where(function ($query) use ($search) {
+            $query->where('fullname', 'LIKE', "%$search%")
+                ->orwhere('phone', 'LIKE', "%$search%")
+                ->orwhere('email', 'LIKE', "%$search%")
+                ->orwhere('username', 'LIKE', "%$search%");
+        })->paginate(10);
+
+        return view('Customers.customer_view', compact('customers', 'search', 'camp'));
+    } //search customers
 
     /**
      * Show the form for creating a new resource.
@@ -191,5 +207,15 @@ class CustomerController extends Controller
                 'message' => 'Customer added successfully',
             ]);
         }
+    }
+
+    public function getCustomerByUsername(Request $request)
+    {
+        $username = $request->input('username');
+
+        $has_customer = Customers::where('username', $username)
+            ->exists();
+
+        return response()->json($has_customer);
     }
 }

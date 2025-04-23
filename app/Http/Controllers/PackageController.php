@@ -21,10 +21,30 @@ class PackageController extends Controller
         $active_camp_id = Session::get('active_camp_id');
         $packages = Packages::where('camp_id', $active_camp_id)
             ->where('status', 1)
-            ->get();
+            ->paginate(10);
         $camp = Camps::find($active_camp_id);
 
         return view('Packages.packages_view', compact('packages', 'camp'));
+    }
+
+    public function packageSearch(Request $request)
+    {
+        $camp_id = Session::get('active_camp_id');
+        $camp = Camps::find($camp_id);
+        $search = $request->input('package_search');
+
+        $packages = Packages::where('camp_id', $camp_id)
+            ->where(function ($query) use ($search) {
+                $query->where('name', 'LIKE', "%$search%")
+                    ->orwhere('duration', 'LIKE', "%$search%")
+                    ->orwhere('price', 'LIKE', "%$search%")
+                    ->orWhereHas('CustomerType', function ($q) use ($search) {
+                        $q->where('customerType', 'LIKE', "%$search%");
+                    });
+            })
+            ->paginate(10);
+
+        return view('Packages.packages_view', compact('packages', 'camp', 'search'));
     }
 
     /**

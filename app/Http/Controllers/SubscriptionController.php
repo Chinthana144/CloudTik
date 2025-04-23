@@ -84,11 +84,38 @@ class SubscriptionController extends Controller
     {
         $camp_id = Session::get('active_camp_id');
 
-        $subscriptions = Subscriptions::where('camp_id', $camp_id)->paginate(10);
+        $subscriptions = Subscriptions::where('camp_id', $camp_id)
+            ->orderBy('id', 'DESC')
+            ->paginate(10);
 
         $camp = Camps::find($camp_id);
 
         return view('Subscriptions.subscription_view', compact('subscriptions', 'camp'));
+    }
+
+    public function subscriptionSearch(Request $request)
+    {
+        $camp_id = Session::get('active_camp_id');
+        $camp = Camps::find($camp_id);
+        $search = $request->input('subscription_search');
+
+        $subscriptions = Subscriptions::where('camp_id', $camp_id)
+            ->where(function ($query) use ($search) {
+                $query->where('purchaseDateTime', 'LIKE', "%$search%")
+                    ->orWhereHas('customer', function ($q) use ($search) {
+                        $q->where('fullname', 'LIKE', "%$search%")
+                            ->orwhere('phone', 'LIKE', "%$search%")
+                            ->orwhere('username', 'LIKE', "%$search%");
+                    })
+                    ->orWhereHas('package', function ($qu) use ($search) {
+                        $qu->where('name', 'LIKE', "%$search%")
+                            ->orwhere('duration', 'LIKE', "%$search%")
+                            ->orwhere('price', 'LIKE', "%$search%");
+                    });
+            })
+            ->paginate(10);
+
+        return view('Subscriptions.subscription_view', compact('subscriptions', 'camp', 'search'));
     }
 
     /**
