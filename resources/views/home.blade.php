@@ -1,19 +1,41 @@
 @extends('layouts.layout')
 
 @section('content')
-    <div class="card">
-        <div class="card-header">
-            <h5>Home</h5>
+    <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
+    <div id="div_top">
+        <div class="div_box" id="div_sale_box">
+            <h6>Daily Sales</h6>
+            <i class="bx bx-bar-chart fs-3"></i>
+            <h4>{{ $daily_subs_total }} AED</h4>
         </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-7">
-                    linear graph
-                </div>
-                <div class="col-md-5">
-                    pie graph
-                </div>
-            </div>
+        <div class="div_box" id="div_subs_box">
+            <h6>Subscriptions</h6>
+            <i class="bx bx-clipboard fs-3"></i>
+            <h4>{{ $daily_subs_count }}</h4>
+        </div>
+        <div class="div_box" id="div_month_sale_box">
+            <h6>Monthly Sales</h6>
+            <i class="bx bx-book-bookmark fs-3"></i>
+            <h4>{{ $monthly_subs_sale }} AED</h4>
+        </div>
+        <div class="div_box" id="div_users_box">
+            <h6>Users</h6>
+            <i class="bx bx-user fs-3"></i>
+            <h4>{{ $running_users }}</h4>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-md-7">
+            <div id="bar_chart" class="p-2"></div>
+        </div>
+
+        <div class="col-md-5">
+            pie chart
+        </div>
+    </div>
+
+    {{-- js --}}
+    <script src="{{ asset('js/dashboard.js') }}"></script>
+    <script src="{{ asset('js/apexcharts.min.js') }}"></script>
 @endsection

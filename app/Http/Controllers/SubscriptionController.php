@@ -57,7 +57,7 @@ class SubscriptionController extends Controller
             ->where('status', 1)
             ->exists();
 
-        $stat_id = $active_package_exists ? 2 : 1;
+        $stat_id = $active_package_exists ? 3 : 1;
 
         $subscription = Subscriptions::create([
             'camp_id' => $camp_id,

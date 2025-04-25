@@ -108,7 +108,7 @@
         </ul>
         <div class="sidebar-footer">
             <a href="#" class="sidebar-link">
-                <i class="lni lni-exit"></i>
+                <i class="bx bx-exit"></i>
                 <span>Logout</span>
             </a>
         </div>

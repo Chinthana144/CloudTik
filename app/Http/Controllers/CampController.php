@@ -120,6 +120,6 @@ class CampController extends Controller
         $camp_id = $request->route('camp_id');
         Session::put('active_camp_id', $camp_id);
 
-        return view('home');
+        return redirect()->route('dashboard.home');
     }
 }
