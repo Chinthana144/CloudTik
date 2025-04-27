@@ -112,9 +112,9 @@ Page access table
 
 //todo list
 1. subscription page sort by descending order ---- done
-2. home page graphs
+2. home page graphs --- done
 3. Reports
-4. index page
+4. welcome page
 5. user login page
 6. user access
 7. receipt design

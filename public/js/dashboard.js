@@ -1,6 +1,7 @@
 $(document).ready(function () {
     //declaring charts
     var bar_chart;
+    var donut_chart;
 
     loadbarChart(7);
 
@@ -39,7 +40,7 @@ function loadbarChart(date_range)
                 sparkline: { enabled: false },
                 },
             series: [
-                {name: "Gross Sale:", data:totals},
+                {name: "Daily Sale:", data:totals},
             ],
 
             xaxis:{
@@ -119,8 +120,59 @@ function loadDonutChart()
         },
         // dataType: "dataType",
         success: function (response) {
-            console.log(response);
+            // console.log(response);
 
+            var packages = [];
+            var total_sales = [];
+
+            for (let i = 0; i < response.length; i++) {
+                packages[i] = response[i]['package_name'];
+                total_sales[i] = parseFloat(response[i]['total_sales']);
+            }
+
+            console.log(total_sales);
+
+            var chart = {
+                series: total_sales,
+                chart: {
+                    width: 480,
+                    type: 'donut',
+                  },
+                plotOptions: {
+                    pie: {
+                        startAngle: -90,
+                        endAngle: 270
+                    }
+                },
+                labels: packages,
+                dataLabels: {
+                    enabled: false
+                },
+                fill: {
+                    type: 'gradient',
+                },
+                title: {
+                text: 'Package wise daily sale.'
+                },
+                responsive: [{
+                    breakpoint: 480,
+                    options: {
+                      chart: {
+                        width: 200
+                      },
+                      legend: {
+                        position: 'bottom'
+                      }
+                    }
+                  }],
+            };//chart
+
+            if(donut_chart)
+            {
+                donut_chart.destroy();
+            }
+            donut_chart = new ApexCharts(document.querySelector("#donut_chart"), chart);
+            donut_chart.render();
         }
     });
 }

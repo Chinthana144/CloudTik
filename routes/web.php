@@ -10,6 +10,7 @@ use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WifiLoginController;
 use App\Models\CampUsers;
 use Illuminate\Support\Facades\Route;
 
@@ -123,9 +124,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/mikrotik_store', [MikrotikController::class, 'store'])->name('mikrotik.store');
 });
 
-//user login
-Route::get('/userlogin', function () {
-    return view('user-login');
-});
+//Wifi log in controller
+Route::get('/userlogin', [WifiLoginController::class, 'index'])->name('wifilogin.index');
+Route::post('/wifi-login', [WifiLoginController::class, 'store'])->name('wifi.login');
 
 require __DIR__ . '/auth.php';

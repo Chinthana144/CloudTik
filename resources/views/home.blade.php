@@ -31,7 +31,7 @@
         </div>
 
         <div class="col-md-5">
-            pie chart
+            <div id="donut_chart" class="p-2"></div>
         </div>
     </div>
 
