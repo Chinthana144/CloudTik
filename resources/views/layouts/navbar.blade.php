@@ -99,6 +99,25 @@
             </li>
 
             <li class="sidebar-item">
+                <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
+                    data-bs-target="#auth" aria-expanded="false" aria-controls="auth">
+                    <i class="bx bx-file fs-3"></i>
+                    <span>Reports</span>
+                </a>
+                <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                    <li class="sidebar-item">
+                        <a href="/sales_reports" class="sidebar-link">Sales Reports</a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link">Customer Reports</a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link">Packages Reports</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="sidebar-item">
                 <a href="/mikrotik" class="sidebar-link">
                     <i class="bx bx-box fs-3"></i>
                     <span>Mikrotik</span>

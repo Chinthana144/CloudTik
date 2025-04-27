@@ -8,6 +8,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MikrotikController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WifiLoginController;
@@ -118,6 +119,11 @@ Route::middleware('auth')->group(function () {
     Route::put('/update-user', [UserController::class, 'update'])->name('users.update');
     Route::put('/update-pwd-user', [UserController::class, 'update_pwd'])->name('users.updatepwd');
     Route::get('/getOneUser', [UserController::class, 'getOneUser']);
+
+    //reports
+    Route::get('/sales_reports', [ReportsController::class, 'showSalesReports']);
+    Route::get('/rpt_daily_sales', [ReportsController::class, 'showDailySalesReport']);
+    Route::get('/rpt_daily_sales_search', [ReportsController::class, 'rptDailySalesSearch'])->name('rptDailySales.search');
 
     //testing delete this one  testing is over
     Route::get('/mikrotik', [MikrotikController::class, 'index']);
