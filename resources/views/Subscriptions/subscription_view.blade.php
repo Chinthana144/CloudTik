@@ -52,11 +52,11 @@
                         <td>{{ $subs->price }}</td>
                         <td>
                             @if ($subs->status == 1)
-                                <p class="text-warning border border-warning rounded text-center">Active</p>
+                                <p class="text-primary border border-primary rounded text-center">Active</p>
                             @elseif($subs->status == 2)
                                 <p class="text-success border border-success rounded text-center">Running</p>
                             @elseif($subs->status == 3)
-                                <p class="text-primary border border-primary rounded text-center">Pending</p>
+                                <p class="text-warning border border-warning rounded text-center">Pending</p>
                             @elseif($subs->status == 4)
                                 <p class="text-secondary border border-secondary rounded text-center">Cancled</p>
                             @else

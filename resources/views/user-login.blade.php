@@ -38,6 +38,8 @@
                 @csrf
                 <h3>Login Here</h3>
 
+                <input type="hidden" name="mac" value="{{ $mac }}">
+
                 <label for="username">Username</label>
                 <input type="text" name="customer_name" placeholder="Email or Phone" id="username">
 

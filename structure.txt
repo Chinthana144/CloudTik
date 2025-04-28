@@ -145,3 +145,10 @@ add customer to Mikrotik
  Replace the MikroTik login page with your own (custom captive portal)
  Do user session tracking or API-based accounting
  Build traffic reporting tools
+
+//subscription session control code
+1 - Active - primary blue
+2 - running - success green
+3 - pending - warning yellow
+4 - cancled - secondary dray
+other - expired - danger red
