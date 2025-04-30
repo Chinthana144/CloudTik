@@ -14,7 +14,7 @@ class MikrotikServices
         $this->client = new Client([
             'host' => '192.168.22.1',
             'user' => 'admin',
-            'pass' => 'Tri@1234',
+            'pass' => 'bluecat4',
             'port' => 8728,
         ]);
     }

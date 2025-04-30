@@ -25,7 +25,7 @@ class HotspotUsers
         $query->equal('name', $username);
         $query->equal('password', $user_pwd);
         $query->equal('profile', $package_name); // Assign to created profile
-        $query->equal('comment', 'Created by CloudTik system');
+        // $query->equal('comment', 'Created by CloudTik system');
 
         try {
             $this->client->query($query)->read();
@@ -33,5 +33,22 @@ class HotspotUsers
         } catch (\Exception $e) {
             echo "Error creating hotspot user: " . $e->getMessage();
         }
+    }
+
+    //check connection
+    public function CheckConnection(): bool
+    {
+        $pastha = false;
+        try {
+            $query = new \RouterOS\Query('/system/identity/print');
+            $this->client->query($query)->read();
+            $pastha = true;
+        } catch (\Exception $e) {
+            // Log the error or handle it as needed
+            //Log::error('MikroTik connection failed: ' . $e->getMessage());
+            $pastha = false;
+        }
+
+        return $pastha;
     }
 }//hotspot users class

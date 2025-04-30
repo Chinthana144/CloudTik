@@ -126,13 +126,25 @@ $(document).ready(function () {
             // dataType: "dataType",
             success: function (response) {
                 // console.log(response);
-                var subscription_id = response.subscription_id;
+                var has_success = response['success'];
+                // var message = response['message'];
 
-                let printWindow = window.open('/receipt-print?subscription_id='+subscription_id, '_blank');
+                // alert('data - ' + has_success);
 
-                setTimeout(function(){
-                    window.location.href = '/invoice';
-                }, 500);
+                if(has_success)
+                {
+                    var subscription_id = response['subscription_id'];
+
+                    let printWindow = window.open('/receipt-print?subscription_id='+subscription_id, '_blank');
+
+                    setTimeout(function(){
+                        window.location.href = '/invoice';
+                    }, 500);
+                }
+                else
+                {
+                    alert('task failed...');
+                }
             }
         });
     });

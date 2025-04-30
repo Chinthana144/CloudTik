@@ -29,6 +29,8 @@ function loadbarChart(date_range)
             totals[i] = response[i]['total'];
         }
 
+        console.log(totals);
+
         var chart = {
             chart: {
                 type: "bar",
@@ -130,7 +132,7 @@ function loadDonutChart()
                 total_sales[i] = parseFloat(response[i]['total_sales']);
             }
 
-            console.log(total_sales);
+            // console.log(total_sales);
 
             var chart = {
                 series: total_sales,

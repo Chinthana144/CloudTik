@@ -107,7 +107,7 @@ class DashboardController extends Controller
             ->limit($date_range)
             ->pluck('date');
 
-        $salesData = $dates->map(function ($date, $camp_id) {
+        $salesData = $dates->map(function ($date) {
             $total = Subscriptions::whereDate('purchaseDateTime', $date)
                 ->sum('price');
             return [
