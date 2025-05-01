@@ -25,7 +25,12 @@
                             value="{{ isset($end_date) ? $end_date : '' }}">
                     </div>
                     <div class="col-md-2">
-                        <button type="submit" class="btn btn-primary mt-4">Search</button>
+                        <button type="submit" name="action" value="search" class="btn btn-primary mt-4">Search</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="submit" name="action" value="excel" class="btn btn-success">Excel</button>
                     </div>
                 </div>
             </form>

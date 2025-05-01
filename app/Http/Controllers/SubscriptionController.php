@@ -58,6 +58,7 @@ class SubscriptionController extends Controller
         $counter_id = $request->input('hide_counter_id');
         $customer_id = $request->input('hide_customer_id');
         $package_id = $request->input('hide_package_id');
+        $purchased_date = date('Y-m-d');
         $purchased_time = date('Y-m-d H:i:s');
 
         //get price
@@ -103,6 +104,7 @@ class SubscriptionController extends Controller
                 'counter_id' => $counter_id,
                 'customer_id' => $customer_id,
                 'package_id' => $package_id,
+                'purchaseDate' => $purchased_date,
                 'purchaseDateTime' => $purchased_time,
                 'price' => $price,
                 'macAddress' => '0',

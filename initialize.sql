@@ -28,3 +28,7 @@ INSERT INTO `roles` (`id`, `name`, `created_at`, `updated_at`) VALUES
 -- add first user as admin
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `role_id`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'Chinthana', 'chinthana144@gmail.com', NULL, '$2y$12$C9dr2DhMLZMJyFa/paM5wuNKkmNiRxgZJXEeku7g7DupQyAXKhKCy', 1, NULL, '2025-03-20 06:11:11', '2025-03-20 06:11:11');
+
+-- add first camp (not necessary)
+INSERT INTO `camps` (`id`, `name`, `location`, `contactPerson`, `contactPhone`, `contactEmail`, `mikritikIP`, `mikritikPort`, `mikrotikUsername`, `mikrotikPassword`, `radiusSecret`, `radiusIP`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'First Camp', 'First location', 'contact person', 'contact phone', 'contactperson@gmail.com', '192.168.22.1', '8728', 'admin', 'bluecat4', '0', '0', '1', NULL, NULL);

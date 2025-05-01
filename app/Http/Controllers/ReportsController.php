@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\SubscriptionExport;
 use App\Models\Camps;
 use App\Models\Subscriptions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ReportsController extends Controller
 {
@@ -47,11 +51,39 @@ class ReportsController extends Controller
         $start_date = $request->input('start_date');
         $end_date = $request->input('end_date');
 
-        $sales = Subscriptions::where('camp_id', $camp_id)
-            ->whereBetween('purchaseDateTime', [$start_date, $end_date])
-            ->paginate(10);
+        if ($request->action == 'search') {
+            $sales = Subscriptions::where('camp_id', $camp_id)
+                ->whereBetween('purchaseDateTime', [$start_date, $end_date])
+                ->paginate(10);
 
-        return view('Reports.rpt_daily_sales', compact('camp', 'sales', 'start_date', 'end_date'));
+            return view('Reports.rpt_daily_sales', compact('camp', 'sales', 'start_date', 'end_date'));
+        } //if search
+        elseif ($request->action == 'excel') {
+            $data = Subscriptions::join('customers', 'subscriptions.customer_id', '=', 'customers.id')
+                ->join('packages', 'subscriptions.package_id', '=', 'packages.id')
+                ->where('subscriptions.camp_id', $camp_id)
+                ->whereBetween('purchaseDateTime', [$start_date, $end_date])
+                ->get(['subscriptions.id', 'purchaseDateTime', 'customers.username', 'packages.name', 'packages.duration', 'subscriptions.price']);
+
+            return Excel::download(
+                new class($data) implements FromCollection, WithHeadings {
+                    protected $data;
+                    public function __construct($data)
+                    {
+                        $this->data = $data;
+                    }
+                    public function collection()
+                    {
+                        return $this->data;
+                    }
+                    public function headings(): array
+                    {
+                        return ['ID', 'DateTime', 'Customer', 'Package Name', 'Duration', 'Price'];
+                    }
+                },
+                'my_excel.xlsx'
+            );
+        }
     }
 
     /**

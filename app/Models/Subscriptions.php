@@ -15,6 +15,7 @@ class Subscriptions extends Model
         'counter_id',
         'customer_id',
         'package_id',
+        'purchaseDate',
         'purchaseDateTime',
         'subscriptionStartTime',
         'subscriptionEndTime',

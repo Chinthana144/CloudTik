@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\CampController;
 use App\Http\Controllers\CampUserController;
 use App\Http\Controllers\CounterController;
@@ -41,6 +42,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    //logout
+    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+
     // Route::get('/template', function () {
     //     return view('layouts.template');
     // });
@@ -49,10 +53,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/home', [DashboardController::class, 'index'])->name('dashboard.home');
     Route::get('/getBarchartData', [DashboardController::class, 'getBarchartData']);
     Route::get('/getDonutchartData', [DashboardController::class, 'getDonutchartData']);
-
-    // Route::get('/home', function () {
-    //     return view('home');
-    // });
 
     //camps
     Route::get('/camps', [CampController::class, 'index'])->name('camps.index');

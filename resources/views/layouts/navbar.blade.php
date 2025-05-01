@@ -126,10 +126,13 @@
 
         </ul>
         <div class="sidebar-footer">
-            <a href="#" class="sidebar-link">
-                <i class="bx bx-exit"></i>
-                <span>Logout</span>
-            </a>
+            <form action="{{ route('logout') }}" method="post">
+                @csrf
+                <button class="sidebar-link"
+                    style="background-color: inherit; border:none; color:white; margin-left:10px;">
+                    <i class="bx bx-exit fs-3"></i>
+                </button>
+            </form>
         </div>
     </aside>
 

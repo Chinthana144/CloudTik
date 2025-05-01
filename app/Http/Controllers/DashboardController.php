@@ -94,7 +94,7 @@ class DashboardController extends Controller
         //
     }
 
-    //============== Ajax Functions ====================//
+    //======================= Ajax Functions ====================//
     public function getBarchartData(Request $request)
     {
         $date_range = $request->input('date_range');
@@ -108,7 +108,10 @@ class DashboardController extends Controller
             ->pluck('date');
 
         $salesData = $dates->map(function ($date) {
-            $total = Subscriptions::whereDate('purchaseDateTime', $date)
+            $camp_id = Session::get('active_camp_id');
+
+            $total = Subscriptions::where('camp_id', $camp_id)
+                ->whereDate('purchaseDateTime', $date)
                 ->sum('price');
             return [
                 'date' => $date,

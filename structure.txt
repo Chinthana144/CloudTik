@@ -152,3 +152,8 @@ add customer to Mikrotik
 3 - pending - warning yellow
 4 - cancled - secondary dray
 other - expired - danger red
+
+//reports
+daily sales report
+customer wise sales report
+package wise sales report
