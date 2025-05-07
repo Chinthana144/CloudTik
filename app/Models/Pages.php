@@ -4,22 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Roles extends Model
+class Pages extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'name'
+        'pagename',
     ];
-
-    public function user()
-    {
-        return $this->hasMany(User::class, 'role_id');
-    }
 
     public function rolepages()
     {
-        return $this->hasMany(RolePages::class, 'role_id');
+        return $this->hasMany(RolePages::class, 'page_id');
     }
 }

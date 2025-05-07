@@ -32,3 +32,17 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `ro
 -- add first camp (not necessary)
 INSERT INTO `camps` (`id`, `name`, `location`, `contactPerson`, `contactPhone`, `contactEmail`, `mikritikIP`, `mikritikPort`, `mikrotikUsername`, `mikrotikPassword`, `radiusSecret`, `radiusIP`, `status`, `created_at`, `updated_at`) VALUES
 (1, 'First Camp', 'First location', 'contact person', 'contact phone', 'contactperson@gmail.com', '192.168.22.1', '8728', 'admin', 'bluecat4', '0', '0', '1', NULL, NULL);
+
+-- add camp access for first camp
+INSERT INTO `camp_users` (`id`, `camp_id`, `user_id`, `created_at`, `updated_at`) VALUES (NULL, '1', '1', NULL, NULL);
+
+-- add data to pages table
+INSERT INTO `pages` (`id`, `pagename`, `created_at`, `updated_at`) VALUES
+(1, 'Home', NULL, NULL),
+(2, 'Invoice', NULL, NULL),
+(3, 'Customers', NULL, NULL),
+(4, 'Packages', NULL, NULL),
+(5, 'Subscriptions', NULL, NULL),
+(6, 'Reports', NULL, NULL),
+(7, 'Controls', NULL, NULL),
+(8, 'Settings', NULL, NULL);

@@ -10,6 +10,7 @@ use App\Http\Controllers\MikrotikController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportsController;
+use App\Http\Controllers\RolepageController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WifiLoginController;
@@ -124,6 +125,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/sales_reports', [ReportsController::class, 'showSalesReports']);
     Route::get('/rpt_daily_sales', [ReportsController::class, 'showDailySalesReport']);
     Route::get('/rpt_daily_sales_search', [ReportsController::class, 'rptDailySalesSearch'])->name('rptDailySales.search');
+
+    //role page access
+    Route::get('/rolepages', [RolepageController::class, 'index'])->name('rolepages.index');
+    Route::post('/store-rolepages', [RolepageController::class, 'store'])->name('rolepages.store');
+    Route::get('/update-permission', [RolepageController::class, 'updatePermission']);
 
     //testing delete this one  testing is over
     Route::get('/mikrotik', [MikrotikController::class, 'index']);

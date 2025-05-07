@@ -111,19 +111,21 @@ Page access table
 10. Intern
 
 //todo list
-1. subscription page sort by descending order ---- done
-2. home page graphs --- done
-3. Reports
-4. welcome page
-5. user login page
-6. user access
-7. receipt design
-8. invoice page customer history
-9. customer login
-10. Customer profile
-11. customer reset mac address
-12. package, customer validate frontend
-13. check the date and counter status when going to invoice
+* subscription page sort by descending order ---- done
+* home page graphs --- done
+* Reports
+* welcome page
+* user login page
+* user logout button --- done
+* user access
+* receipt design
+* invoice page customer history
+* customer login
+* Customer profile
+* customer reset mac address
+* package, customer validate frontend
+* check the date and counter status when going to invoice
+* modal close buttons
 
 //cloud plan two
 Subscription method
@@ -157,3 +159,15 @@ other - expired - danger red
 daily sales report
 customer wise sales report
 package wise sales report
+
+//Pages
+1 home
+2 invoice
+3 customers
+4 packages
+5 Subscriptions
+6 Reports
+7 control
+8 settings
+
+role page access

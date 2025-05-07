@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\User;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Pagination\Paginator;
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Gate;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,6 +22,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->registerPolicies();
+
         Paginator::useBootstrapFive();
+
+        //role page access
+        Gate::define('page_access', function (User $user, $page_id) {
+            return $user->hasPageAccess($page_id);
+        });
     }
 }

@@ -64,4 +64,13 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Roles::class, 'role_id');
     }
+
+    public function hasPageAccess($page_id)
+    {
+        //
+        return RolePages::where('role_id', $this->role_id)
+            ->where('page_id', $page_id)
+            ->where('permissions', 1)
+            ->exists();
+    }
 }
