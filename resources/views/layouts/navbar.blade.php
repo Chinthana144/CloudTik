@@ -69,7 +69,7 @@
                     </a>
                     <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="sidebar-item">
-                            <a href="#" class="sidebar-link">User Access</a>
+                            <a href="/useraccess" class="sidebar-link">User Access</a>
                         </li>
                         <li class="sidebar-item">
                             <a href="/campusers" class="sidebar-link">Camp Access</a>

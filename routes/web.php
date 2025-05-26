@@ -12,6 +12,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\RolepageController;
 use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\UserAccessController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WifiLoginController;
 use App\Models\CampUsers;
@@ -131,9 +132,16 @@ Route::middleware('auth')->group(function () {
     Route::post('/store-rolepages', [RolepageController::class, 'store'])->name('rolepages.store');
     Route::get('/update-permission', [RolepageController::class, 'updatePermission']);
 
+    //user page access
+    Route::get('/useraccess', [UserAccessController::class, 'index'])->name('useraccess.index');
+    Route::post('/store-useraccess', [UserAccessController::class, 'store'])->name('useraccess.store');
+    Route::delete('/delete-useraccess', [UserAccessController::class, 'destroy'])->name('useraccess.delete');
+    Route::get('/update-useraccess', [UserAccessController::class, 'update']);
+
     //testing delete this one  testing is over
     Route::get('/mikrotik', [MikrotikController::class, 'index']);
     Route::post('/mikrotik_store', [MikrotikController::class, 'store'])->name('mikrotik.store');
+
 });
 
 //Wifi log in controller

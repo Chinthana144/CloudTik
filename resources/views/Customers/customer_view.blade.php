@@ -15,7 +15,10 @@
 
             <div class="row">
                 <div class="col-md-6">
-                    <a href="/add-customers" class="btn btn-primary">Add Customer</a>
+                    @can('create', App\Models\Customer::class)
+                        <a href="/add-customers" class="btn btn-primary">Add Customer</a>
+                    @endcan
+
                 </div>
                 <div class="col-md-6">
                     <form action="{{ route('customer.search') }}" method="get">
@@ -37,7 +40,10 @@
                     <th>Username</th>
                     <th>Password</th>
                     <th>Stat</th>
-                    <th>Action</th>
+                    @can('update', App\Models\Customer::class)
+                        <th>Action</th>
+                    @endcan
+
                 </tr>
                 @foreach ($customers as $customer)
                     <tr>
@@ -47,12 +53,11 @@
                         <td>{{ $customer->username }}</td>
                         <td>{{ $customer->password }}</td>
                         <td>
-                            @if ($customer->status == 1)
-                                <p class="text-success">Active</p>
-                            @else
-                                <p class="text-danger">Inactive</p>
-                            @endif
+                            <span class="badge {{ $customer->status == 1 ? 'bg-success' : 'bg-danger' }}">
+                                {{ $customer->status == 1 ? 'Active' : 'Inactive' }}
+                            </span>
                         </td>
+                        @can('update', App\Models\Customer::class)
                         <td>
                             <form action="{{ route('customer.edit') }}" method="post">
                                 @csrf
@@ -60,6 +65,7 @@
                                 <button type="submit" class="btn btn-info btn-sm">Edit</button>
                             </form>
                         </td>
+                        @endcan
                     </tr>
                 @endforeach
             </table>
