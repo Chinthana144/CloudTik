@@ -21,9 +21,8 @@ class CustomerPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Customers $customers): bool
+    public function view(User $user): bool
     {
-        $user->id === auth()->id();
         $camp_id = Session::get('active_camp_id');
         $page_id = 3; // customer page id = 3
 
@@ -32,7 +31,7 @@ class CustomerPolicy
             ->where('page_id', $page_id)
             ->where('view', 1)
             ->exists();
-        return $has_permission ? true : false;
+        return $has_permission ? 1 : 0;
     }
 
     /**

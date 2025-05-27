@@ -110,23 +110,6 @@ Page access table
 9. Salesman
 10. Intern
 
-//todo list
-* subscription page sort by descending order ---- done
-* home page graphs --- done
-* Reports
-* welcome page
-* user login page
-* user logout button --- done
-* user access
-* receipt design
-* invoice page customer history
-* customer login
-* Customer profile
-* customer reset mac address
-* package, customer validate frontend
-* check the date and counter status when going to invoice
-* modal close buttons
-
 //cloud plan two
 Subscription method
 API connection with Mikrotik
@@ -170,4 +153,23 @@ package wise sales report
 7 control
 8 settings
 
-role page access
+//page access - user access
+
+
+//todo list
+* subscription page sort by descending order ---- done
+* home page graphs --- done
+* Reports
+* welcome page --- 50%
+* user login page --- 80%
+* user logout button --- done
+* user access --- 50%
+* receipt design --- 50%
+* invoice page customer history
+* customer login --- testing
+* Customer profile
+* customer reset mac address
+* package, customer validate frontend
+* check the date and counter status when going to invoice
+* modal close buttons
+* create policies for pages done(customers, )

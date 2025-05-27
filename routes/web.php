@@ -148,4 +148,8 @@ Route::middleware('auth')->group(function () {
 Route::get('/userlogin', [WifiLoginController::class, 'index'])->name('wifilogin.index');
 Route::post('/wifi-login', [WifiLoginController::class, 'store'])->name('wifi.login');
 
+Route::get('login1', function(){
+    return view('auth.login1');
+});
+
 require __DIR__ . '/auth.php';

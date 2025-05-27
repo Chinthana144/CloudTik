@@ -171,12 +171,18 @@
 
     <div class="main p-3">
         <div class="text-left">
-            <h1>
-                CloudTik Network Providers
-            </h1>
+            <h5>
+                <b>CloudTik</b> User Management System
+            </h5>
         </div>
 
         @yield('content')
     </div>
-
+    <div id="footer">
+        <p>
+            © 2025 Trizent. All rights reserved.
+            <br>
+            Powered by Trizent Software.
+        </p>
+    </div>
 </div>
