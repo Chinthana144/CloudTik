@@ -2,13 +2,12 @@
 
 namespace App\Policies;
 
-use App\Models\Customers;
 use App\Models\PageAccess;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Support\Facades\Session;
 
-class CustomerPolicy
+class UserAccessPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -24,7 +23,7 @@ class CustomerPolicy
     public function view(User $user): bool
     {
         $camp_id = Session::get('active_camp_id');
-        $page_id = 3; // customer page id = 3
+        $page_id = 12; // user access page id = 12
 
         $has_permission = PageAccess::where('camp_id', $camp_id)
             ->where('user_id', $user->id)
@@ -39,8 +38,8 @@ class CustomerPolicy
      */
     public function create(User $user): bool
     {
-        $camp_id = Session::get('active_camp_id');
-        $page_id = 3; // customer page id = 3
+         $camp_id = Session::get('active_camp_id');
+        $page_id = 12; // user access page id = 12
 
         $has_permission = PageAccess::where('camp_id', $camp_id)
             ->where('user_id', $user->id)
@@ -55,8 +54,8 @@ class CustomerPolicy
      */
     public function update(User $user): bool
     {
-        $camp_id = Session::get('active_camp_id');
-        $page_id = 3; // customer page id = 3
+         $camp_id = Session::get('active_camp_id');
+        $page_id = 12; // user access page id = 12
 
         $has_permission = PageAccess::where('camp_id', $camp_id)
             ->where('user_id', $user->id)
@@ -72,7 +71,7 @@ class CustomerPolicy
     public function delete(User $user): bool
     {
         $camp_id = Session::get('active_camp_id');
-        $page_id = 3; // customer page id = 3
+        $page_id = 12; // user access page id = 12
 
         $has_permission = PageAccess::where('camp_id', $camp_id)
             ->where('user_id', $user->id)
@@ -85,7 +84,7 @@ class CustomerPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Customers $customers): bool
+    public function restore(User $user): bool
     {
         return false;
     }
@@ -93,7 +92,7 @@ class CustomerPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Customers $customers): bool
+    public function forceDelete(User $user): bool
     {
         return false;
     }

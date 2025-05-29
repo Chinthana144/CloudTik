@@ -15,7 +15,9 @@
 
             <div class="row">
                 <div class="col-md-6">
-                    <a href="/add-packages" class="btn btn-primary">Add Package</a>
+                    @can('create',  App\Models\Package::class)
+                        <a href="/add-packages" class="btn btn-primary">Add Package</a>
+                    @endcan
                 </div>
                 <div class="col-md-6">
                     <form action="{{ route('package.search') }}" method="get">
@@ -36,7 +38,9 @@
                     <th>Duration<br>(Days)</th>
                     <th>Price<br>(AED)</th>
                     <th>Status</th>
-                    <th>Action</th>
+                    @can('update',  App\Models\Package::class)
+                        <th>Action</th>
+                    @endcan
                 </tr>
                 @foreach ($packages as $package)
                     <tr>
@@ -51,13 +55,15 @@
                                 <p class="text-danger">Inactive</p>
                             @endif
                         </td>
-                        <td>
-                            <form action="{{ route('packages.edit') }}" method="post">
-                                @csrf
-                                <input type="hidden" name="hide_package_id" value="{{ $package->id }}">
-                                <button type="submit" class="btn btn-info btn-sm">Edit</button>
-                            </form>
-                        </td>
+                        @can('update', App\Models\Package::class)
+                            <td>
+                                <form action="{{ route('packages.edit') }}" method="post">
+                                    @csrf
+                                    <input type="hidden" name="hide_package_id" value="{{ $package->id }}">
+                                    <button type="submit" class="btn btn-info btn-sm">Edit</button>
+                                </form>
+                            </td>
+                        @endcan
                     </tr>
                 @endforeach
             </table>

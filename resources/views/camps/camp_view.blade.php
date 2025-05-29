@@ -5,7 +5,9 @@
         <div class="card-header">
             <h5>
                 Camps
-                <a href="/add-camp" class="btn btn-primary btn-sm float-end">Add Camp</a>
+                @can('create', App\Models\Camp::class)
+                    <a href="/add-camp" class="btn btn-primary btn-sm float-end">Add Camp</a>
+                @endcan
             </h5>
         </div>
         <div class="card-body">
@@ -16,7 +18,10 @@
                     <th>Host</th>
                     <th>Port</th>
                     <th>Status</th>
-                    <th>Action</th>
+                    @can('update', App\Models\Camp::class)
+                        <th>Action</th>
+                    @endcan
+
                 </tr>
                 @foreach ($camps as $camp)
                     <tr>
@@ -32,13 +37,16 @@
                             @endif
                         </td>
 
-                        <td>
-                            <form action="{{ route('camps.edit') }}" method="post">
-                                @csrf
-                                <input type="hidden" value="{{ $camp->id }}" name="hide_camp_id">
-                                <button type="submit" class="btn btn-info">Edit</button>
-                            </form>
-                        </td>
+                        @can('update', App\Models\Camp::class)
+                            <td>
+                                <form action="{{ route('camps.edit') }}" method="post">
+                                    @csrf
+                                    <input type="hidden" value="{{ $camp->id }}" name="hide_camp_id">
+                                    <button type="submit" class="btn btn-info">Edit</button>
+                                </form>
+                            </td>
+                        @endcan
+
                     </tr>
                 @endforeach
             </table>

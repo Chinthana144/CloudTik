@@ -127,11 +127,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/rpt_daily_sales', [ReportsController::class, 'showDailySalesReport']);
     Route::get('/rpt_daily_sales_search', [ReportsController::class, 'rptDailySalesSearch'])->name('rptDailySales.search');
 
-    //role page access
-    Route::get('/rolepages', [RolepageController::class, 'index'])->name('rolepages.index');
-    Route::post('/store-rolepages', [RolepageController::class, 'store'])->name('rolepages.store');
-    Route::get('/update-permission', [RolepageController::class, 'updatePermission']);
-
     //user page access
     Route::get('/useraccess', [UserAccessController::class, 'index'])->name('useraccess.index');
     Route::post('/store-useraccess', [UserAccessController::class, 'store'])->name('useraccess.store');

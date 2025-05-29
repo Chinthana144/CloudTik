@@ -18,8 +18,4 @@ class Roles extends Model
         return $this->hasMany(User::class, 'role_id');
     }
 
-    public function rolepages()
-    {
-        return $this->hasMany(RolePages::class, 'role_id');
-    }
 }

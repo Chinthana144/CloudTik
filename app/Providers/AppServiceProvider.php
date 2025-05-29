@@ -2,9 +2,18 @@
 
 namespace App\Providers;
 
+use App\Models\Camps;
+use App\Models\CampUsers;
 use App\Models\Customers;
+use App\Models\Packages;
+use App\Models\PageAccess;
 use App\Models\User;
+use App\Policies\CampPolicy;
+use App\Policies\CampUserPolicy;
 use App\Policies\CustomerPolicy;
+use App\Policies\PackagePolicy;
+use App\Policies\UserAccessPolicy;
+use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Gate;
@@ -13,8 +22,12 @@ class AppServiceProvider extends ServiceProvider
 {
     protected $policies = [
             // Define your policies here
-            // 'App\Models\Model' => 'App\Policies\ModelPolicy',
             Customers::class => CustomerPolicy::class,
+            Packages::class => PackagePolicy::class,
+            Camps::class => CampPolicy::class,
+            CampUsers::class => CampUserPolicy::class,
+            User::class => UserPolicy::class,
+            PageAccess::class => UserAccessPolicy::class,
         ];
     /**
      * Register any application services.
@@ -33,9 +46,5 @@ class AppServiceProvider extends ServiceProvider
 
         Paginator::useBootstrapFive();
 
-        //role page access
-        Gate::define('page_access', function (User $user, $page_id) {
-            return $user->hasPageAccess($page_id);
-        });
     }
 }

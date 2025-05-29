@@ -14,8 +14,8 @@ class Pages extends Model
         'pagename',
     ];
 
-    public function rolepages()
+    public function pageaccess(): HasMany
     {
-        return $this->hasMany(RolePages::class, 'page_id');
+        return $this->hasMany(PageAccess::class, 'page_id');
     }
 }

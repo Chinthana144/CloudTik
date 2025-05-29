@@ -5,7 +5,9 @@
         <div class="card-header">
             <h5>
                 Users
-                <button id="btn_open_register" class="btn btn-primary btn-sm float-end">Register</button>
+                @can('create', App\Models\User::class)
+                    <button id="btn_open_register" class="btn btn-primary btn-sm float-end">Register</button>
+                @endcan
             </h5>
         </div>
         <div class="card-body">
@@ -15,7 +17,9 @@
                     <th>Role</th>
                     <th>Name</th>
                     <th>Email</th>
-                    <th>Action</th>
+                    @can('update', App\Models\User::class)
+                        <th>Action</th>
+                    @endcan
                 </tr>
                 @foreach ($users as $user)
                     <tr data-id="{{ $user->id }}">
@@ -23,10 +27,12 @@
                         <td>{{ $user->role->name }}</td>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
-                        <td>
-                            <button class="btn btn-primary btn-sm btn_change_password">Change Password</button>
-                            <button class="btn btn-info btn-sm btn_open_edit">Edit</button>
-                        </td>
+                        @can('update', App\Models\User::class)
+                            <td>
+                                <button class="btn btn-primary btn-sm btn_change_password">Change Password</button>
+                                <button class="btn btn-info btn-sm btn_open_edit">Edit</button>
+                            </td>
+                        @endcan
                     </tr>
                 @endforeach
             </table>

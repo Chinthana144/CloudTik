@@ -37,7 +37,7 @@ INSERT INTO `camps` (`id`, `name`, `location`, `contactPerson`, `contactPhone`, 
 INSERT INTO `camp_users` (`id`, `camp_id`, `user_id`, `created_at`, `updated_at`) VALUES (NULL, '1', '1', NULL, NULL);
 
 -- add data to pages table
-INSERT INTO `pages` (`id`, `pagename`, `created_at`, `updated_at`) VALUES
+INSERT INTO `pages` (`id`, `pagename`,`created_at`, `updated_at`) VALUES
 (1, 'Home', NULL, NULL),
 (2, 'Invoice', NULL, NULL),
 (3, 'Customers', NULL, NULL),
@@ -45,4 +45,23 @@ INSERT INTO `pages` (`id`, `pagename`, `created_at`, `updated_at`) VALUES
 (5, 'Subscriptions', NULL, NULL),
 (6, 'Reports', NULL, NULL),
 (7, 'Controls', NULL, NULL),
-(8, 'Settings', NULL, NULL);
+(8, 'Settings', NULL, NULL),
+(9, 'Camps', NULL, NULL),
+(10, 'Camp Users', NULL, NULL),
+(11, 'Users', NULL, NULL),
+(12, 'User Access', NULL, NULL);
+
+-- add user access for admin user
+INSERT INTO page_accesses(id, user_id, page_id, camp_id, `create`, `view`, `edit`, `delete`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 1, 1,1,1,1,NULL, NULL),
+(2, 1, 2, 1, 1,1,1,1,NULL, NULL),
+(3, 1, 3, 1, 1,1,1,1,NULL, NULL),
+(4, 1, 4, 1, 1,1,1,1,NULL, NULL),
+(5, 1, 5, 1, 1,1,1,1,NULL, NULL),
+(6, 1, 6, 1, 1,1,1,1,NULL, NULL),
+(7, 1, 7, 1, 1,1,1,1,NULL, NULL),
+(8, 1, 8, 1, 1,1,1,1,NULL, NULL),
+(9, 1, 9, 1, 1,1,1,1,NULL, NULL),
+(10, 1, 10, 1, 1,1,1,1,NULL, NULL),
+(11, 1, 11, 1, 1,1,1,1,NULL, NULL),
+(12, 1, 12, 1, 1,1,1,1,NULL, NULL);

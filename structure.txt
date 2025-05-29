@@ -136,7 +136,7 @@ add customer to Mikrotik
 2 - running - success green
 3 - pending - warning yellow
 4 - cancled - secondary dray
-other - expired - danger red
+5 - other - expired - danger red
 
 //reports
 daily sales report
@@ -166,6 +166,7 @@ package wise sales report
 * user access --- 50%
 * receipt design --- 50%
 * invoice page customer history
+* customer delete option with status
 * customer login --- testing
 * Customer profile
 * customer reset mac address
@@ -173,3 +174,10 @@ package wise sales report
 * check the date and counter status when going to invoice
 * modal close buttons
 * create policies for pages done(customers, )
+
+
+//user access check list
+* customers policies
+* package policies
+* camp policy
+* users policy

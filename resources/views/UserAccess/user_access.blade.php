@@ -5,7 +5,9 @@
         <div class="card-header">
             <h5>
                 User Access
-                <button class="btn btn-primary float-end" id="btn_open_user_access">Add Access</button>
+                @can('create', App\Models\UserAccess::class)
+                    <button class="btn btn-primary float-end" id="btn_open_user_access">Add Access</button>
+                @endcan
             </h5>
         </div>
         <div class="card-body">
@@ -31,7 +33,12 @@
                     <th>View</th>
                     <th>Edit</th>
                     <th>Delete</th>
-                    <th>Actions</th>
+                    @can('update', App\Models\UserAccess::class)
+                        <th>Change</th>
+                    @endcan
+                    @can('delete', App\Models\UserAccess::class)
+                        <th>Delete</th>
+                    @endcan
                 </tr>
                 @foreach ($user_accesses as $access)
                     <tr data-id="{{ $access->id }}">
@@ -66,18 +73,23 @@
                                 <label class="form-check-label" for="delete_access_{{ $access->id }}">Delete</label>
                             </div>
                         </td>
-                        <td>
-                            <button type="button" class="btn btn-primary btn-sm btn_edit_access">Change</button>
-                        </td>
-                        <td>
-                            <form action="{{ route('useraccess.delete') }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <input type="hidden" name="hide_access_id" value="{{ $access->id }}">
-                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                            </form>
 
-                        </td>
+                        @can('update', App\Models\UserAccess::class)
+                            <td>
+                                <button type="button" class="btn btn-primary btn-sm btn_edit_access">Change</button>
+                            </td>
+                        @endcan
+
+                        @can('delete', App\Models\UserAccess::class)
+                            <td>
+                                <form action="{{ route('useraccess.delete') }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <input type="hidden" name="hide_access_id" value="{{ $access->id }}">
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                            </td>
+                        @endcan
                     </tr>
                 @endforeach
             </table>
