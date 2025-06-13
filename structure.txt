@@ -127,6 +127,10 @@ update subscription
 add customer to Mikrotik
 
 //Advancement
+* create a QR code to login user
+* Salesman Mobile application
+* Customer Package update request and confirm by Salesman
+* customer register by themself
  Replace the MikroTik login page with your own (custom captive portal)
  Do user session tracking or API-based accounting
  Build traffic reporting tools
@@ -168,12 +172,12 @@ package wise sales report
 * invoice page customer history
 * customer delete option with status
 * customer login --- testing
-* Customer profile
+* Customer profile synchronize
 * customer reset mac address
 * package, customer validate frontend
 * check the date and counter status when going to invoice
 * modal close buttons
-* create policies for pages done(customers, )
+* create customer login process
 
 
 //user access check list
@@ -181,3 +185,11 @@ package wise sales report
 * package policies
 * camp policy
 * users policy
+* camp users policy
+* user access policy
+
+//gates
+* home
+* invoice
+* control
+* settings

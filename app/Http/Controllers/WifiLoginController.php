@@ -85,4 +85,8 @@ class WifiLoginController extends Controller
     {
         //
     }
+
+    public function register(){
+        return view('Wifilogin.customer_register');
+    }
 }

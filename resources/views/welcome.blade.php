@@ -9,9 +9,9 @@
     <link rel="stylesheet" href="{{ asset('css/welcome.css') }}">
 </head>
 <body>
-    <div id="top_bar">
+    {{-- <div id="top_bar">
         <h1>CloudTik</h1>
-    </div>
+    </div> --}}
     <div id="background">
         <img src="{{ asset('images/welcome/nw_back_image01.jpg') }}" alt="no image" id="background_image">
     </div>
