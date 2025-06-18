@@ -179,6 +179,8 @@ package wise sales report
 * modal close buttons
 * create customer login process
 * payment methods (cash, card, Apple pay)
+* responsive for mobile phones
+* API with sanctum
 
 
 //user access check list

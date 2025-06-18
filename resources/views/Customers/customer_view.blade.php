@@ -32,43 +32,46 @@
                 </div>
             </div>
 
-            <table class="table">
-                <tr>
-                    <th>Type</th>
-                    <th>Full Name</th>
-                    <th>Phone</th>
-                    <th>Username</th>
-                    <th>Password</th>
-                    <th>Stat</th>
-                    @can('update', App\Models\Customer::class)
-                        <th>Action</th>
-                    @endcan
-
-                </tr>
-                @foreach ($customers as $customer)
+            <div class="table_responsive">
+                <table class="table">
                     <tr>
-                        <td>{{ $customer->customerType->customerType }}</td>
-                        <td>{{ $customer->fullname }}</td>
-                        <td>{{ $customer->phone }}</td>
-                        <td>{{ $customer->username }}</td>
-                        <td>{{ $customer->password }}</td>
-                        <td>
-                            <span class="badge {{ $customer->status == 1 ? 'bg-success' : 'bg-danger' }}">
-                                {{ $customer->status == 1 ? 'Active' : 'Inactive' }}
-                            </span>
-                        </td>
+                        <th>Type</th>
+                        <th>Full Name</th>
+                        <th>Phone</th>
+                        <th>Username</th>
+                        <th>Password</th>
+                        <th>Stat</th>
                         @can('update', App\Models\Customer::class)
-                        <td>
-                            <form action="{{ route('customer.edit') }}" method="post">
-                                @csrf
-                                <input type="hidden" name="hide_customer_id" value="{{ $customer->id }}">
-                                <button type="submit" class="btn btn-info btn-sm">Edit</button>
-                            </form>
-                        </td>
+                            <th>Action</th>
                         @endcan
+
                     </tr>
-                @endforeach
-            </table>
+                    @foreach ($customers as $customer)
+                        <tr>
+                            <td>{{ $customer->customerType->customerType }}</td>
+                            <td>{{ $customer->fullname }}</td>
+                            <td>{{ $customer->phone }}</td>
+                            <td>{{ $customer->username }}</td>
+                            <td>{{ $customer->password }}</td>
+                            <td>
+                                <span class="badge {{ $customer->status == 1 ? 'bg-success' : 'bg-danger' }}">
+                                    {{ $customer->status == 1 ? 'Active' : 'Inactive' }}
+                                </span>
+                            </td>
+                            @can('update', App\Models\Customer::class)
+                            <td>
+                                <form action="{{ route('customer.edit') }}" method="post">
+                                    @csrf
+                                    <input type="hidden" name="hide_customer_id" value="{{ $customer->id }}">
+                                    <button type="submit" class="btn btn-info btn-sm">Edit</button>
+                                </form>
+                            </td>
+                            @endcan
+                        </tr>
+                    @endforeach
+                </table>
+            </div>
+
             <div>
                 {{ $customers->links() }}
             </div>

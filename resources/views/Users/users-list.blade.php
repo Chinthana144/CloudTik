@@ -11,31 +11,34 @@
             </h5>
         </div>
         <div class="card-body">
-            <table class="table" id="tbl_users">
-                <tr>
-                    <th>ID</th>
-                    <th>Role</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    @can('update', App\Models\User::class)
-                        <th>Action</th>
-                    @endcan
-                </tr>
-                @foreach ($users as $user)
-                    <tr data-id="{{ $user->id }}">
-                        <td>{{ $user->id }}</td>
-                        <td>{{ $user->role->name }}</td>
-                        <td>{{ $user->name }}</td>
-                        <td>{{ $user->email }}</td>
+            <div class="table_responsive">
+                <table class="table" id="tbl_users">
+                    <tr>
+                        <th>ID</th>
+                        <th>Role</th>
+                        <th>Name</th>
+                        <th>Email</th>
                         @can('update', App\Models\User::class)
-                            <td>
-                                <button class="btn btn-primary btn-sm btn_change_password">Change Password</button>
-                                <button class="btn btn-info btn-sm btn_open_edit">Edit</button>
-                            </td>
+                            <th>Action</th>
                         @endcan
                     </tr>
-                @endforeach
-            </table>
+                    @foreach ($users as $user)
+                        <tr data-id="{{ $user->id }}">
+                            <td>{{ $user->id }}</td>
+                            <td>{{ $user->role->name }}</td>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->email }}</td>
+                            @can('update', App\Models\User::class)
+                                <td>
+                                    <button class="btn btn-primary btn-sm btn_change_password">Change Password</button>
+                                    <button class="btn btn-info btn-sm btn_open_edit">Edit</button>
+                                </td>
+                            @endcan
+                        </tr>
+                    @endforeach
+                </table>
+            </div>
+
         </div>
     </div>
 

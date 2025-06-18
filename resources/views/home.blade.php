@@ -25,6 +25,38 @@
         </div>
     </div>
 
+    {{-- mobile view --}}
+    <div id="div_mobile_top">
+        <div class="div_box" id="div_sale_box">
+            <h4>
+                <i class="bx bx-bar-chart fs-3"></i>
+                Daily Sales
+                {{ $daily_subs_total }} AED
+            </h4>
+        </div>
+        <div class="div_box" id="div_subs_box">
+            <h4>
+                <i class="bx bx-clipboard fs-3"></i>
+                Subscriptions
+                {{ $daily_subs_count }}
+            </h4>
+        </div>
+        <div class="div_box" id="div_month_sale_box">
+            <h4>
+                <i class="bx bx-book-bookmark fs-3"></i>
+                Monthly Sales
+                {{ $monthly_subs_sale }} AED
+            </h4>
+        </div>
+        <div class="div_box" id="div_users_box">
+            <h4>
+                <i class="bx bx-user fs-3"></i>
+                Users
+                {{ $running_users }}
+            </h4>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-md-7">
             <div id="bar_chart" class="p-2"></div>

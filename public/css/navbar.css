@@ -145,6 +145,66 @@ a.sidebar-link:hover {
     text-decoration: none;
 }
 
+/*
+mobile menu
+*/
+#div_mobile_menu {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #0e2238;
+    z-index: 9999;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn_menu_toggle{
+    background-color: inherit;
+    border: none;
+    color: #FFF;
+    font-size: 1.2rem;
+    padding: 5px;
+    cursor: pointer;
+}
+
+/*
+    @ media
+*/
+
+@media(max-width: 768px){
+    #sidebar{
+        display: none;
+    }
+    #div_mobile_menu{
+        display: block;
+        position: fixed;
+        background-color: #0e2238;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+    }
+
+    #mobile_menu_items{
+        max-height: 0;
+        left: 0;
+        width: 60%;
+        overflow: hidden;
+        background-color: #0e2238;
+        transition: max-height 0.3s ease-in-out;
+    }
+
+    #mobile_menu_items.show{
+        width: 60%;
+        max-height: 800px;
+    }
+
+    .table_responsive{
+        overflow-x: scroll;
+        -webkit-overflow-scrolling: touch; /* Smooth scroll on iOS */
+    }
+}
+
 /* footer */
 #footer {
     color: black;
