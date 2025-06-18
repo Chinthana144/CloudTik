@@ -139,7 +139,7 @@ add customer to Mikrotik
 1 - Active - primary blue
 2 - running - success green
 3 - pending - warning yellow
-4 - cancled - secondary dray
+4 - cancled - secondary grey
 5 - other - expired - danger red
 
 //reports
@@ -178,6 +178,7 @@ package wise sales report
 * check the date and counter status when going to invoice
 * modal close buttons
 * create customer login process
+* payment methods (cash, card, Apple pay)
 
 
 //user access check list

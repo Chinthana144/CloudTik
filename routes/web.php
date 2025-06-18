@@ -142,7 +142,7 @@ Route::middleware('auth')->group(function () {
 //Wifi log in controller
 Route::get('/userlogin', [WifiLoginController::class, 'index'])->name('wifilogin.index');
 Route::get('/userregister', [WifiLoginController::class, 'register'])->name('wifilogin.register');
-Route::post('/wifi-login', [WifiLoginController::class, 'store'])->name('wifi.login');
+Route::post('/register-store', [WifiLoginController::class, 'store'])->name('wifilogin.store');
 
 Route::get('login1', function(){
     return view('auth.login1');

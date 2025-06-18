@@ -35,6 +35,48 @@ class HotspotUsers
         }
     }
 
+    public function getAllhotspotUsers()
+    {
+        $query = new Query('/ip/hotspot/user/print');
+        $query->equal('.proplist', '.id,name,password,profile,comment');
+
+        try {
+            $response = $this->client->query($query)->read();
+            return $response;
+        } catch (\Exception $e) {
+            echo "Error fetching hotspot users: " . $e->getMessage();
+            return [];
+        }
+    }
+
+    public function getHotspotUserByUsername($username)
+    {
+        $query = new Query('/ip/hotspot/user/print');
+        $query->equal('name', $username);
+        $query->equal('.proplist', '.id,name,password,profile,comment');
+
+        try {
+            $response = $this->client->query($query)->read();
+            return $response;
+        } catch (\Exception $e) {
+            echo "Error fetching hotspot user: " . $e->getMessage();
+            return [];
+        }
+    }
+
+    public function deleteHotspotUser($username)
+    {
+        $query = new Query('/ip/hotspot/user/remove');
+        $query->equal('numbers', $username);
+
+        try {
+            $this->client->query($query)->read();
+            // echo "Hotspot user deleted successfully!";
+        } catch (\Exception $e) {
+            echo "Error deleting hotspot user: " . $e->getMessage();
+        }
+    }
+
     //check connection
     public function CheckConnection(): bool
     {

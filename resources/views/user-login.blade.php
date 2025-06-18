@@ -1,61 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <!-- Design by foolishdeveloper.com -->
-    <title>CloudTik User Login</title>
-
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="{{ asset('css/userlogin.css') }}">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta charset="UTF-8">
-    <title>CloudTik User Login</title>
+    <title>Login</title>
+
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
+
+    <link rel="stylesheet" href="{{ asset('css/userlogin.css') }}">
 </head>
-
-
 <body>
-    <div class="background">
-        <div class="shape"></div>
-        <div class="shape"></div>
+    <div class="container">
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
     </div>
+
     <div id="div_login_form">
-        <form action="{{ route('wifi.login') }}" method="post">
+
+        <form action="" method="post">
             @csrf
             <h3>Login Here</h3>
 
-            <input type="hidden" name="mac" value="{{ $mac }}">
-
-            <label for="username">Username</label>
-            <input type="text" name="customer_name" placeholder="Email or Phone" id="username">
-
-            <label for="password">Password</label>
-            <input type="password" name="customer_pwd" placeholder="Password" id="password">
-
-            <div id="div_login">
-                <div>
-                    <button type="button">QR Scan</button>
-                </div>
-                <div>
-                    <button type="submit">Log In</button>
-                </div>
+            <div class="form-group mb-3">
+                <label for="contact_no">Phone No</label>
+                <input type="text" name="contact_no" placeholder="Phone" id="contact_no" class="form-control" required>
             </div>
+
+            <div class="form-group mb-3">
+              <label for="customer_pwd">Password</label>
+                <input type="password" name="customer_pwd" placeholder="Password" id="customer_pwd" class="form-control" required>
+            </div>
+
+            <button type="submit" id="btn_login">Login</button>
 
             <div id="div_register">
                 <a href="/userregister" id="link_register">Register</a>
-                <a href="/" id="link_register">Home</a>
-            </div>
-
-            <div class="social">
-                {{-- <div class="go"><i class="fab fa-google"></i> Google</div> --}}
-                {{-- <div class="fb"><i class="fab fa-facebook"></i> Facebook</div> --}}
             </div>
         </form>
     </div>
-
 </body>
-
 </html>

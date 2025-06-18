@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Camps;
+use App\Models\Customers;
 use App\Models\Subscriptions;
 use App\Services\HotspotUsers;
 use Illuminate\Http\Request;
@@ -35,23 +36,35 @@ class WifiLoginController extends Controller
      */
     public function store(Request $request)
     {
+        $default_camp_id = 1; // Default camp ID, can be changed as needed
+        $customer_type_id = 1; //labor
         $customer_name = $request->input('customer_name');
+        $contact_no = $request->input('contact_no');
         $customer_pwd = $request->input('customer_pwd');
-        $mac = $request->input('mac');
+        $customer_email = "";
+        $username = $contact_no;
+        $status = 1; //active
 
-        //find customer
-        $subscription = Subscriptions::join('customers', 'subscriptions.customer_id', '=', 'customers.id')
-            ->select('customers.username', 'customers.password', 'subscriptions.status')
-            ->where('customers.username', $customer_name)
-            ->where('customers.password', $customer_pwd)
-            ->get();
+        $exists = Customers::where('username', $username)->exists();
 
-        dd([
-            'username' => $customer_name,
-            'password' => $customer_pwd,
-            'mac' => $mac,
-            'data' => $subscription,
-        ]);
+        if ($exists) {
+            return redirect()->route('wifilogin.register')
+                ->with('error', 'This phone number is already registered. Please use a different phone number.');
+        } else {
+            Customers::create([
+                'camp_id' =>  $default_camp_id,
+                'customerType_id' => $customer_type_id,
+                'fullname' => $customer_name,
+                'phone' => $contact_no,
+                'email' => $customer_email,
+                'username' => $username,
+                'password' => $customer_pwd,
+                'status' => $status,
+            ]);
+            session()->flash('success', 'Shop added successfully!');
+            return redirect()->route('wifilogin.index')
+                ->with('success', 'You have successfully registered. Please login to continue.');
+        }
     }
 
     /**
