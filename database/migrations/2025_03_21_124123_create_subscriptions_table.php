@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('counter_id');
             $table->integer('customer_id');
             $table->integer('package_id');
+            $table->integer('paymethod_id');
             $table->date('purchaseDate');
             $table->datetime('purchaseDateTime');
             $table->datetime('subscriptionStartTime')->nullable();

@@ -125,7 +125,7 @@ $(document).ready(function () {
             data: $(this).serialize(),
             // dataType: "dataType",
             success: function (response) {
-                // console.log(response);
+                console.log(response);
                 var has_success = response['success'];
                 // var message = response['message'];
 
@@ -135,11 +135,14 @@ $(document).ready(function () {
                 {
                     var subscription_id = response['subscription_id'];
 
-                    let printWindow = window.open('/receipt-print?subscription_id='+subscription_id, '_blank');
+                    alert("Subscription added successfully. continue to QR code");
 
-                    setTimeout(function(){
-                        window.location.href = '/invoice';
-                    }, 500);
+                    //print receipt
+                    // let printWindow = window.open('/receipt-print?subscription_id='+subscription_id, '_blank');
+
+                    // setTimeout(function(){
+                    //     window.location.href = '/invoice';
+                    // }, 500);
                 }
                 else
                 {

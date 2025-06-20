@@ -53,15 +53,13 @@
                             <td>{{ $subs->price }}</td>
                             <td>
                                 @if ($subs->status == 1)
-                                    <p class="text-primary border border-primary rounded text-center">Active</p>
+                                    <span class="badge bg-primary">ACTIVE</span>
                                 @elseif($subs->status == 2)
-                                    <p class="text-success border border-success rounded text-center">Running</p>
+                                    <span class="badge bg-success">RUNNING</span>
                                 @elseif($subs->status == 3)
-                                    <p class="text-warning border border-warning rounded text-center">Pending</p>
-                                @elseif($subs->status == 4)
-                                    <p class="text-secondary border border-secondary rounded text-center">Cancled</p>
+                                    <span class="badge bg-warning">EXPIRED</span>
                                 @else
-                                    <p class="text-danger border border-danger rounded text-center">Expired</p>
+                                    <span class="badge bg-danger">CANCLED</span>
                                 @endif
                             </td>
                             <td>{{ $subs->user->name }}</td>

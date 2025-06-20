@@ -40,7 +40,7 @@
                         <th>Phone</th>
                         <th>Username</th>
                         <th>Password</th>
-                        <th>Stat</th>
+                        <th>Expire Date</th>
                         @can('update', App\Models\Customer::class)
                             <th>Action</th>
                         @endcan
@@ -54,9 +54,7 @@
                             <td>{{ $customer->username }}</td>
                             <td>{{ $customer->password }}</td>
                             <td>
-                                <span class="badge {{ $customer->status == 1 ? 'bg-success' : 'bg-danger' }}">
-                                    {{ $customer->status == 1 ? 'Active' : 'Inactive' }}
-                                </span>
+                                {{ $customer->expiry_datetime != null ? $customer->expiry_datetime : 'N/A' }}
                             </td>
                             @can('update', App\Models\Customer::class)
                             <td>

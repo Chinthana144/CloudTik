@@ -47,132 +47,76 @@ class SubscriptionController extends Controller
         $camp_id = Session::get('active_camp_id');
         $camp_data = Camps::find($camp_id);
 
-        //creating hostspot user object
-        $host = $camp_data->mikritikIP;
-        $camp_user = $camp_data->mikrotikUsername;
-        $camp_password = $camp_data->mikrotikPassword;
-        $port = $camp_data->mikritikPort;
-
-        $hotspot_user = new HotspotUsers($host, $camp_user, $camp_password, $port);
-
         $counter_id = $request->input('hide_counter_id');
         $customer_id = $request->input('hide_customer_id');
         $package_id = $request->input('hide_package_id');
         $purchased_date = date('Y-m-d');
         $purchased_time = date('Y-m-d H:i:s');
 
+        //check customer expiry date
+        $customer = Customers::find($customer_id);
+        $expiry_datetime = $customer->expiry_datetime;
+
         //get price
         $package = Packages::find($package_id);
         $price = $package->price;
 
-        //check active packages
-        $active_sub_exists = Subscriptions::where("customer_id", $customer_id)
-            ->where('status', 1)
+        $stat_id = 1; //active status id
+
+        //check customer has subscription
+        $existing_subscription = Subscriptions::where('customer_id', $customer_id)
+            ->where('camp_id', $camp_id)
             ->exists();
 
-        $stat_id = $active_sub_exists ? 3 : 1;
+        if ($existing_subscription) {
+            $last_subscription = Subscriptions::where('customer_id', $customer_id)
+                ->where('camp_id', $camp_id)
+                ->orderBy('id', 'DESC')
+                ->first();
 
-        /*
-        * if(has_active_sub)
-        * {
-        *   create new pending sub
-        * }
-        * else
-        * {
-        *   check pending subs
-        *   if(has_peding_sub)
-        *   {
-        *       update pending sub to active
-        *       add sub to mikrotik
-        *   }
-        *   else
-        *   {
-        *       create new active sub
-        *       add sub to mikrotik
-        *   }
-        * }//no active sub
-        */
+            $last_status = $last_subscription->status;
+            switch ($last_status) {
+                case 1: //active
+                    $stat_id = 1; //set status to pending
+                case 2: //running
+                    $stat_id = 2; //set status to running
+                    //update customer expiry date
+                    $new_expiry_datetime = date('Y-m-d H:i:s', strtotime($expiry_datetime . ' + ' . $package->duration . ' days'));
+                    $customer->expiry_datetime = $new_expiry_datetime;
+                    $customer->save();
+                    break;
+                case 3: //expired
+                    $stat_id = 1; //set status to active
+                    break;
+                case 4: //cancled
+                    $stat_id = 1; //set status to active
+                    break;
+            }//switch
+        }//has subscription
 
-        // return response()->json([
-        //     'message' => 'host - ' . $host,
-        // ]);
+        //set paymethod id for cash
+        $paymethod_id = 1; //cash payment method id
 
-        if ($active_sub_exists) {
-            $subscription = Subscriptions::create([
-                'camp_id' => $camp_id,
-                'user_id' => $user_id,
-                'counter_id' => $counter_id,
-                'customer_id' => $customer_id,
-                'package_id' => $package_id,
-                'purchaseDate' => $purchased_date,
-                'purchaseDateTime' => $purchased_time,
-                'price' => $price,
-                'macAddress' => '0',
-                'status' => $stat_id,
-            ]);
+        $subscription = Subscriptions::create([
+            'camp_id' => $camp_id,
+            'user_id' => $user_id,
+            'counter_id' => $counter_id,
+            'customer_id' => $customer_id,
+            'package_id' => $package_id,
+            'paymethod_id' => $paymethod_id,
+            'purchaseDate' => $purchased_date,
+            'purchaseDateTime' => $purchased_time,
+            'price' => $price,
+            'macAddress' => '0',
+            'status' => $stat_id,
+        ]);
 
-            return response()->json([
-                'success' => true,
-                'subscription_id' => $subscription->id,
-                'message' => 'has active sub',
-            ]);
-        } //has active sub
-        else {
-            //check pending subs
-            $has_pending_subs = Subscriptions::where("customer_id", $customer_id)
-                ->where('status', 3)
-                ->exists();
-
-            if ($has_pending_subs) {
-                $pending_sub = Subscriptions::where("customer_id", $customer_id)
-                    ->where('status', 3)
-                    ->first();
-
-                //update pending sub to active
-                $pending_sub->status = 1;
-                $pending_sub->save();
-
-                //add sub to mikrotik
-                $new_customer = Customers::find($pending_sub->customer_id);
-                $new_package = Packages::find($pending_sub->package_id);
-
-                //add to mikrotik
-                $hotspot_user->addHotspotUser($new_customer->username, $new_customer->password, $new_package->name);
-
-                return response()->json([
-                    'success' => true,
-                    'subscription_id' => $pending_sub->id,
-                    'message' => 'no active, has pending subs',
-                ]);
-            } //has pending subs
-            else {
-                $subscription = Subscriptions::create([
-                    'camp_id' => $camp_id,
-                    'user_id' => $user_id,
-                    'counter_id' => $counter_id,
-                    'customer_id' => $customer_id,
-                    'package_id' => $package_id,
-                    'purchaseDateTime' => $purchased_time,
-                    'price' => $price,
-                    'macAddress' => '0',
-                    'status' => $stat_id,
-                ]);
-
-                //add sub to mikrotik
-                $new_customer = Customers::find($customer_id);
-                $new_package = Packages::find($package_id);
-
-                //add to mikrotik
-                $hotspot_user->addHotspotUser($new_customer->username, $new_customer->password, $new_package->name);
-
-                return response()->json([
-                    'success' => true,
-                    'subscription_id' => $subscription->id,
-                    'message' => 'no pending, no active',
-                ]);
-            } //no pending subs
-        } //no active sub
-    }
+        return response()->json([
+            'success' => true,
+            'subscription_id' => $subscription->id,
+            'message' => 'subscription added successfully',
+        ]);
+    }//store
 
     /**
      * Display the specified resource.

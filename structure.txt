@@ -138,9 +138,8 @@ add customer to Mikrotik
 //subscription session control code
 1 - Active - primary blue
 2 - running - success green
-3 - pending - warning yellow
-4 - cancled - secondary grey
-5 - other - expired - danger red
+3 - expired - warning yellow
+4 - cancled - danger red
 
 //reports
 daily sales report
@@ -159,30 +158,6 @@ package wise sales report
 
 //page access - user access
 
-
-//todo list
-* subscription page sort by descending order ---- done
-* home page graphs --- done
-* Reports
-* welcome page --- 50%
-* user login page --- 80%
-* user logout button --- done
-* user access --- 50%
-* receipt design --- 50%
-* invoice page customer history
-* customer delete option with status
-* customer login --- testing
-* Customer profile synchronize
-* customer reset mac address
-* package, customer validate frontend
-* check the date and counter status when going to invoice
-* modal close buttons
-* create customer login process
-* payment methods (cash, card, Apple pay)
-* responsive for mobile phones
-* API with sanctum
-
-
 //user access check list
 * customers policies
 * package policies
@@ -196,3 +171,31 @@ package wise sales report
 * invoice
 * control
 * settings
+
+//todo list
+* subscription page sort by descending order ---- done
+* home page graphs -------------------------------------------- done
+* Reports
+* welcome page ------------------------------------------------ 50%
+* user login page --------------------------------------------- 80%
+* user logout button ------------------------------------------ done
+* user access ------------------------------------------------- 50%
+* receipt design ---------------------------------------------- 50%
+* invoice page customer history
+* customer delete option with status
+* customer login ---------------------------------------------- testing pending
+* Customer profile synchronize
+* customer reset mac address
+* package, customer validate frontend
+* check the date and counter status when going to invoice
+* modal close buttons
+* create customer login process
+* payment methods (cash, card, Apple pay)
+* responsive for mobile phones -------------------------------- done
+* API with sanctum
+* customer login_datetime, expiry_datetime
+* payment method added to subscription table
+* packages only for web not for Mikrotik
+* subscription adds user to MikroTik (check package)
+
+

@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('username');
             $table->string('password');
             $table->tinyInteger('status');
+            $table->dateTime('login_datetime')->nullable();
+            $table->dateTime('expiry_datetime')->nullable();
             $table->timestamps();
         });
     }

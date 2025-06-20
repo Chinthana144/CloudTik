@@ -24,6 +24,15 @@ INSERT INTO `roles` (`id`, `name`, `created_at`, `updated_at`) VALUES
 (9, 'Salesman', NULL, NULL),
 (10, 'Intern', NULL, NULL);
 
+-- add payment methods
+INSERT INTO `paymethods` (`id`, `paymethod_name`, `created_at`, `updated_at`) VALUES
+(1, 'Cash', NULL, NULL),
+(2, 'Card', NULL, NULL),
+(3, 'Bank Transfer', NULL, NULL),
+(4, 'Apple Pay', NULL, NULL),
+(5, 'Google Pay', NULL, NULL),
+(6, 'Manual Entry', NULL, NULL);
+
 
 -- add first user as admin
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `role_id`, `remember_token`, `created_at`, `updated_at`) VALUES

@@ -63,56 +63,31 @@ class PackageController extends Controller
     public function store(Request $request)
     {
         $active_camp_id = Session::get('active_camp_id');
-        $camp_data = Camps::find($active_camp_id);
-        $host = $camp_data->mikritikIP;
-        $camp_user = $camp_data->mikrotikUsername;
-        $camp_password = $camp_data->mikrotikPassword;
-        $port = $camp_data->mikritikPort;
+        $validated = $request->validate([
+            'cmb_customer_type' => 'required|integer',
+            'name' => 'required|max:40',
+            'duration' => 'required|integer',
+            'price' => 'required|numeric',
+            'bandwidth' => 'required|max:6',
+            'downloadlimit' => 'required|max:6',
+            'uploadlimit' => 'required|max:6',
+        ]);
 
-        $user_profile = new UserProfiles($host, $camp_user, $camp_password, $port);
+        $stat = $request->has('chk_package_stat') ? 1 : 0;
 
-        if ($user_profile->CheckConnection()) {
-            $validated = $request->validate([
-                'cmb_customer_type' => 'required|integer',
-                'name' => 'required|max:40',
-                'duration' => 'required|integer',
-                'price' => 'required|numeric',
-                'bandwidth' => 'required|max:6',
-                'downloadlimit' => 'required|max:6',
-                'uploadlimit' => 'required|max:6',
-            ]);
+        Packages::create([
+            'camp_id' => $active_camp_id,
+            'customerType_id' => $validated['cmb_customer_type'],
+            'name' => $validated['name'],
+            'duration' => $validated['duration'],
+            'price' => $validated['price'],
+            'bandwidth' => $validated['bandwidth'],
+            'downloadlimit' => $validated['downloadlimit'],
+            'uploadlimit' => $validated['uploadlimit'],
+            'status' => $stat,
+        ]);
 
-            $stat = $request->has('chk_package_stat') ? 1 : 0;
-
-            Packages::create([
-                'camp_id' => $active_camp_id,
-                'customerType_id' => $validated['cmb_customer_type'],
-                'name' => $validated['name'],
-                'duration' => $validated['duration'],
-                'price' => $validated['price'],
-                'bandwidth' => $validated['bandwidth'],
-                'downloadlimit' => $validated['downloadlimit'],
-                'uploadlimit' => $validated['uploadlimit'],
-                'status' => $stat,
-            ]);
-
-            //creating user profiles in mikrotik
-            $camp_data = Camps::find($active_camp_id);
-            $host = $camp_data->mikritikIP;
-            $camp_user = $camp_data->mikrotikUsername;
-            $camp_password = $camp_data->mikrotikPassword;
-            $port = $camp_data->mikritikPort;
-
-            $user_profile = new UserProfiles($host, $camp_user, $camp_password, $port);
-
-            $user_profile->createPackage($validated['name'], $validated['downloadlimit'], $validated['uploadlimit'], $validated['duration']);
-
-            return redirect()->route('packages.create');
-        } //connection OK
-        else {
-            return redirect()->back()
-                ->with('error', 'Unable to connect to the Network Host, Please check connection.');
-        } //host connection failed
+        return redirect()->route('packages.create');
     }
 
     /**
@@ -142,40 +117,24 @@ class PackageController extends Controller
     public function update(Request $request)
     {
         $active_camp_id = Session::get('active_camp_id');
-        $camp_data = Camps::find($active_camp_id);
-        $host = $camp_data->mikritikIP;
-        $camp_user = $camp_data->mikrotikUsername;
-        $camp_password = $camp_data->mikrotikPassword;
-        $port = $camp_data->mikritikPort;
 
-        $user_profile = new UserProfiles($host, $camp_user, $camp_password, $port);
+        $package_id = $request->input('hide_package_id');
 
-        if ($user_profile->CheckConnection()) {
-            $package_id = $request->input('hide_package_id');
+        $package = Packages::find($package_id);
+        $old_name = $package->name;
 
-            $package = Packages::find($package_id);
-            $old_name = $package->name;
+        $package->customerType_id = $request->input('cmb_customer_type');
+        $package->name = $request->input('name');
+        $package->duration = $request->input('duration');
+        $package->price = $request->input('price');
+        $package->bandwidth = $request->input('bandwidth');
+        $package->downloadlimit = $request->input('downloadlimit');
+        $package->uploadlimit = $request->input('uploadlimit');
+        $package->status = $request->has('chk_package_stat') ? 1 : 0;
 
-            $package->customerType_id = $request->input('cmb_customer_type');
-            $package->name = $request->input('name');
-            $package->duration = $request->input('duration');
-            $package->price = $request->input('price');
-            $package->bandwidth = $request->input('bandwidth');
-            $package->downloadlimit = $request->input('downloadlimit');
-            $package->uploadlimit = $request->input('uploadlimit');
-            $package->status = $request->has('chk_package_stat') ? 1 : 0;
+        $package->save();
 
-            $package->save();
-
-            //update is mikrotik
-            $user_profile->updatePackage($old_name, $request->input('name'), $request->input('downloadlimit'), $request->input('uploadlimit'), $request->input('duration'));
-
-            return redirect()->route('packages.index');
-        } //ok
-        else {
-            return redirect()->back()
-                ->with('error', 'Unable to connect to the Network Host, Please check connection.');
-        }
+        return redirect()->route('packages.index');
     }
 
     /**
