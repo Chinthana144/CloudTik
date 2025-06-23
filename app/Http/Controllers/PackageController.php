@@ -148,8 +148,8 @@ class PackageController extends Controller
     //ajax methods
     public function getCustomerPackages(Request $request)
     {
-        $camp_id = Session::get('active_camp_id');
-        $customer_id = $request->input('id');
+        $camp_id = $request->input('camp_id');
+        $customer_id = $request->input('customer_id');
         $customer = Customers::find($customer_id);
         $customer_type_id = $customer->customerType_id;
 
@@ -160,6 +160,8 @@ class PackageController extends Controller
 
         return response()->json($packages);
     }
+
+
 
     public function getOnePackage(Request $request)
     {

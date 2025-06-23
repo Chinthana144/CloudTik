@@ -88,6 +88,44 @@ class CustomerController extends Controller
         }
     }
 
+    public function customerRegister(Request $request)
+    {
+        $default_camp_id = 1; // Default camp ID, can be changed as needed
+        $customer_type_id = 1; //labor
+        $customer_name = $request->input('customer_name');
+        $contact_no = $request->input('contact_no');
+        $customer_pwd = $request->input('customer_pwd');
+        $customer_email = "";
+        $username = $contact_no;
+        $status = 1; //active
+
+        $exists = Customers::where('username', $username)->exists();
+
+        if ($exists) {
+            return response()->json([
+                'success' => false,
+                'message' => 'This phone number is already registered. Please use a different phone number.',
+            ]);
+        } else {
+            Customers::create([
+                'camp_id' =>  $default_camp_id,
+                'customerType_id' => $customer_type_id,
+                'fullname' => $customer_name,
+                'phone' => $contact_no,
+                'email' => $customer_email,
+                'username' => $username,
+                'password' => bcrypt($customer_pwd), // Hash the password
+                'status' => $status,
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Customer registered successfully!',
+            ]);
+
+        }
+    }
+
     /**
      * Display the specified resource.
      */
@@ -139,6 +177,24 @@ class CustomerController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    //api search customer
+    public function searchCustomers(Request $request)
+    {
+        $camp_id = $request->input('camp_id') == null ? 1 : $request->input('camp_id');
+        $search = $request->input('search');
+
+        $customers = Customers::where('camp_id', $camp_id)
+            ->where(function ($query) use ($search) {
+                $query->where('fullname', 'LIKE', "%$search%")
+                    ->orWhere('phone', 'LIKE', "%$search%")
+                    ->orWhere('email', 'LIKE', "%$search%")
+                    ->orWhere('username', 'LIKE', "%$search%");
+            })
+            ->get();
+
+        return response()->json($customers);
     }
 
     //ajax methods

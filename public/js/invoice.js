@@ -30,6 +30,7 @@ $(document).ready(function () {
 
     $("#cmb_customer").change(function () {
         var customer_id = $(this).val();
+        var camp_id = $("#hide_camp_id").val();
 
         $.ajax({
             type: "get",
@@ -59,7 +60,8 @@ $(document).ready(function () {
             type: "get",
             url: "/getCustomerPackages",
             data: {
-                id: customer_id,
+                customer_id: customer_id,
+                camp_id: camp_id,
             },
             success: function (response) {
                 $.each(response, function (key, value) {

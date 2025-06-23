@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CampUsers;
 use App\Models\Roles;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -26,6 +27,43 @@ class UserController extends Controller
     public function create()
     {
         //
+    }
+
+    /*
+    * login for API authentication
+    */
+    public function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return response()->json(['message' => 'Invalid credentials'], 401);
+        }
+
+        $user_camps = CampUsers::where('user_id', $user->id)->get();
+
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return response()->json([
+            'message' => 'Login successful',
+            'token' => $token,
+            'user' => $user,
+            'user_camps' => $user_camps,
+        ]);
+    }
+
+    //logout
+    public function logout(Request $request)
+    {
+        $user = $request->user();
+        $user->currentAccessToken()->delete();
+
+        return response()->json(['message' => 'Logged out successfully']);
     }
 
     /**

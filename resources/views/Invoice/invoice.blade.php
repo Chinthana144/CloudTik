@@ -54,6 +54,8 @@
         </div>
         <div class="card-body">
             <div class="col-md-6">
+                <input type="hidden" name="hide_camp_id" id="hide_camp_id" value="{{ $camp->id }}">
+
                 <label for="">Select Customer</label>
                 <select name="cmb_customer" id="cmb_customer" class="form-control" style="width: 100%;">
                 </select>
