@@ -3,9 +3,6 @@ $(document).ready(function () {
     $("#btn_customer_history").css('display', 'none');
     $("#btn_add_subscription").attr('disabled', 'true');
 
-    //get counter total
-    getCounterTotal();
-
     $("#cmb_customer").select2({
         placeholder: 'Search Customers',
         ajax:{
@@ -117,8 +114,6 @@ $(document).ready(function () {
         var customer_id = $("#hide_customer_id").val();
         var package_id = $("#hide_package_id").val();
 
-        var counter_id = $("#hide_counter_id").val();
-
         $.ajax({
             type: "post",
             url: "/store-subscription",
@@ -150,10 +145,6 @@ $(document).ready(function () {
                 }
             }
         });
-    });
-
-    $("#btn_counter").click(function(){
-        $("#counter_modal").modal('toggle');
     });
 
 //=============================== Customer ===========================//
@@ -290,23 +281,5 @@ $("#txt_add_username").change(function(){
 });
 
 //================================= Functions ==================================//
-    function getCounterTotal()
-    {
-        var counter_id = $("#hide_counter_id").val();
-        $.ajax({
-            type: "get",
-            url: "/getCounterTotal",
-            data: {
-                counter_id: counter_id
-            },
-            // dataType: "dataType",
-            success: function (response) {
-                // alert(response);
-                // console.log(response);
-                var counter_data = "Counter Total: <b>"+response['total']+"</b><br>Invoice Count: <b>"+response['invoice_count']+"</b>";
-                $("#p_counter_close_data").html(counter_data);
-            }
-        });
-    }//get counter total
 
 });//invoice jQuery

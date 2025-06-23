@@ -17,6 +17,7 @@ class Customers extends Model
         'email',
         'username',
         'password',
+        'mac_address',
         'status',
     ];
 
@@ -35,5 +36,5 @@ class Customers extends Model
     {
         return $this->hasMany(Subscriptions::class, 'customer_id');
     }
-    
+
 }

@@ -94,12 +94,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/getOnePackage', [PackageController::class, 'getOnePackage']);
     Route::get('/package-search', [PackageController::class, 'packageSearch'])->name('package.search');
 
-    //counters
-    Route::get('/counter', [CounterController::class, 'index'])->name('counter.index');
-    Route::post('/add-counter', [CounterController::class, 'store'])->name('counter.store');
-    Route::put('/close-counter', [CounterController::class, 'closeCounter'])->name('counter.close');
-    Route::get('/counterReceipt', [CounterController::class, 'counterReceipt'])->name('counter.receipt');
-
     //invoice
     Route::get('/invoice', [SubscriptionController::class, 'index'])->name('invoice.index');
     Route::post('/store-subscription', [SubscriptionController::class, 'store'])->name('subscription.store');

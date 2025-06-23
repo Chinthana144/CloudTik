@@ -12,7 +12,6 @@ class Subscriptions extends Model
     protected $fillable = [
         'camp_id',
         'user_id',
-        'counter_id',
         'customer_id',
         'package_id',
         'paymethod_id',
@@ -33,11 +32,6 @@ class Subscriptions extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
-    }
-
-    public function counter()
-    {
-        return $this->belongsTo(Counter::class, 'counter_id');
     }
 
     public function customer()

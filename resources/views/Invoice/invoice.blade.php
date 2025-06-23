@@ -35,13 +35,10 @@
             <button class="btn_navbar" id="btn_print">
                 <img src="{{ asset('images/invoice/print_nav.png') }}" alt="" class="img_navbar">
             </button>
-            <button class="btn_navbar" id="btn_counter">
-                <img src="{{ asset('images/invoice/counter_nav.png') }}" alt="" class="img_navbar">
-            </button>
         </div>
 
         <div>
-            <h5 id="invoice_title">{{ $counter->camp->name }}</h5>
+            <h5 id="invoice_title">{{ $camp->name }}</h5>
         </div>
 
         <div id="div_log">
@@ -83,8 +80,6 @@
                         <input type="hidden" name="hide_customer_id" id="hide_customer_id" value="0">
                         <input type="hidden" name="hide_package_id" id="hide_package_id" value="0">
 
-                        <input type="hidden" name="hide_counter_id" id="hide_counter_id" value="{{ $counter->id }}">
-
                         <button type="submit" id="btn_add_subscription" class="btn btn-primary">Submit</button>
 
                     </form>
@@ -96,7 +91,6 @@
         </div>
     </div>
 
-    @include('Invoice.counter_modal')
     @include('Invoice.customer_modal')
     @include('Invoice.history_modal')
 

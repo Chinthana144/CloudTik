@@ -39,11 +39,6 @@ class Camps extends Model
         return $this->hasMany(Packages::class, 'camp_id');
     }
 
-    public function counter()
-    {
-        return $this->hasMany(Counter::class, 'camp_id');
-    }
-
     public function subscription()
     {
         return $this->hasMany(Subscriptions::class, 'camp_id');

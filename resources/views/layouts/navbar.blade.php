@@ -22,7 +22,7 @@
 
             @can('access-invoice')
                 <li class="sidebar-item">
-                    <a href="/counter" class="sidebar-link">
+                    <a href="/invoice" class="sidebar-link">
                         <i class="bx bx-receipt fs-3"></i>
                         <span>Invoice</span>
                     </a>
@@ -191,7 +191,7 @@
 
                     @can('access-invoice')
                         <li class="sidebar-item">
-                            <a href="/counter" class="sidebar-link">
+                            <a href="/invoice" class="sidebar-link">
                                 <i class="bx bx-receipt fs-3"></i>
                                 <span>Invoice</span>
                             </a>

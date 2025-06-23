@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Camps;
-use App\Models\Counter;
 use App\Models\Customers;
 use App\Models\Packages;
 use App\Models\Subscriptions;
@@ -20,14 +19,9 @@ class SubscriptionController extends Controller
     {
         $user_id = auth()->user()->id;
         $camp_id = Session::get('active_camp_id');
+        $camp = Camps::find($camp_id);
 
-        $counter = Counter::where('camp_id', $camp_id)
-            ->where('user_id', $user_id)
-            ->where('status', 1)
-            ->get()
-            ->first();
-
-        return view('Invoice.invoice', compact('counter'));
+        return view('Invoice.invoice', compact('camp'));
     }
 
     /**
@@ -47,7 +41,6 @@ class SubscriptionController extends Controller
         $camp_id = Session::get('active_camp_id');
         $camp_data = Camps::find($camp_id);
 
-        $counter_id = $request->input('hide_counter_id');
         $customer_id = $request->input('hide_customer_id');
         $package_id = $request->input('hide_package_id');
         $purchased_date = date('Y-m-d');
@@ -100,7 +93,6 @@ class SubscriptionController extends Controller
         $subscription = Subscriptions::create([
             'camp_id' => $camp_id,
             'user_id' => $user_id,
-            'counter_id' => $counter_id,
             'customer_id' => $customer_id,
             'package_id' => $package_id,
             'paymethod_id' => $paymethod_id,

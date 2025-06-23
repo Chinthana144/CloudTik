@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('username');
             $table->string('password');
+            $table->string('mac_address')->nullable();
             $table->tinyInteger('status');
             $table->dateTime('login_datetime')->nullable();
             $table->dateTime('expiry_datetime')->nullable();
