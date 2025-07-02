@@ -39,6 +39,17 @@ class CustomerController extends Controller
         return view('Customers.customer_view', compact('customers', 'search', 'camp'));
     } //search customers
 
+    //get customers for api
+    public function getCustomersByCamp(Request $request)
+    {
+        $camp_id = $request->input('camp_id');
+        $customers = Customers::where('camp_id', $camp_id)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        return response()->json($customers);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -90,7 +101,7 @@ class CustomerController extends Controller
 
     public function customerRegister(Request $request)
     {
-        $default_camp_id = 1; // Default camp ID, can be changed as needed
+        $default_camp_id = $request->input('camp_id') == null ? 1 : $request->input('camp_id');//default camp id
         $customer_type_id = 1; //labor
         $customer_name = $request->input('customer_name');
         $contact_no = $request->input('contact_no');
@@ -104,7 +115,7 @@ class CustomerController extends Controller
         if ($exists) {
             return response()->json([
                 'success' => false,
-                'message' => 'This phone number is already registered. Please use a different phone number.',
+                'message' => 'This contact number is already registered. Please use a different phone number.',
             ]);
         } else {
             Customers::create([
@@ -114,7 +125,7 @@ class CustomerController extends Controller
                 'phone' => $contact_no,
                 'email' => $customer_email,
                 'username' => $username,
-                'password' => bcrypt($customer_pwd), // Hash the password
+                'password' => $customer_pwd, // Hash the password
                 'status' => $status,
             ]);
 

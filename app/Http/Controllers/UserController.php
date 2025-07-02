@@ -47,13 +47,25 @@ class UserController extends Controller
 
         $user_camps = CampUsers::where('user_id', $user->id)->get();
 
+        $camps = [];
+
+        foreach ($user_camps as $camp_user) {
+            $camps[] = [
+                'camp_id' => $camp_user->camp_id,
+                'camp_name' => $camp_user->camps->name,
+                'camp_location' => $camp_user->camps->location,
+                'user_id' => $camp_user->user_id,
+                'user_name' => $camp_user->users->name,
+            ];
+        }
+
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
             'message' => 'Login successful',
             'token' => $token,
             'user' => $user,
-            'user_camps' => $user_camps,
+            'user_camps' => $camps,
         ]);
     }
 

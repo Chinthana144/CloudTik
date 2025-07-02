@@ -26,6 +26,7 @@ Route::middleware('auth:sanctum')->group(function () {
     //customer routes
     Route::post('/register_customer', [CustomerController::class, 'customerRegister'])->name('api.register.customer');
     Route::get('/search_customer', [CustomerController::class, 'searchCustomers'])->name('api.search.customer');
+    Route::get('/getCustomersByCamp', [CustomerController::class, 'getCustomersByCamp'])->name('api.getCustomersByCamp');
 
     //packages
     Route::get('/getCustomerPackages', [PackageController::class, 'getCustomerPackages'])->name('api.customerPackages');
