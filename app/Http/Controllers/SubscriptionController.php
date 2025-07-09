@@ -110,6 +110,48 @@ class SubscriptionController extends Controller
         ]);
     }//store
 
+    //add subscription from API
+    public function addSubscriptionFromAPI(Request $request)
+    {
+        $user_id = $request->input('user_id');
+        $camp_id = $request->input('camp_id');
+
+        $customer_id = $request->input('customer_id');
+        $package_id = $request->input('package_id');
+        $purchased_date = date('Y-m-d');
+        $purchased_time = date('Y-m-d H:i:s');
+
+        //get price
+        $package = Packages::find($package_id);
+        $price = $package->price;
+
+        //set status id to active
+        $stat_id = 1;
+
+        //set paymethod id for cash
+        $paymethod_id = 1; //cash payment method id
+
+        //create subscription
+        $subscription = Subscriptions::create([
+            'camp_id' => $camp_id,
+            'user_id' => $user_id,
+            'customer_id' => $customer_id,
+            'package_id' => $package_id,
+            'paymethod_id' => $paymethod_id,
+            'purchaseDate' => $purchased_date,
+            'purchaseDateTime' => $purchased_time,
+            'price' => $price,
+            'macAddress' => '0',
+            'status' => $stat_id,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'subscription_id' => $subscription->id,
+            'message' => 'Subscription added successfully',
+        ]);
+    }
+
     /**
      * Display the specified resource.
      */

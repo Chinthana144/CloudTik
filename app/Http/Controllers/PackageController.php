@@ -161,8 +161,6 @@ class PackageController extends Controller
         return response()->json($packages);
     }
 
-
-
     public function getOnePackage(Request $request)
     {
         $package_id = $request->input('package_id');

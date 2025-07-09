@@ -182,6 +182,34 @@ class CustomerController extends Controller
         return redirect()->route('customer.index');
     }
 
+    //update customer API
+    public function updateCustomer(Request $request)
+    {
+        $customer_id = $request->input('customer_id');
+        $customer = Customers::find($customer_id);
+
+        if ($customer) {
+            $customer->fullname = $request->input('fullname');
+            $customer->phone = $request->input('phone');
+            $customer->email = $request->input('email') ?? '';
+            $customer->username = $request->input('username') ?? $request->input('phone');
+            $customer->password = $request->input('password');
+            // $customer->status = $request->has('chk_customer_stat') ? 1 : 0;
+
+            $customer->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Customer updated successfully',
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Customer not found',
+            ]);
+        }
+    }
+
     /**
      * Remove the specified resource from storage.
      */
@@ -191,22 +219,57 @@ class CustomerController extends Controller
     }
 
     //api search customer
+    public function customersWithPackages(Request $request)
+    {
+        $camp_id = $request->input('camp_id');
+        $search = $request->input('search');
+        $customer_packages = [];
+
+        $customers = Customers::where('camp_id', $camp_id)
+            ->where(function ($query) use ($search) {
+                $query->where('username', 'LIKE', "%{$search}%")
+                    ->orwhere('fullname', 'LIKE',  "%{$search}%")
+                    ->orwhere('phone', 'LIKE',  "%{$search}%");
+            })
+            ->limit(20)
+            ->get();
+
+        foreach ($customers as $customer) {
+            $customer_type_id = $customer->customerType_id;
+
+            $packages = Packages::where('camp_id', $camp_id)
+                ->where('customerType_id', $customer_type_id)
+                ->where('status', 1)
+                ->get();
+
+            $customer_packages[] = [
+                'customer' => $customer,
+                'packages' => $packages,
+            ];
+        }
+
+        return response()->json($customer_packages);
+
+    }//search customers
+
+    //get search customers
     public function searchCustomers(Request $request)
     {
-        $camp_id = $request->input('camp_id') == null ? 1 : $request->input('camp_id');
+        $camp_id = $request->input('camp_id');
         $search = $request->input('search');
 
         $customers = Customers::where('camp_id', $camp_id)
             ->where(function ($query) use ($search) {
-                $query->where('fullname', 'LIKE', "%$search%")
-                    ->orWhere('phone', 'LIKE', "%$search%")
-                    ->orWhere('email', 'LIKE', "%$search%")
-                    ->orWhere('username', 'LIKE', "%$search%");
+                $query->where('username', 'LIKE', "%{$search}%")
+                    ->orwhere('fullname', 'LIKE',  "%{$search}%")
+                    ->orwhere('phone', 'LIKE',  "%{$search}%");
             })
+            ->limit(20)
             ->get();
 
         return response()->json($customers);
-    }
+
+    }//search customers
 
     //ajax methods
     public function getCustomers(Request $request)
