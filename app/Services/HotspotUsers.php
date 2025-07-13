@@ -77,20 +77,33 @@ class HotspotUsers
         }
     }
 
+    //bind mac address to hotspot user
+    public function bindMacAddressToUser($username, $mac)
+    {
+        $bindQuery = (new Query('/ip/hotspot/ip-binding/print'))->where('mac-address', $mac);
+        $bound = $this->client->query($bindQuery)->read();
+
+        if (empty($bound)) {
+            $bindAdd = new Query('/ip/hotspot/ip-binding/add');
+            $bindAdd->equal('mac-address', $mac)
+                    ->equal('type', 'bypassed')
+                    ->equal('comment', "CloudTik bound for $username");
+
+            $this->client->query($bindAdd)->read();
+        }
+    }
+
     //check connection
     public function CheckConnection(): bool
     {
-        $pastha = false;
         try {
             $query = new \RouterOS\Query('/system/identity/print');
             $this->client->query($query)->read();
-            $pastha = true;
+            return true;
         } catch (\Exception $e) {
             // Log the error or handle it as needed
             //Log::error('MikroTik connection failed: ' . $e->getMessage());
-            $pastha = false;
+            return false;
         }
-
-        return $pastha;
     }
 }//hotspot users class

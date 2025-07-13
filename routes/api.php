@@ -36,6 +36,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //subscriptions
     Route::post('/addSubscriptionFromAPI', [SubscriptionController::class, 'addSubscriptionFromAPI'])->name('api.addSubscriptionFromAPI');
+    Route::get('/getSubscriptionByUserDate', [SubscriptionController::class, 'getSubscriptionByUserDate'])->name('api.getSubscriptionByUserDate');
+    Route::get('/searchSubscriptionsByUser', [SubscriptionController::class, 'searchSubscriptionsByUser'])->name('api.searchSubscriptionsByUser');
+    Route::get('/getDonutChartData', [SubscriptionController::class, 'getDonutChartData'])->name('api.getDonutChartData');
 
     // Add your authenticated routes here
     Route::post('/logout', [UserController::class, 'logout'])->name('api.logout');
@@ -43,3 +46,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
 // API route for user login
 Route::post('/login', [UserController::class, 'login'])->name('api.login');
+
+// API route for WiFi login
+Route::post('/wifi_login', [WifiLoginController::class, 'login'])->name('api.wifi_login');

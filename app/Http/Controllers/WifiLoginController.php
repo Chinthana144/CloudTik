@@ -23,6 +23,120 @@ class WifiLoginController extends Controller
         return view('user-login', compact('mac', 'ip', 'dst'));
     }
 
+    /*
+    * validate customer login
+    */
+    public function login(Request $request)
+    {
+        /*
+        * find customer
+        * find subscription
+        * if customer and subscription found,
+        * find running subscription if not find active subsctiption
+        * if running subscription found -> check mac address (update mac address optional) and give access
+        * if active subscription found -> make it running and add mac address and give access
+        * if no subscription found -> return error
+        * if customer not found -> return error
+        * if customer found but no subscription found -> return error
+        * if customer found but subscription found but not active -> return error
+        * else return error
+        */
+
+        $camp_id = $request->input('camp_id');
+        $mac = $request->input('mac');
+        $ip = $request->input('ip');
+        $link_login = $request->input('link_login');
+        $username = $request->input('cust_username');
+        $password = $request->input('cust_password');
+
+        // dd($mac, $ip, $username, $password);
+
+        //camp data
+        $camp_data = Camps::find($camp_id);
+        $host = $camp_data->mikritikIP;
+        $camp_user = $camp_data->mikrotikUsername;
+        $camp_password = $camp_data->mikrotikPassword;
+        $port = $camp_data->mikritikPort;
+
+        $hotspot_user = new HotspotUsers($host, $camp_user, $camp_password, $port);
+
+        //search customer by username
+        $customer = Customers::where('username', $username)
+            ->where('password', $password)
+            ->where('status', 1) //active
+            ->first();
+
+        if($customer){
+            $customer_id = $customer->id;
+            $customer_camp = Camps::find($customer->camp_id);
+
+            //check running subscriptions
+            $running_subscription = Subscriptions::where('customer_id', $customer_id)
+                ->where('status', 2) //running
+                ->whereDate('subscriptionEndTime', '>=', now())
+                ->where('camp_id', $camp_id)
+                ->first();
+
+            if($running_subscription){
+                //check mac address
+                if($running_subscription->macAddress != $mac){
+                    //update mac address
+                    $running_subscription->macAddress = $mac;
+                    $running_subscription->save();
+                    //update customer mac address
+                    $customer->mac_address = $mac;
+                    $customer->save();
+                }
+                //find hotspot user by username
+                $hotspot_user_data = $hotspot_user->getHotspotUserByUsername($username);
+                if(!empty($hotspot_user_data)){
+                    //bind mac address to hotspot user
+                    $hotspot_user->bindMacAddressToUser($username, $mac);
+                }//has hotspot user
+
+                //give access
+                return redirect($link_login . "username=" . $username);
+
+            }//has running subscription
+            else{
+                //check active subscriptions
+                $active_subscription = Subscriptions::where('customer_id', $customer_id)
+                    ->where('status', 1) //active
+                    ->where('camp_id', $camp_id)
+                    ->first();
+
+                if($active_subscription){
+                    //make it running
+                    $active_subscription->status = 2; //running
+                    $active_subscription->subscriptionStartTime = now();
+                    $active_subscription->subscriptionEndTime = now()->addMinutes($active_subscription->package->duration);
+                    $active_subscription->save();
+
+                    //update customer mac address
+                    $customer->login_datetime = now();
+                    $customer->expiry_datetime = now()->addMinutes($active_subscription->package->duration);
+                    $customer->mac_address = $mac;
+                    $customer->save();
+
+                    //bind mac address to hotspot user
+                    $hotspot_user->bindMacAddressToUser($username, $mac);
+
+                    //give access
+                    return redirect($link_login . "username=" . $username);
+                } //has active subscription
+                else{
+                    //no active or running subscription
+                    //remove this later
+                    return redirect()->route('wifilogin.index')
+                        ->with('error', 'You have no active or running subscription. Please contact the admin.');
+                }
+
+            }//no running subscription
+        }//have customer
+
+
+    }//login
+
     /**
      * Show the form for creating a new resource.
      */

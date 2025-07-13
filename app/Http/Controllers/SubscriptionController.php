@@ -56,37 +56,6 @@ class SubscriptionController extends Controller
 
         $stat_id = 1; //active status id
 
-        //check customer has subscription
-        $existing_subscription = Subscriptions::where('customer_id', $customer_id)
-            ->where('camp_id', $camp_id)
-            ->exists();
-
-        if ($existing_subscription) {
-            $last_subscription = Subscriptions::where('customer_id', $customer_id)
-                ->where('camp_id', $camp_id)
-                ->orderBy('id', 'DESC')
-                ->first();
-
-            $last_status = $last_subscription->status;
-            switch ($last_status) {
-                case 1: //active
-                    $stat_id = 1; //set status to pending
-                case 2: //running
-                    $stat_id = 2; //set status to running
-                    //update customer expiry date
-                    $new_expiry_datetime = date('Y-m-d H:i:s', strtotime($expiry_datetime . ' + ' . $package->duration . ' days'));
-                    $customer->expiry_datetime = $new_expiry_datetime;
-                    $customer->save();
-                    break;
-                case 3: //expired
-                    $stat_id = 1; //set status to active
-                    break;
-                case 4: //cancled
-                    $stat_id = 1; //set status to active
-                    break;
-            }//switch
-        }//has subscription
-
         //set paymethod id for cash
         $paymethod_id = 1; //cash payment method id
 
@@ -150,7 +119,116 @@ class SubscriptionController extends Controller
             'subscription_id' => $subscription->id,
             'message' => 'Subscription added successfully',
         ]);
-    }
+    }//add subscription from api
+
+    /*
+    * Get subscription by user and date
+    * below both methods should use same map function parameters
+    * so that we can use same view for both
+    */
+    public function getSubscriptionByUserDate(Request $request)
+    {
+        $user_id = $request->input('user_id');
+        $camp_id = $request->input('camp_id');
+        $search_date = $request->input('search_date');
+
+        $subscriptions = Subscriptions::where('camp_id', $camp_id)
+            ->where('user_id', $user_id)
+            ->whereDate('purchaseDate', $search_date)
+            ->orderBy('id', 'DESC')
+            ->get()
+            ->map(function($subs){
+                return [
+                    'id' => $subs->id,
+                    'purchaseDate' => $subs->purchaseDate,
+                    'customer_name' => $subs->customer->fullname,
+                    'username' => $subs->customer->username,
+                    'package_name' => $subs->package->name,
+                    'package_duration' => $subs->package->duration,
+                    'price' => $subs->price,
+                    'expiry_datetime' => $subs->customer->expiry_datetime ?? 'N/A',
+                    'status' => $subs->status,
+                ];
+            });
+
+        return response()->json($subscriptions, 200);
+    }//get subscription by user date
+
+    //search subscriptions
+    public function searchSubscriptionsByUser(Request $request)
+    {
+        $user_id = $request->input('user_id');
+        $camp_id = $request->input('camp_id');
+        $search = $request->input('search');
+
+        $subscriptions = Subscriptions::where('camp_id', $camp_id)
+            ->where('user_id', $user_id)
+            ->where(function ($query) use ($search) {
+                $query->where('purchaseDateTime', 'LIKE', "%$search%")
+                    ->orWhereHas('customer', function ($q) use ($search) {
+                        $q->where('fullname', 'LIKE', "%$search%")
+                            ->orwhere('phone', 'LIKE', "%$search%")
+                            ->orwhere('username', 'LIKE', "%$search%");
+                    })
+                    ->orWhereHas('package', function ($qu) use ($search) {
+                        $qu->where('name', 'LIKE', "%$search%")
+                            ->orwhere('duration', 'LIKE', "%$search%")
+                            ->orwhere('price', 'LIKE', "%$search%");
+                    });
+            })
+            ->orderBy('id', 'DESC')
+            ->get()
+            ->map(function($subs){
+                return [
+                    'id' => $subs->id,
+                    'purchaseDate' => $subs->purchaseDate,
+                    'customer_name' => $subs->customer->fullname,
+                    'username' => $subs->customer->username,
+                    'package_name' => $subs->package->name,
+                    'package_duration' => $subs->package->duration,
+                    'price' => $subs->price,
+                    'expiry_datetime' => $subs->customer->expiry_datetime ?? 'N/A',
+                    'status' => $subs->status,
+                ];
+            });
+
+        return response()->json($subscriptions, 200);
+    }//search subscriptions API
+
+    //get donut chart data
+    public function getDonutChartData(Request $request)
+    {
+        $camp_id = $request->input('camp_id');
+        $user_id = $request->input('user_id');
+        $today = $request->input('search_date') ?? date('Y-m-d');
+
+        $subscriptions = Subscriptions::where('camp_id', $camp_id)
+            ->where('user_id', $user_id)
+            ->where('purchaseDate', $today)
+            ->groupBy('package_id')
+            ->selectRaw('package_id, COUNT(*) as count, SUM(price) as total_price')
+            ->with(['package' => function ($query) {
+                $query->select('id', 'name');
+            }])
+            ->get();
+
+        //generate color
+        $colors = [];
+        $values = [];
+        $titles = [];
+        foreach ($subscriptions as $subscription) {
+            $values[] = $subscription->total_price;
+            $titles[] = $subscription->package->name;
+            $colors[] = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+        }
+        $data = [
+            'values' => $values,
+            'colors' => $colors,
+            'titles' => $titles,
+        ];
+
+        return response()->json($data);
+    }//get donut chart data
 
     /**
      * Display the specified resource.

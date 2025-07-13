@@ -12,10 +12,10 @@ class MikrotikServices
     public function __construct()
     {
         $this->client = new Client([
-            'host' => '192.168.22.1',
+            'host' => 'hh50a4k5h3f.sn.mynetname.net',
             'user' => 'admin',
-            'pass' => 'bluecat4',
-            'port' => 8728,
+            'pass' => 'Admin*123',
+            'port' => 8721,
         ]);
     }
 

@@ -45,7 +45,8 @@
 
                     @foreach ($subscriptions as $subs)
                         <tr data-id="{{ $subs->id }}">
-                            <td>{{ Str::substr($subs->purchaseDateTime, 0, 10) }}</td>
+                            {{-- <td>{{ Str::substr($subs->purchaseDateTime, 0, 10) }}</td> --}}
+                            <td>{{ $subs->purchaseDate }}</td>
                             <td>{{ $subs->customer->fullname }}</td>
                             <td>{{ $subs->customer->username }}</td>
                             <td>{{ $subs->package->name }}</td>
