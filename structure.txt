@@ -197,3 +197,7 @@ package wise sales report
 * payment method added to subscription table (optional)
 * packages only for web not for Mikrotik
 * subscription adds user to MikroTik (check package)
+
+
+//new check list
+* customer register page, add back button using javascript

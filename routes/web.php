@@ -73,9 +73,7 @@ Route::middleware('auth')->group(function () {
 
     //customers
     Route::get('/customers', [CustomerController::class, 'index'])->name('customer.index');
-    Route::get('/add-customers', [CustomerController::class, 'create'])->name('customer.create');
     Route::post('/store-customers', [CustomerController::class, 'store'])->name('customer.store');
-    Route::post('/edit-customers', [CustomerController::class, 'edit'])->name('customer.edit');
     Route::put('/update-customers', [CustomerController::class, 'update'])->name('customer.update');
     Route::get('/getCustomers', [CustomerController::class, 'getCustomers']);
     Route::get('/getOneCustomer', [CustomerController::class, 'getOneCustomer']);
@@ -130,7 +128,6 @@ Route::middleware('auth')->group(function () {
     //testing delete this one  testing is over
     Route::get('/mikrotik', [MikrotikController::class, 'index']);
     Route::post('/mikrotik_store', [MikrotikController::class, 'store'])->name('mikrotik.store');
-
 });
 
 //Wifi log in controller

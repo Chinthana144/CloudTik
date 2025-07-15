@@ -18,9 +18,11 @@ class CustomerController extends Controller
     {
         $camp_id = Session::get('active_camp_id');
         $customers = Customers::where('camp_id', $camp_id)->paginate(10);
+        $customer_types = CustomerType::all();
         $camp = Camps::find($camp_id);
+        $camps = Camps::where('status', 1)->get();
 
-        return view('Customers.customer_view', compact('customers', 'camp'));
+        return view('Customers.customer_view', compact('customers', 'camp', 'camps', 'customer_types'));
     }
 
     public function customerSearch(Request $request)
@@ -55,10 +57,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        $camps = Camps::where('status', 1)->get();
-        $customer_types = CustomerType::all();
-
-        return view('Customers.customer_add', compact('camps', 'customer_types'));
+        //
     }
 
     /**
@@ -66,36 +65,34 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'cmb_camp' => 'required|integer',
-            'cmb_customer_type' => 'required|integer',
-            'fullname' => 'required|max:255',
-            'phone' => 'required|max:13',
-            'email' => 'max:255',
-            'username' => 'required|unique:customers|max:20',
-            'password' => 'required|max:20',
-        ]);
+        $camp_id  = $request->input('cmb_camp');
+        $customer_type_id = $request->input('cmb_customer_type');
+        $fullname = $request->input('fullname');
+        $phone = $request->input('phone');
+        $email = $request->input('email') ?? '';
+        $username = $request->input('username') ?? $phone; //default username is phone
+        $password = $request->input('password');
 
         $stat = $request->has('chk_customer_stat') ? 1 : 0;
 
-        $exists = Customers::where('username', $validatedData['username'])->exists();
+        $exists = Customers::where('username', $username)->exists();
 
         if ($exists) {
             return redirect()->route('customer.index');
             session()->flash('failed', 'camp user already added!');
         } else {
             Customers::create([
-                'camp_id' => $validatedData['cmb_camp'],
-                'customerType_id' => $validatedData['cmb_customer_type'],
-                'fullname' => $validatedData['fullname'],
-                'phone' => $validatedData['phone'],
-                'email' => $validatedData['email'],
-                'username' => $validatedData['username'],
-                'password' => $validatedData['password'],
+                'camp_id' => $camp_id,
+                'customerType_id' => $customer_type_id,
+                'fullname' => $fullname,
+                'phone' => $phone,
+                'email' => $email,
+                'username' => $username,
+                'password' => $password,
                 'status' => $stat,
             ]);
             session()->flash('success', 'Shop added successfully!');
-            return redirect()->route('customer.create');
+            return redirect()->route('customer.index');
         }
     }
 
@@ -150,13 +147,7 @@ class CustomerController extends Controller
      */
     public function edit(Request $request)
     {
-        $camps = Camps::where('status', 1)->get();
-        $customer_types = CustomerType::all();
-
-        $customer_id = $request->input('hide_customer_id');
-        $customer = Customers::find($customer_id);
-
-        return view('Customers.customer_edit', compact('customer', 'camps', 'customer_types'));
+        //
     }
 
     /**
@@ -165,16 +156,26 @@ class CustomerController extends Controller
     public function update(Request $request)
     {
         $customer_id = $request->input('hide_customer_id');
+
+        //check duplicate username
+        $exists = Customers::where('username', $request->input('edit_username'))
+            ->where('id', '!=', $customer_id) //exclude current customer
+            ->exists();
+        if ($exists) {
+            session()->flash('error', 'Username already exists!');
+            return redirect()->route('customer.index');
+        }
+
         $customer = Customers::find($customer_id);
 
-        $customer->camp_id = $request->input('cmb_camp');
-        $customer->customerType_id = $request->input('cmb_customer_type');
-        $customer->fullname = $request->input('fullname');
-        $customer->phone = $request->input('phone');
-        $customer->email = $request->input('email');
-        $customer->username = $request->input('username');
-        $customer->password = $request->input('password');
-        $customer->status = $request->has('chk_customer_stat') ? 1 : 0;
+        $customer->camp_id = $request->input('cmb_edit_camp');
+        $customer->customerType_id = $request->input('cmb_edit_customer_type');
+        $customer->fullname = $request->input('edit_fullname');
+        $customer->phone = $request->input('edit_phone');
+        $customer->email = $request->input('edit_email') ?? '';
+        $customer->username = $request->input('edit_username') ?? $request->input('edit_phone'); //default username is phone
+        $customer->password = $request->input('edit_password');
+        $customer->status = $request->has('chk_edit_customer_stat') ? 1 : 0;
 
         $customer->save();
 
