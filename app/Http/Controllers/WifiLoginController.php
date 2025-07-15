@@ -29,6 +29,13 @@ class WifiLoginController extends Controller
     public function login(Request $request)
     {
         /*
+        * PLEASE NOTE:
+        * The mac address and ip address are fetch from a custom login page,
+        * in the Mikrotik Files.
+        * so that hotspot files and folders are not included in this project.
+        */
+
+        /*
         * find customer
         * find subscription
         * if customer and subscription found,
@@ -41,6 +48,7 @@ class WifiLoginController extends Controller
         * if customer found but subscription found but not active -> return error
         * else return error
         */
+        date_default_timezone_set('Asia/Dubai');
 
         $camp_id = $request->input('camp_id');
         $mac = $request->input('mac');
@@ -109,12 +117,12 @@ class WifiLoginController extends Controller
                     //make it running
                     $active_subscription->status = 2; //running
                     $active_subscription->subscriptionStartTime = now();
-                    $active_subscription->subscriptionEndTime = now()->addMinutes($active_subscription->package->duration);
+                    $active_subscription->subscriptionEndTime = now()->addDays($active_subscription->package->duration);
                     $active_subscription->save();
 
                     //update customer mac address
                     $customer->login_datetime = now();
-                    $customer->expiry_datetime = now()->addMinutes($active_subscription->package->duration);
+                    $customer->expiry_datetime = now()->addDays($active_subscription->package->duration);
                     $customer->mac_address = $mac;
                     $customer->save();
 

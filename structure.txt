@@ -173,7 +173,7 @@ package wise sales report
 * settings
 
 //todo list
-* subscription page sort by descending order ---- done
+* subscription page sort by descending order ------------------ done
 * home page graphs -------------------------------------------- done
 * Reports
 * welcome page ------------------------------------------------ 50%
@@ -192,10 +192,8 @@ package wise sales report
 * create customer login process
 * payment methods (cash, card, Apple pay)
 * responsive for mobile phones -------------------------------- done
-* API with sanctum
+* API with sanctum -------------------------------------------- done
 * customer login_datetime, expiry_datetime
-* payment method added to subscription table
+* payment method added to subscription table (optional)
 * packages only for web not for Mikrotik
 * subscription adds user to MikroTik (check package)
-
-
