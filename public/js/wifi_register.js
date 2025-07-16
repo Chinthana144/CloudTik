@@ -46,4 +46,9 @@ $(document).ready(function () {
         }
     });
 
+    $("#btn_back").click(function(){
+        // go back
+        window.history.back();
+    });
+
 });//wifi_register.js

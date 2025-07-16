@@ -7,6 +7,18 @@ $(document).ready(function () {
 
     loadDonutChart();
 
+$("#btn_7_days").click(function () {
+    loadbarChart(7);
+});
+
+$("#btn_14_days").click(function () {
+    loadbarChart(14);
+});
+
+$("#btn_30_days").click(function () {
+    loadbarChart(30);
+});
+
 //load bar chart function
 function loadbarChart(date_range)
 {

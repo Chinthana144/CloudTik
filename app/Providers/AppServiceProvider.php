@@ -7,11 +7,13 @@ use App\Models\CampUsers;
 use App\Models\Customers;
 use App\Models\Packages;
 use App\Models\PageAccess;
+use App\Models\Subscriptions;
 use App\Models\User;
 use App\Policies\CampPolicy;
 use App\Policies\CampUserPolicy;
 use App\Policies\CustomerPolicy;
 use App\Policies\PackagePolicy;
+use App\Policies\SubscriptionPolicy;
 use App\Policies\UserAccessPolicy;
 use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -27,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
             Camps::class => CampPolicy::class,
             CampUsers::class => CampUserPolicy::class,
             User::class => UserPolicy::class,
+            Subscriptions::class => SubscriptionPolicy::class,
             PageAccess::class => UserAccessPolicy::class,
         ];
     /**

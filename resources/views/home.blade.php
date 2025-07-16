@@ -58,7 +58,12 @@
     </div>
 
     <div class="row">
-        <div class="col-md-7">
+        <div class="col-md-7 mt-2">
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="button" id="btn_7_days" class="btn btn-outline-primary btn-sm">7 days</button>
+            <button type="button" id="btn_14_days" class="btn btn-outline-primary btn-sm">14 days</button>
+            <button type="button" id="btn_30_days" class="btn btn-outline-primary btn-sm">30 days</button>
+        </div>
             <div id="bar_chart" class="p-2"></div>
         </div>
 

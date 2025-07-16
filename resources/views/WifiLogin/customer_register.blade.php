@@ -75,7 +75,8 @@
             <button type="submit" id="btn_register">Register</button>
 
             <div id="div_login">
-                <a href="/userlogin" id="link_login">Login</a>
+                <button id="btn_back">Back</button>
+                {{-- <a href="/userlogin" id="link_login">Login</a> --}}
             </div>
         </form>
     </div>

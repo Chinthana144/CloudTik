@@ -47,13 +47,14 @@
                 </li>
             @endcan
 
-
+            @can('view', App\Models\Subscription::class)
             <li class="sidebar-item">
                 <a href="/view-subscription" class="sidebar-link">
                     <i class="bx bx-cloud-download fs-3"></i>
                     <span>Subscriptions</span>
                 </a>
             </li>
+            @endcan
 
             @can('access-control')
                 <li class="sidebar-item">
@@ -168,7 +169,10 @@
         </div>
     </aside>
 
-    {{-- responsive navigation bar for mobiles and tablets --}}
+    {{---------------------------------------------------
+        responsive navigation bar for mobiles and tablets
+    -----------------------------------------------------}}
+
     <div id="div_mobile_menu">
         <div class="mobile-menu">
             <button class="btn_menu_toggle" type="button">
@@ -216,12 +220,15 @@
                         </li>
                     @endcan
 
-                    <li class="sidebar-item">
-                        <a href="/view-subscription" class="sidebar-link">
-                            <i class="bx bx-cloud-download fs-3"></i>
-                            <span>Subscriptions</span>
-                        </a>
-                    </li>
+                    @can('view', App\Models\Subscription::class)
+                         <li class="sidebar-item">
+                            <a href="/view-subscription" class="sidebar-link">
+                                <i class="bx bx-cloud-download fs-3"></i>
+                                <span>Subscriptions</span>
+                            </a>
+                        </li>
+                    @endcan
+
 
                     @can('access-control')
                         <li class="sidebar-item">
