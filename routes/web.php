@@ -126,7 +126,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/delete-useraccess', [UserAccessController::class, 'destroy'])->name('useraccess.delete');
     Route::get('/update-useraccess', [UserAccessController::class, 'update']);
 
-    //testing delete this one  testing is over
+    //for testing, delete this once testing is over
     Route::get('/mikrotik', [MikrotikController::class, 'index']);
     Route::post('/mikrotik_store', [MikrotikController::class, 'store'])->name('mikrotik.store');
 });

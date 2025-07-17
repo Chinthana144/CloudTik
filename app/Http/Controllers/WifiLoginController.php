@@ -20,7 +20,7 @@ class WifiLoginController extends Controller
         // $username = $request->query('username', null);
         $dst = $request->query('dst', null);
 
-        return view('user-login', compact('mac', 'ip', 'dst'));
+        return view('WifiLogin.customer_dashboard', compact('mac', 'ip', 'dst'));
     }
 
     /*
@@ -129,8 +129,14 @@ class WifiLoginController extends Controller
                     //bind mac address to hotspot user
                     $hotspot_user->bindMacAddressToUser($username, $mac);
 
+                    //redirect uri
+                    $redirectUrl = $link_login . '?' . http_build_query([
+                        'username' => $username,
+                        'dst' => 'https://cloudtik.trizent.net/userlogin?id=' . $customer->id,
+                    ]);
+
                     //give access
-                    return redirect($link_login . "username=" . $username);
+                    return redirect($redirectUrl);
                 } //has active subscription
                 else{
                     //no active or running subscription
@@ -138,7 +144,6 @@ class WifiLoginController extends Controller
                     return redirect()->route('wifilogin.index')
                         ->with('error', 'You have no active or running subscription. Please contact the admin.');
                 }
-
             }//no running subscription
         }//have customer
 
