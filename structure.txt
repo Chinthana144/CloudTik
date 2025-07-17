@@ -199,10 +199,10 @@ package wise sales report
 * packages only for web not for Mikrotik
 * subscription adds user to MikroTik (check package)
 
-
 //new check list
 * customer register page, add back button using javascript ---- done
+* login dst link
 * show mikrotik hotspot Users
 * invoice submit message
-* subscription edit modal (ADDTO RUNNING)
+* subscription edit modal (ADD TO RUNNING)
 * Mikrotik Control Panel

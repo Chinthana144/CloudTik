@@ -64,11 +64,26 @@
                                 @endif
                             </td>
                             <td>{{ $subs->user->name }}</td>
+
                             <td>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <button type="button" class="btn btn-outline-warning btn-sm btn_open_edit"><i class="bx bx-edit"></i></button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <form action="" method="post">
+                                            @csrf
+                                            <input type="hidden" name="subscription_id" value="{{ $subs->id }}">
+                                            <button type="submit" class="btn btn-outline-danger btn-sm"><i class="bx bx-trash"></i></button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </td>
+                            {{-- <td>
                                 <button type="button" class="btn btn-info btn-sm btn_open_edit">Edit</button>
                                 <a href="/receipt-print?subscription_id={{ $subs->id }}"
                                     class="btn btn-primary btn-sm">Print</a>
-                            </td>
+                            </td> --}}
                         </tr>
                     @endforeach
                 </table>

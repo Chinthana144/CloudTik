@@ -290,9 +290,51 @@ class SubscriptionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-        //
+        $subscription_id = $request->input('subscription_id');
+
+        //hotspot user delete
+        $camp_id = Session::get('active_camp_id');
+        $camp_data = Camps::find($camp_id);
+
+        $host = $camp_data->mikritikIP;
+        $camp_user = $camp_data->mikrotikUsername;
+        $camp_password = $camp_data->mikrotikPassword;
+        $port = $camp_data->mikritikPort;
+
+        $hotspot = new HotspotUsers($host, $camp_user, $camp_password, $port);
+
+        $subscription = Subscriptions::find($subscription_id);
+        $customer_id = $subscription->customer_id;
+        $username = $subscription->customer->username;
+        $customer = Customers::find($customer_id);
+
+        if ($subscription) {
+            // Delete the subscription
+            $subscription->delete();
+
+            try {
+                // Delete hotspot user
+                $hotspot->deleteHotspotUser($username);
+            } catch (\Exception $e) {
+                echo "Error deleting hotspot user: " . $e->getMessage();
+            }
+
+            // Update customer expiry date
+            $customer->expiry_datetime = null; // Set to null or any default value
+            $customer->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Subscription deleted successfully',
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Subscription not found',
+        ]);
     }
 
     //receipt print
@@ -314,9 +356,16 @@ class SubscriptionController extends Controller
         return response()->json([
             'success' => true,
             'subscription_id' => $subscription->id,
+            'customer_id' => $subscription->customer_id,
             'customer_name' => $subscription->customer->fullname,
             'username' => $subscription->customer->username,
             'package_name' => $subscription->package->name,
+            'package_price' => $subscription->price,
+            'purchase_date' => $subscription->purchaseDate,
+            'start_datetime' => $subscription->subscriptionStartTime ?? 'N/A',
+            'end_datetime' => $subscription->subscriptionEndTime ?? 'N/A',
+            'expiry_datetime' => $subscription->customer->expiry_datetime ?? 'N/A',
+            'mac_address' => $subscription->macAddress,
             'package_duration' => $subscription->package->duration,
             'status' => $subscription->status,
         ]);

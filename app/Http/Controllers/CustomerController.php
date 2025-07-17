@@ -183,6 +183,37 @@ class CustomerController extends Controller
         return redirect()->route('customer.index');
     }
 
+    //update expire date
+    public function updateExpireDate(Request $request)
+    {
+        $customer_id = $request->input('hide_customer_id');
+        $expire_date = $request->input('expire_date');
+        $expire_time = $request->input('expire_time');
+
+        // // Validate the input
+        // $request->validate([
+        //     'customer_id' => 'required|exists:customers,id',
+        //     'subscription_date' => 'required|date',
+        //     'subscription_time' => 'required|date_format:H:i',
+        // ]);
+
+        // dd($expire_date, $expire_time);
+        $expire_time_formatted = date('H:i:s', strtotime($expire_time));
+        $expire_datetime = $expire_date . ' ' . $expire_time_formatted;
+
+         $customer = Customers::find($customer_id);
+        // dd($expire_datetime);
+        if($customer){
+            $customer->expiry_datetime = $expire_datetime;
+            $customer->save();
+
+            return redirect()->route('subscription.show')->with('success', 'Expire date updated successfully!');
+        }
+        else{
+            return redirect()->route('subscription.show')->with('error', 'Customer not found!');
+        }
+    }
+
     //update customer API
     public function updateCustomer(Request $request)
     {
