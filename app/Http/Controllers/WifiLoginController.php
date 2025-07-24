@@ -126,6 +126,9 @@ class WifiLoginController extends Controller
                     $customer->mac_address = $mac;
                     $customer->save();
 
+                    //add hotspot user
+                    $hotspot_user->addHotspotUser($username, $mac, $customer_camp->mikritikIP, $customer_camp->mikrotikPort, $customer_camp->mikrotikUsername, $customer_camp->mikrotikPassword);
+
                     //bind mac address to hotspot user
                     $hotspot_user->bindMacAddressToUser($username, $mac);
 

@@ -60,7 +60,7 @@ class SubscriptionPolicy
         $has_permission = PageAccess::where('camp_id', $camp_id)
             ->where('user_id', $user->id)
             ->where('page_id', $page_id)
-            ->where('update', 1)
+            ->where('edit', 1)
             ->exists();
 
         return $has_permission ? 1 : 0;

@@ -206,3 +206,4 @@ package wise sales report
 * invoice submit message
 * subscription edit modal (ADD TO RUNNING)
 * Mikrotik Control Panel
+* remove mac address binding in schedule

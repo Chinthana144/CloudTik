@@ -40,7 +40,12 @@
                         <th>Price</th>
                         <th>Status</th>
                         <th>User</th>
-                        <th>Action</th>
+                        @can('update', App\Models\Subscription::class)
+                            <th>Edit</th>
+                        @endcan
+                        @can('delete', App\Models\Subscription::class)
+                            <th>Delete</th>
+                        @endcan
                     </tr>
 
                     @foreach ($subscriptions as $subs)
@@ -65,20 +70,20 @@
                             </td>
                             <td>{{ $subs->user->name }}</td>
 
+                            @can('update', App\Models\Subscription::class)
                             <td>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <button type="button" class="btn btn-outline-warning btn-sm btn_open_edit"><i class="bx bx-edit"></i></button>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <form action="" method="post">
-                                            @csrf
-                                            <input type="hidden" name="subscription_id" value="{{ $subs->id }}">
-                                            <button type="submit" class="btn btn-outline-danger btn-sm"><i class="bx bx-trash"></i></button>
-                                        </form>
-                                    </div>
-                                </div>
+                                <button type="button" class="btn btn-warning btn-sm btn_open_edit"><i class="bx bx-edit"></i></button>
                             </td>
+                            @endcan
+                            @can('delete', App\Models\Subscription::class)
+                                <td>
+                                    <form action="{{ route('subscription.destroy') }}" method="post">
+                                        @csrf
+                                        <input type="hidden" name="subscription_id" value="{{ $subs->id }}">
+                                        <button type="submit" class="btn btn-danger btn-sm"><i class="bx bx-trash"></i></button>
+                                    </form>
+                                </td>
+                            @endcan
                             {{-- <td>
                                 <button type="button" class="btn btn-info btn-sm btn_open_edit">Edit</button>
                                 <a href="/receipt-print?subscription_id={{ $subs->id }}"

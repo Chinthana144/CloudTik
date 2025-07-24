@@ -39,9 +39,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/getSubscriptionByUserDate', [SubscriptionController::class, 'getSubscriptionByUserDate'])->name('api.getSubscriptionByUserDate');
     Route::get('/searchSubscriptionsByUser', [SubscriptionController::class, 'searchSubscriptionsByUser'])->name('api.searchSubscriptionsByUser');
     Route::get('/getDonutChartData', [SubscriptionController::class, 'getDonutChartData'])->name('api.getDonutChartData');
+    Route::get('/getBarChartData', [SubscriptionController::class, 'getBarChartData'])->name('api.getBarChartData');
+    Route::get('/getOneSubscriptionAPI', [SubscriptionController::class, 'getOneSubscriptionAPI'])->name('api.getOneSubscriptionAPI');
 
     // Add your authenticated routes here
     Route::post('/logout', [UserController::class, 'logout'])->name('api.logout');
+    Route::get('/getOneUser', [UserController::class, 'getOneUser'])->name('api.getOneUser');
 });
 
 // API route for user login

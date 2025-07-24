@@ -195,41 +195,6 @@ class SubscriptionController extends Controller
         return response()->json($subscriptions, 200);
     }//search subscriptions API
 
-    //get donut chart data
-    public function getDonutChartData(Request $request)
-    {
-        $camp_id = $request->input('camp_id');
-        $user_id = $request->input('user_id');
-        $today = $request->input('search_date') ?? date('Y-m-d');
-
-        $subscriptions = Subscriptions::where('camp_id', $camp_id)
-            ->where('user_id', $user_id)
-            ->where('purchaseDate', $today)
-            ->groupBy('package_id')
-            ->selectRaw('package_id, COUNT(*) as count, SUM(price) as total_price')
-            ->with(['package' => function ($query) {
-                $query->select('id', 'name');
-            }])
-            ->get();
-
-        //generate color
-        $colors = [];
-        $values = [];
-        $titles = [];
-        foreach ($subscriptions as $subscription) {
-            $values[] = $subscription->total_price;
-            $titles[] = $subscription->package->name;
-            $colors[] = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
-        }
-        $data = [
-            'values' => $values,
-            'colors' => $colors,
-            'titles' => $titles,
-        ];
-
-        return response()->json($data);
-    }//get donut chart data
-
     /**
      * Display the specified resource.
      */
@@ -418,4 +383,114 @@ class SubscriptionController extends Controller
 
         return response()->json($subs, 200);
     }
-}
+
+    /*
+    * get API methods here
+    */
+    //get one subscription by id
+    public function getOneSubscriptionAPI(Request $request){
+        $subscription_id = $request->input('subscription_id');
+
+        $subscription = Subscriptions::find($subscription_id);
+
+        if ($subscription) {
+            return response()->json([
+                'success' => true,
+                'subscription' => [
+                    'id' => $subscription->id,
+                    'customer_id' => $subscription->customer_id,
+                    'customer_name' => $subscription->customer->fullname,
+                    'username' => $subscription->customer->username,
+                    'package_name' => $subscription->package->name,
+                    'package_price' => $subscription->price,
+                    'purchase_date' => $subscription->purchaseDate,
+                    'start_datetime' => $subscription->subscriptionStartTime ?? 'N/A',
+                    'end_datetime' => $subscription->subscriptionEndTime ?? 'N/A',
+                    'expiry_datetime' => $subscription->customer->expiry_datetime ?? 'N/A',
+                    'mac_address' => $subscription->macAddress,
+                    'package_duration' => $subscription->package->duration,
+                    'status' => $subscription->status,
+                ],
+            ]);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Subscription not found'], 404);
+    }
+
+    /*
+    * get chart data
+    */
+    //get donut chart data
+    public function getDonutChartData(Request $request)
+    {
+        $camp_id = $request->input('camp_id');
+        $user_id = $request->input('user_id');
+        $today = $request->input('search_date') ?? date('Y-m-d');
+
+        $subscriptions = Subscriptions::where('camp_id', $camp_id)
+            ->where('user_id', $user_id)
+            ->where('purchaseDate', $today)
+            ->groupBy('package_id')
+            ->selectRaw('package_id, COUNT(*) as count, SUM(price) as total_price')
+            ->with(['package' => function ($query) {
+                $query->select('id', 'name');
+            }])
+            ->get();
+
+        //generate color
+        $colors = [];
+        $values = [];
+        $titles = [];
+        foreach ($subscriptions as $subscription) {
+            $values[] = $subscription->total_price;
+            $titles[] = $subscription->package->name;
+            $colors[] = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+        }
+        $data = [
+            'values' => $values,
+            'colors' => $colors,
+            'titles' => $titles,
+        ];
+
+        return response()->json($data);
+    }//get donut chart data
+
+    //get bar chart data
+    public function getBarChartData(Request $request){
+        $camp_id = $request->input('camp_id');
+        $user_id = $request->input('user_id');
+
+        //get last 7 days sales data
+        $sale_data = Subscriptions::where('camp_id', $camp_id)
+            ->where('user_id', $user_id)
+            ->groupBy('purchaseDate')
+            ->selectRaw('purchaseDate, SUM(price) as total_price')
+            ->orderBy('purchaseDate', 'DESC')
+            ->limit(7)
+            ->get();
+
+        $dates = [];
+        $total_prices = [];
+        foreach ($sale_data as $data) {
+            $month_num = substr($data->purchaseDate, 5, 2) ?? '01'; // Default to '01' if month is null
+            $day_num = substr($data->purchaseDate, 8, 2) ?? '01'; // Default to '01' if day is null
+            $dates[] = $month_num .'/'. $day_num; // Use formatted date as title
+
+
+            // $dates[] = $data->purchaseDate;
+            $total_prices[] = $data->total_price ?? 0; // Use null coalescing operator to handle null values
+
+
+        }
+
+        $dates = array_reverse($dates);
+        $total_prices = array_reverse($total_prices);
+
+        $data = [
+            'dates' => $dates,
+            'total_prices' => $total_prices,
+        ];
+
+        return response()->json($data);
+    }
+}//class

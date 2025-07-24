@@ -93,6 +93,20 @@ class HotspotUsers
         }
     }
 
+    //unbind mac address from hotspot user
+    public function unbindMacAddressFromUser($mac)
+    {
+        $unbindQuery = (new Query('/ip/hotspot/ip-binding/print'))->where('mac-address', $mac);
+        $bound = $this->client->query($unbindQuery)->read();
+
+        if (!empty($bound)) {
+            $unbindRemove = new Query('/ip/hotspot/ip-binding/remove');
+            $unbindRemove->equal('numbers', $bound[0]['.id']);
+
+            $this->client->query($unbindRemove)->read();
+        }
+    }
+
     //check connection
     public function CheckConnection(): bool
     {

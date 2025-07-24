@@ -47,10 +47,6 @@ Route::middleware('auth')->group(function () {
     //logout
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
-    // Route::get('/template', function () {
-    //     return view('layouts.template');
-    // });
-
     //dashboard
     Route::get('/home', [DashboardController::class, 'index'])->name('dashboard.home');
     Route::get('/getBarchartData', [DashboardController::class, 'getBarchartData']);
@@ -104,6 +100,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/view-subscription', [SubscriptionController::class, 'show'])->name('subscription.show');
     Route::get('/getOneSubscription', [SubscriptionController::class, 'getOneSubscription'])->name('subscription.getOneSubscription');
     Route::post('/updateSubsStatus', [SubscriptionController::class, 'updateStatus']);
+    Route::post('/deleteSubscription', [SubscriptionController::class, 'destroy'])->name('subscription.destroy');
     Route::get('/getCounterTotal', [SubscriptionController::class, 'getSubscriptionByCounter'])->name('subscription.total');
     Route::get('/getCustomerSubscriptions', [SubscriptionController::class, 'getSubscriptionByCustomer'])->name('subscription.customer');
     Route::get('/subscription-search', [SubscriptionController::class, 'subscriptionSearch'])->name('subscription.search');
