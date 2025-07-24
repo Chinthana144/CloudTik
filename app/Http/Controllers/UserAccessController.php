@@ -18,7 +18,7 @@ class UserAccessController extends Controller
         $users = User::all();
         $camps = Camps::all();
         $pages = Pages::all();
-        $user_accesses = PageAccess::all();
+        $user_accesses = PageAccess::paginate(10);
         return view('UserAccess.user_access', compact('user_accesses', 'users', 'camps', 'pages'));
     }
 

@@ -120,6 +120,12 @@ class CampController extends Controller
         $camp_id = $request->route('camp_id');
         Session::put('active_camp_id', $camp_id);
 
+        $user = Auth::user();
+        //if user is a client, redirect to client dashboard
+        if ($user->role_id == 4) {
+            return redirect()->route('client.dashboard');
+        }
+
         return redirect()->route('dashboard.home');
     }
 }

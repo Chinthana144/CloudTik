@@ -43,6 +43,12 @@ class DashboardController extends Controller
             ->where('status', 2)
             ->count('id');
 
+        //if client, redirect to client dashboard
+        $user = auth()->user();
+        if ($user->role_id == 4) {
+            return redirect()->route('client.dashboard');
+        }
+
         return view('home', compact('camp', 'daily_subs_total', 'daily_subs_count', 'monthly_subs_sale', 'running_users'));
     }
 

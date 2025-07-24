@@ -50,7 +50,6 @@
 
                     @foreach ($subscriptions as $subs)
                         <tr data-id="{{ $subs->id }}">
-                            {{-- <td>{{ Str::substr($subs->purchaseDateTime, 0, 10) }}</td> --}}
                             <td>{{ $subs->purchaseDate }}</td>
                             <td>{{ $subs->customer->fullname }}</td>
                             <td>{{ $subs->customer->username }}</td>
@@ -84,16 +83,10 @@
                                     </form>
                                 </td>
                             @endcan
-                            {{-- <td>
-                                <button type="button" class="btn btn-info btn-sm btn_open_edit">Edit</button>
-                                <a href="/receipt-print?subscription_id={{ $subs->id }}"
-                                    class="btn btn-primary btn-sm">Print</a>
-                            </td> --}}
                         </tr>
                     @endforeach
                 </table>
             </div>
-
 
             <div class="mt-3">
                 {{ $subscriptions->links() }}

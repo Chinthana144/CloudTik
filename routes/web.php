@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\CampController;
 use App\Http\Controllers\CampUserController;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CounterController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
@@ -122,6 +123,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/store-useraccess', [UserAccessController::class, 'store'])->name('useraccess.store');
     Route::delete('/delete-useraccess', [UserAccessController::class, 'destroy'])->name('useraccess.delete');
     Route::get('/update-useraccess', [UserAccessController::class, 'update']);
+
+    //client routes
+    Route::get('/analysis', [ClientController::class, 'dashboard'])->name('client.dashboard');
 
     //for testing, delete this once testing is over
     Route::get('/mikrotik', [MikrotikController::class, 'index']);

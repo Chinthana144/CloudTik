@@ -95,6 +95,9 @@
                         </tr>
                     @endforeach
                 </table>
+                <div class="d-flex float-end mt-3">
+                    {{ $user_accesses->links() }}
+                </div>
             </div>
 
         </div>

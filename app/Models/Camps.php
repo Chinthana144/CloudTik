@@ -43,4 +43,9 @@ class Camps extends Model
     {
         return $this->hasMany(Subscriptions::class, 'camp_id');
     }
+
+    public function clientSubscriptions()
+    {
+        return $this->hasMany(ClientSubscriptions::class, 'camp_id');
+    }
 }
