@@ -24,13 +24,16 @@ class PackageController extends Controller
             ->paginate(10);
         $camp = Camps::find($active_camp_id);
 
-        return view('Packages.packages_view', compact('packages', 'camp'));
+        $customer_types = CustomerType::all();
+
+        return view('Packages.packages_view', compact('packages', 'camp', 'customer_types'));
     }
 
     public function packageSearch(Request $request)
     {
         $camp_id = Session::get('active_camp_id');
         $camp = Camps::find($camp_id);
+        $customer_types = CustomerType::all();
         $search = $request->input('package_search');
 
         $packages = Packages::where('camp_id', $camp_id)
@@ -44,7 +47,7 @@ class PackageController extends Controller
             })
             ->paginate(10);
 
-        return view('Packages.packages_view', compact('packages', 'camp', 'search'));
+        return view('Packages.packages_view', compact('packages', 'camp', 'customer_types', 'search'));
     }
 
     /**
@@ -52,9 +55,7 @@ class PackageController extends Controller
      */
     public function create()
     {
-        $customer_types = CustomerType::all();
-
-        return view('Packages.packages_add', compact('customer_types'));
+        //
     }
 
     /**
@@ -87,7 +88,7 @@ class PackageController extends Controller
             'status' => $stat,
         ]);
 
-        return redirect()->route('packages.create');
+        return redirect()->route('packages.index')->with('success', 'Package created successfully.');
     }
 
     /**
@@ -103,12 +104,7 @@ class PackageController extends Controller
      */
     public function edit(Request $request)
     {
-        $package_id = $request->input('hide_package_id');
-        $package = Packages::find($package_id);
-
-        $customer_types = CustomerType::all();
-
-        return view('Packages.packages_edit', compact('package', 'customer_types'));
+        //
     }
 
     /**

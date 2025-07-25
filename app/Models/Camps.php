@@ -21,6 +21,7 @@ class Camps extends Model
         'mikrotikPassword',
         'radiusSecret',
         'radiusIP',
+        'monthly_target',
         'status',
     ];
 

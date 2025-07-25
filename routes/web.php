@@ -82,9 +82,7 @@ Route::middleware('auth')->group(function () {
 
     //packages
     Route::get('/packages', [PackageController::class, 'index'])->name('packages.index');
-    Route::get('/add-packages', [PackageController::class, 'create'])->name('packages.create');
     Route::post('/store-packages', [PackageController::class, 'store'])->name('packages.store');
-    Route::post('/edit-packages', [PackageController::class, 'edit'])->name('packages.edit');
     Route::put('/update-packages', [PackageController::class, 'update'])->name('packages.update');
     Route::get('/getCustomerPackages', [PackageController::class, 'getCustomerPackages']);
     Route::get('/getOnePackage', [PackageController::class, 'getOnePackage']);

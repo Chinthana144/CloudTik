@@ -39,7 +39,7 @@ $(document).ready(function () {
                 id : id
             },
             success: function (response) {
-                console.log(response);
+                // console.log(response);
 
                 var camp_id = response['camp_id'];
                 var customerType_id = response['customerType_id'];

@@ -91,7 +91,7 @@ class CustomerController extends Controller
                 'password' => $password,
                 'status' => $stat,
             ]);
-            session()->flash('success', 'Shop added successfully!');
+            session()->flash('success', 'Customer added successfully!');
             return redirect()->route('customer.index');
         }
     }
@@ -179,7 +179,7 @@ class CustomerController extends Controller
 
         $customer->save();
 
-        session()->flash('success', 'Shop added successfully!');
+        session()->flash('success', 'Customer updated successfully!');
         return redirect()->route('customer.index');
     }
 
@@ -189,13 +189,6 @@ class CustomerController extends Controller
         $customer_id = $request->input('hide_customer_id');
         $expire_date = $request->input('expire_date');
         $expire_time = $request->input('expire_time');
-
-        // // Validate the input
-        // $request->validate([
-        //     'customer_id' => 'required|exists:customers,id',
-        //     'subscription_date' => 'required|date',
-        //     'subscription_time' => 'required|date_format:H:i',
-        // ]);
 
         // dd($expire_date, $expire_time);
         $expire_time_formatted = date('H:i:s', strtotime($expire_time));

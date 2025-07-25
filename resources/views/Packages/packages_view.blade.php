@@ -16,7 +16,8 @@
             <div class="row">
                 <div class="col-md-6">
                     @can('create',  App\Models\Package::class)
-                        <a href="/add-packages" class="btn btn-primary">Add Package</a>
+                        {{-- <a href="/add-packages" class="btn btn-primary">Add Package</a> --}}
+                        <button type="button" id="btn_add_package" class="btn btn-primary btn-sm">Add Package</button>
                     @endcan
                 </div>
                 <div class="col-md-6">
@@ -32,7 +33,7 @@
             </div>
 
             <div class="table_responsive">
-                <table class="table">
+                <table class="table" id="tbl_packages">
                     <tr>
                         <th>Type</th>
                         <th>Name</th>
@@ -40,11 +41,11 @@
                         <th>Price<br>(AED)</th>
                         <th>Status</th>
                         @can('update',  App\Models\Package::class)
-                            <th>Action</th>
+                            <th>Edit</th>
                         @endcan
                     </tr>
                     @foreach ($packages as $package)
-                        <tr>
+                        <tr data-id="{{ $package->id }}">
                             <td>{{ $package->customerType->customerType }}</td>
                             <td>{{ $package->name }}</td>
                             <td>{{ $package->duration }}</td>
@@ -58,11 +59,7 @@
                             </td>
                             @can('update', App\Models\Package::class)
                                 <td>
-                                    <form action="{{ route('packages.edit') }}" method="post">
-                                        @csrf
-                                        <input type="hidden" name="hide_package_id" value="{{ $package->id }}">
-                                        <button type="submit" class="btn btn-info btn-sm">Edit</button>
-                                    </form>
+                                    <button type="button" class="btn btn-outline-warning btn-sm btn_edit_package"><i class="bx bx-edit"></i></button>
                                 </td>
                             @endcan
                         </tr>
@@ -75,4 +72,9 @@
             </div>
         </div>
     </div>
+
+    @include('Packages.package_add_modal')
+    @include('Packages.package_edit_modal')
+
+    <script src="{{ asset('js/package.js') }}"></script>
 @endsection

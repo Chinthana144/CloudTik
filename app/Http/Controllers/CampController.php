@@ -46,6 +46,7 @@ class CampController extends Controller
         $camp->mikrotikPassword = $request->input('mikrotikPassword');
         $camp->radiusSecret = $request->input('radiusSecret');
         $camp->radiusIP = $request->input('radiusIP');
+        $camp->monthly_target = $request->input('monthly_target');
         $camp->status = $request->has('chk_camp_stat') ? 1 : 0;
 
         $camp->save();
@@ -91,6 +92,7 @@ class CampController extends Controller
         $camp->mikrotikPassword = $request->input('mikrotikPassword');
         $camp->radiusSecret = $request->input('radiusSecret');
         $camp->radiusIP = $request->input('radiusIP');
+        $camp->monthly_target = $request->input('monthly_target');
         $camp->status = $request->has('chk_camp_stat') ? 1 : 0;
 
         $camp->save();

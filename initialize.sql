@@ -39,8 +39,8 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `ro
 (1, 'Chinthana', 'chinthana144@gmail.com', NULL, '$2y$12$C9dr2DhMLZMJyFa/paM5wuNKkmNiRxgZJXEeku7g7DupQyAXKhKCy', 1, NULL, '2025-03-20 06:11:11', '2025-03-20 06:11:11');
 
 -- add first camp (not necessary)
-INSERT INTO `camps` (`id`, `name`, `location`, `contactPerson`, `contactPhone`, `contactEmail`, `mikritikIP`, `mikritikPort`, `mikrotikUsername`, `mikrotikPassword`, `radiusSecret`, `radiusIP`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'First Camp', 'First location', 'contact person', 'contact phone', 'contactperson@gmail.com', '192.168.22.1', '8728', 'admin', 'bluecat4', '0', '0', '1', NULL, NULL);
+INSERT INTO `camps` (`id`, `name`, `location`, `contactPerson`, `contactPhone`, `contactEmail`, `mikritikIP`, `mikritikPort`, `mikrotikUsername`, `mikrotikPassword`, `radiusSecret`, `radiusIP`, `monthly_target`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'First Camp', 'First location', 'contact person', 'contact phone', 'contactperson@gmail.com', '192.168.22.1', '8728', 'admin', 'bluecat4', '0', '0', '0.00', '1', NULL, NULL);
 
 -- add camp access for first camp
 INSERT INTO `camp_users` (`id`, `camp_id`, `user_id`, `created_at`, `updated_at`) VALUES (NULL, '1', '1', NULL, NULL);

@@ -18,6 +18,7 @@
                         <th>Location</th>
                         <th>Host</th>
                         <th>Port</th>
+                        <th>Target</th>
                         <th>Status</th>
                         @can('update', App\Models\Camp::class)
                             <th>Action</th>
@@ -30,6 +31,7 @@
                             <td>{{ $camp->location }}</td>
                             <td>{{ $camp->mikritikIP }}</td>
                             <td>{{ $camp->mikritikPort }}</td>
+                            <td>{{ $camp->monthly_target }}</td>
                             <td>
                                 @if ($camp->status == 1)
                                     <p class="text-success">Active</p>

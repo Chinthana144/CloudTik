@@ -27,6 +27,9 @@
                         <label for="" class="form-label mt-2">Camp email</label>
                         <input type="text" class="form-control" name="contactEmail" value="{{ $camp->contactEmail }}">
 
+                        <label for="" class="form-label mt-2">Monthly Target</label>
+                        <input type="number" step="0.01" class="form-control" name="monthly_target" value="{{ $camp->monthly_target }}">
+
                         <label for="" class="form-label mt-2">Camp Status</label>
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="campstatus" name="chk_camp_stat" checked>

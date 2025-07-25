@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('mikrotikPassword');
             $table->string('radiusSecret');
             $table->string('radiusIP');
+            $table->decimal('monthly_target', 10, 2)->default(0.00);
             $table->tinyInteger('status');
             $table->timestamps();
         });
