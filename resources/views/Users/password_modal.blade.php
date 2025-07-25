@@ -13,6 +13,7 @@
                 @method('PUT')
                 <div class="modal-body">
                     <input type="hidden" name="hide_user_id" id="hide_user_id">
+                    <input type="hidden" name="hide_route" value="user">
 
                     <label for="">New Password</label>
                     <input type="password" name="password" id="pwd_change" class="form-control" required>

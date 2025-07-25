@@ -205,6 +205,13 @@ mobile menu
     }
 }
 
+/* top row */
+#top_row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 /* footer */
 #footer {
     color: black;

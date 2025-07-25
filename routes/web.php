@@ -109,6 +109,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/store-user', [UserController::class, 'store'])->name('users.store');
     Route::put('/update-user', [UserController::class, 'update'])->name('users.update');
     Route::put('/update-pwd-user', [UserController::class, 'update_pwd'])->name('users.updatepwd');
+    Route::get('/userProfile', [UserController::class, 'userProfile'])->name('users.profile');
     Route::get('/getOneUser', [UserController::class, 'getOneUser']);
 
     //reports

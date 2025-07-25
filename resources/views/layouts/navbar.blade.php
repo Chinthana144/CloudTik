@@ -155,6 +155,13 @@
                     <span>Mikrotik</span>
                 </a>
             </li>
+
+            <li class="sidebar-item">
+                <a href="/userProfile" class="sidebar-link">
+                    <i class="bx bx-user fs-3"></i>
+                    <span>User Profile</span>
+                </a>
+            </li>
         </ul>
 
         {{-- logout --}}
@@ -329,6 +336,13 @@
                             <span>Mikrotik</span>
                         </a>
                     </li>
+
+                    <li class="sidebar-item">
+                        <a href="/userProfile" class="sidebar-link">
+                            <i class="bx bx-user fs-3"></i>
+                            <span>User Profile</span>
+                        </a>
+                    </li>
                 </ul>
                 {{-- logout --}}
                 <div class="sidebar-footer">
@@ -336,7 +350,7 @@
                         @csrf
                         <button class="sidebar-link"
                             style="background-color: inherit; border:none; color:white; margin-left:10px;">
-                            <i class="bx bx-exit fs-3"></i>
+                            <i class="bx bx-power-off fs-3"></i>
                             <span>Logout</span>
                         </button>
                     </form>
@@ -346,10 +360,21 @@
     </div>
 
     <div class="main p-2">
-        <div class="text-left">
-            <h5>
-                <b>CloudTik</b> User Management System
-            </h5>
+        <div id="top_row">
+            <div>
+                <h5>
+                    <b>TRIZENT</b> User Management System
+                </h5>
+            </div>
+            <div>
+                <form action="{{ route('logout') }}" method="post">
+                    @csrf
+                    <button
+                        style="background-color: inherit; border:none;">
+                        <i class="bx bx-power-off fs-2"></i>
+                    </button>
+                </form>
+            </div>
         </div>
 
         @yield('content')

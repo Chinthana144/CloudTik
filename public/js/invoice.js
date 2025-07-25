@@ -134,6 +134,8 @@ $(document).ready(function () {
 
                     alert("Subscription added successfully. continue to QR code");
 
+                    window.location.reload();
+
                     //print receipt
                     // let printWindow = window.open('/receipt-print?subscription_id='+subscription_id, '_blank');
 

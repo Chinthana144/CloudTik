@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Camps;
 use App\Models\CampUsers;
 use App\Models\Roles;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
@@ -144,6 +146,7 @@ class UserController extends Controller
     public function update_pwd(Request $request)
     {
         $user_id = $request->input('hide_user_id');
+        $route = $request->input('hide_route');
 
         $new_password = Hash::make($request->input('re_password'));
 
@@ -153,7 +156,12 @@ class UserController extends Controller
 
         $user->save();
 
-        return redirect()->route('users.index');
+        if ($route == 'user') {
+            return redirect()->route('users.index');
+        }
+        if ($route == 'profile') {
+            return redirect()->route('users.profile')->with('success', 'Password changed successfully');
+        }
     }
 
     /**
@@ -162,6 +170,14 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function userProfile(){
+        $user = auth()->user();
+        $camp_id = Session::get('active_camp_id');
+        $camp = Camps::find($camp_id);
+
+        return view('Users.user-profile', compact('user', 'camp'));
     }
 
     //ajax methods
