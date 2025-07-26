@@ -6,6 +6,7 @@ use App\Models\Camps;
 use App\Models\Customers;
 use App\Models\Packages;
 use App\Models\Subscriptions;
+use App\Models\ClientSubscriptions;
 use App\Services\HotspotUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -207,6 +208,16 @@ class SubscriptionController extends Controller
             ->paginate(10);
 
         $camp = Camps::find($camp_id);
+
+        //check user client
+        $user = auth()->user();
+        if ($user->role_id == 4) {
+            $client_subs = ClientSubscriptions::where('camp_id', $camp_id)
+                ->orderBy('id', 'DESC')
+                ->paginate(10);
+
+            return view('Client.client_subscription', compact('client_subs', 'camp'));
+        }
 
         return view('Subscriptions.subscription_view', compact('subscriptions', 'camp'));
     }

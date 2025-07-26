@@ -24,9 +24,8 @@ use Illuminate\Support\Facades\Route;
 | Web Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
+| CloudTik project routes file.
+| here all routes for web application are defined.
 |
 */
 
@@ -125,6 +124,7 @@ Route::middleware('auth')->group(function () {
 
     //client routes
     Route::get('/analysis', [ClientController::class, 'dashboard'])->name('client.dashboard');
+    Route::get('/getAnalysisBarchartData', [ClientController::class, 'getAnalysisBarchartData'])->name('client.getAnalysisBarchartData');
 
     //for testing, delete this once testing is over
     Route::get('/mikrotik', [MikrotikController::class, 'index']);

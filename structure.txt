@@ -182,22 +182,21 @@ package wise sales report
 * user logout button ------------------------------------------ done
 * user access ------------------------------------------------- 50%
 * receipt design ---------------------------------------------- 50%
-* invoice page customer history
+* invoice page customer history ------------------------------- done
 * customer delete option with status
 * customer login ---------------------------------------------- testing pending
-* Customer profile synchronize
 * customer reset mac address
-* package, customer validate frontend
-* check the date and counter status when going to invoice
+* package, customer validate frontend ------------------------- done
 * modal close buttons
 * create customer login process
-* payment methods (cash, card, Apple pay)
+* payment methods (cash, card, Apple pay) --------------------- for future
 * responsive for mobile phones -------------------------------- done
 * API with sanctum -------------------------------------------- done
-* customer login_datetime, expiry_datetime
-* payment method added to subscription table (optional)
-* packages only for web not for Mikrotik
+* customer login_datetime, expiry_datetime -------------------- done
+* payment method added to subscription table (optional) ------- added for future
+* packages only for web not for Mikrotik ---------------------- done
 * subscription adds user to MikroTik (check package)
+* user page modal close
 
 //new check list
 * customer register page, add back button using javascript ---- done
