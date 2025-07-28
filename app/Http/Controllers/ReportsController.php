@@ -53,7 +53,7 @@ class ReportsController extends Controller
 
         if ($request->action == 'search') {
             $sales = Subscriptions::where('camp_id', $camp_id)
-                ->whereBetween('purchaseDateTime', [$start_date, $end_date])
+                ->whereBetween('purchaseDate', [$start_date, $end_date])
                 ->paginate(10);
 
             return view('Reports.rpt_daily_sales', compact('camp', 'sales', 'start_date', 'end_date'));
@@ -62,8 +62,8 @@ class ReportsController extends Controller
             $data = Subscriptions::join('customers', 'subscriptions.customer_id', '=', 'customers.id')
                 ->join('packages', 'subscriptions.package_id', '=', 'packages.id')
                 ->where('subscriptions.camp_id', $camp_id)
-                ->whereBetween('purchaseDateTime', [$start_date, $end_date])
-                ->get(['subscriptions.id', 'purchaseDateTime', 'customers.username', 'packages.name', 'packages.duration', 'subscriptions.price']);
+                ->whereBetween('purchaseDate', [$start_date, $end_date])
+                ->get(['subscriptions.id', 'purchaseDate', 'customers.username', 'packages.name', 'packages.duration', 'subscriptions.price']);
 
             return Excel::download(
                 new class($data) implements FromCollection, WithHeadings {

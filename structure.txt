@@ -206,10 +206,10 @@ package wise sales report
 * subscription edit modal (ADD TO RUNNING)
 * Mikrotik Control Panel
 * remove mac address binding in schedule
-* user profile, change pwd
+* user profile, change pwd ------------------------------------ done
 
 //client profile
-* client Dashboard
-* client Subscriptions
-* client customers
+* client Dashboard -------------------------------------------- done
+* client Subscriptions ---------------------------------------- done add search
+* client customers -------------------------------------------- give normal access
 * client reports

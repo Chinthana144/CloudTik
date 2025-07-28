@@ -6,7 +6,7 @@
                 <i class="bx bx-grid-alt"></i>
             </button>
             <div class="sidebar-logo">
-                <a href="/dashboard">CloudTik</a>
+                <a href="/dashboard">TRIZENT</a>
             </div>
         </div>
         <ul class="sidebar-nav">

@@ -58,7 +58,10 @@
                         <th>Password</th>
                         <th>Expire Date</th>
                         @can('update', App\Models\Customer::class)
-                            <th>Action</th>
+                            <th>Edit</th>
+                        @endcan
+                        @can('delete', App\Models\Customer::class)
+                            <th>Delete</th>
                         @endcan
 
                     </tr>
@@ -74,7 +77,13 @@
                             </td>
                             @can('update', App\Models\Customer::class)
                             <td>
-                                <button type="button" class="btn btn-warning btn-sm btn_open_edit">Edit</button>
+                                <button type="button" class="btn btn-outline-warning btn-sm btn_open_edit"><i class="bx bx-edit"></i></button>
+                            </td>
+                            @endcan
+                            @can('delete', App\Models\Customer::class)
+                            <td>
+                                {{-- add delete form here --}}
+                                <button type="button" class="btn btn-outline-danger btn-sm btn_delete_customer"><i class="bx bx-trash"></i></button>
                             </td>
                             @endcan
                         </tr>
