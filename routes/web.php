@@ -118,6 +118,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/rpt_daily_sales_search', [ReportsController::class, 'rptDailySalesSearch'])->name('rptDailySales.search');
     Route::get('/rpt_sales_summary', [ReportsController::class, 'showSaleSummaryReport']);
     Route::get('/rpt_sales_summary_search', [ReportsController::class, 'rptSalesSummarySearch'])->name('rptSalesSummary.search');
+    Route::get('/rpt_user_sales', [ReportsController::class, 'showUserSalesReport']);
+    Route::get('/rpt_user_sales_search', [ReportsController::class, 'rptUserSalesSearch'])->name('rptUserSales.search');
 
     //user page access
     Route::get('/useraccess', [UserAccessController::class, 'index'])->name('useraccess.index');

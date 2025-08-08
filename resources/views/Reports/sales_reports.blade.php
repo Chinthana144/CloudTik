@@ -18,7 +18,7 @@
                 <a href="/rpt_sales_summary" class="btn btn-primary">Daily SalesSummary Report </a>
                 <hr>
                 <p>Userwise sales reports</p>
-                <a href="#" class="btn btn-primary">User Sales Report</a>
+                <a href="/rpt_user_sales" class="btn btn-primary">User Sales Report</a>
                 <a href="#" class="btn btn-primary">User Sales Summary Report</a>
                 <hr>
                 <p>Campwise sales reports</p>
