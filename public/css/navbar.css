@@ -94,8 +94,8 @@ a.sidebar-link {
 }
 
 .sidebar-link i {
-    font-size: 1.1rem;
-    margin-right: .75rem;
+    font-size: 1.5rem;
+    margin-right: .50rem;
 }
 
 a.sidebar-link:hover {
@@ -110,10 +110,10 @@ a.sidebar-link:hover {
 #sidebar:not(.expand) .sidebar-item .sidebar-dropdown {
     position: absolute;
     top: 0;
-    left: 40px;
+    left: 65px;
     background-color: #0e2238;
     padding: 0;
-    min-width: 10rem;
+    min-width: 12rem;
     display: none;
 }
 

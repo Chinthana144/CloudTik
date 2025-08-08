@@ -207,9 +207,20 @@ package wise sales report
 * Mikrotik Control Panel
 * remove mac address binding in schedule
 * user profile, change pwd ------------------------------------ done
+* route to home page after camp select
+* check mikrotik connection
 
 //client profile
 * client Dashboard -------------------------------------------- done
-* client Subscriptions ---------------------------------------- done add search
+* client Subscriptions ---------------------------------------- done
+* client subscription search
 * client customers -------------------------------------------- give normal access
 * client reports
+
+//Reports
+* Daily Sales report
+* daliy salaes summary report
+* user sales report
+* user sales summary report
+* camp sales report
+* camp summary report

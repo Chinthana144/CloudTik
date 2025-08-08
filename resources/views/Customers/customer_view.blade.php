@@ -83,7 +83,12 @@
                             @can('delete', App\Models\Customer::class)
                             <td>
                                 {{-- add delete form here --}}
-                                <button type="button" class="btn btn-outline-danger btn-sm btn_delete_customer"><i class="bx bx-trash"></i></button>
+                                <form action="{{ route('customer.deactivate') }}" method="post">
+                                    @csrf
+                                    @method('PUT')
+                                    <input type="hidden" name="customer_id" value="{{ $customer->id }}">
+                                    <button type="submit" class="btn btn-outline-danger btn-sm"><i class="bx bx-trash"></i></button>
+                                </form>
                             </td>
                             @endcan
                         </tr>

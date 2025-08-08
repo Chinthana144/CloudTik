@@ -7,6 +7,7 @@ use App\Models\CampUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Gate;
 
 class CampController extends Controller
 {
@@ -128,6 +129,11 @@ class CampController extends Controller
             return redirect()->route('client.dashboard');
         }
 
-        return redirect()->route('dashboard.home');
-    }
+        if(Gate::allows('access-home')) {
+            return redirect()->route('dashboard.home');
+        }
+        else{
+            return redirect()->route('users.profile');
+        }
+    }//select
 }

@@ -17,7 +17,10 @@ class CustomerController extends Controller
     public function index()
     {
         $camp_id = Session::get('active_camp_id');
-        $customers = Customers::where('camp_id', $camp_id)->paginate(10);
+        $customers = Customers::where('camp_id', $camp_id)
+                ->where('status', 1)
+                ->orderBy('id', 'desc')
+                ->paginate(10);
         $customer_types = CustomerType::all();
         $camp = Camps::find($camp_id);
         $camps = Camps::where('status', 1)->get();
@@ -47,6 +50,7 @@ class CustomerController extends Controller
         $camp_id = $request->input('camp_id');
         $customers = Customers::where('camp_id', $camp_id)
             ->orderBy('id', 'desc')
+            ->limit(20)
             ->get();
 
         return response()->json($customers);
@@ -207,6 +211,21 @@ class CustomerController extends Controller
         }
     }
 
+     //deactivate customer
+    public function deactivateCustomer(Request $request){
+        $customer_id = $request->input('customer_id');
+        $customer = Customers::find($customer_id);
+
+        if ($customer) {
+            $customer->status = 0; //deactivate
+            $customer->save();
+
+            return redirect()->route('customer.index')->with('success', 'Customer removed successfully!');
+        } else {
+            return redirect()->route('customer.index')->with('error', 'Customer not found!');
+        }
+    }// deactivate customer
+
     //update customer API
     public function updateCustomer(Request $request)
     {
@@ -234,6 +253,8 @@ class CustomerController extends Controller
             ]);
         }
     }
+
+
 
     /**
      * Remove the specified resource from storage.

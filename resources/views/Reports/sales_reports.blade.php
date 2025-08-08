@@ -13,7 +13,17 @@
         </div>
         <div class="card-body">
             <div class="col-md-6">
-                <a href="/rpt_daily_sales" class="btn btn-primary">Daily Sale</a>
+                <p>Daily sales reports</p>
+                <a href="/rpt_daily_sales" class="btn btn-primary">Daily Sale Report</a>
+                <a href="#" class="btn btn-primary">Daily SalesSummary Report </a>
+                <hr>
+                <p>Userwise sales reports</p>
+                <a href="#" class="btn btn-primary">User Sales Report</a>
+                <a href="#" class="btn btn-primary">User Sales Summary Report</a>
+                <hr>
+                <p>Campwise sales reports</p>
+                <a href="#" class="btn btn-primary">Camp Sales Report</a>
+                <a href="#" class="btn btn-primary">Camp Summary Report</a>
             </div>
         </div>
     </div>
