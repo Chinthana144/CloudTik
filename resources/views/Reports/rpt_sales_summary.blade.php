@@ -7,12 +7,12 @@
                 @if (is_null($camp))
                     Daily Sales Report
                 @else
-                    Daily Sales Report in <b>{{ $camp->name }}</b>
+                    Sales Summary Report in <b>{{ $camp->name }}</b>
                 @endif
             </h5>
         </div>
         <div class="card-body">
-            <form action="{{ route('rptDailySales.search') }}" method="get">
+            <form action="{{ route('rptSalesSummary.search') }}" method="get">
                 <div class="row">
                     <div class="col-md-5">
                         <label for="" class="form-label">Start Date</label>
@@ -41,22 +41,14 @@
             <table class="table">
                 <tr>
                     <th>No</th>
-                    <th>Date</th>
-                    <th>Customer</th>
-                    <th>Uername</th>
-                    <th>Package</th>
-                    <th>Duration</th>
-                    <th>Price</th>
+                    <th>Package Name</th>
+                    <th>Sale</th>
                 </tr>
                 @foreach ($sales as $sale)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ Str::substr($sale->purchaseDateTime, 0, 10) }}</td>
-                        <td>{{ $sale->customer->fullname }}</td>
-                        <td>{{ $sale->customer->username }}</td>
                         <td>{{ $sale->package->name }}</td>
-                        <td>{{ $sale->package->duration }} days</td>
-                        <td>{{ $sale->price }}</td>
+                        <td>{{ $sale->total_sales }}</td>
                     </tr>
                 @endforeach
             </table>

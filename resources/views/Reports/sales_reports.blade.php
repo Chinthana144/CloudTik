@@ -15,7 +15,7 @@
             <div class="col-md-6">
                 <p>Daily sales reports</p>
                 <a href="/rpt_daily_sales" class="btn btn-primary">Daily Sale Report</a>
-                <a href="#" class="btn btn-primary">Daily SalesSummary Report </a>
+                <a href="/rpt_sales_summary" class="btn btn-primary">Daily SalesSummary Report </a>
                 <hr>
                 <p>Userwise sales reports</p>
                 <a href="#" class="btn btn-primary">User Sales Report</a>

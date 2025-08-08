@@ -214,7 +214,7 @@ package wise sales report
 * client Dashboard -------------------------------------------- done
 * client Subscriptions ---------------------------------------- done
 * client subscription search
-* client customers -------------------------------------------- give normal access
+* client customers -------------------------------------------- give normal access (view only)
 * client reports
 
 //Reports
