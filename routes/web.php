@@ -116,7 +116,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/sales_reports', [ReportsController::class, 'showSalesReports']);
     Route::get('/rpt_daily_sales', [ReportsController::class, 'showDailySalesReport']);
     Route::get('/rpt_daily_sales_search', [ReportsController::class, 'rptDailySalesSearch'])->name('rptDailySales.search');
-    Route::get('/rpt_sales_summary', [ReportsController::class, 'showSaleSummaryReport']);
+    Route::get('/rpt_daily_summary', [ReportsController::class, 'showDailySummaryReport']);
+    Route::get('/rpt_daily_summary_search', [ReportsController::class, 'rptDailySummarySearch'])->name('rptDailySummary.search');
+    Route::get('/rpt_sales_summary', [ReportsController::class, 'showSalesSummaryReport']);
     Route::get('/rpt_sales_summary_search', [ReportsController::class, 'rptSalesSummarySearch'])->name('rptSalesSummary.search');
     Route::get('/rpt_user_sales', [ReportsController::class, 'showUserSalesReport']);
     Route::get('/rpt_user_sales_search', [ReportsController::class, 'rptUserSalesSearch'])->name('rptUserSales.search');

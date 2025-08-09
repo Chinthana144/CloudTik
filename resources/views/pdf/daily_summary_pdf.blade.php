@@ -40,19 +40,21 @@
         </div>
         <div style="text-align: center;">
             <h2>Trizent Infratech Reports</h2>
-            <h4>{{$camp_name}} Sales Summary Report</h4>
+            <h4>{{$camp_name}} Daily Sales Summary Report</h4>
         </div>
     </div>
     <div>
-        <p>Sales summary report for <strong>{{ $year }} {{ $monthName }}</strong></p>
+        <p>Sales reports from {{ $start_date }} to {{ $end_date }}</p>
     </div>
 
     <table id="tbl_main">
         <thead>
             <tr>
                 <th>No</th>
-                <th>Date</th>
+                <th>Package Name</th>
+                <th>Duration</th>
                 <th>Count</th>
+                <th>Price</th>
                 <th>Sale</th>
             </tr>
         </thead>
@@ -60,15 +62,17 @@
              @foreach ($data as $sale)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $sale->purchaseDate }}</td>
-                    <td>{{ $sale->invoice_count }}</td>
+                    <td>{{ $sale->name }}</td>
+                    <td>{{ $sale->duration }}</td>
+                    <td>{{ $sale->package_count }}</td>
+                    <td>{{ $sale->price }}</td>
                     <td style="text-align:right;">{{ $sale->total_sales }}</td>
                 </tr>
             @endforeach
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="3" style="text-align: right;"><strong>Total Sales:</strong></td>
+                <td colspan="5" style="text-align: right;"><strong>Total Sales:</strong></td>
                 <td style="text-align:right;"><strong>{{ $data->sum('total_sales') }}</strong></td>
             </tr>
         </tfoot>

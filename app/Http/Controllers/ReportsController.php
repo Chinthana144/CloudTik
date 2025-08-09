@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Exports\SubscriptionExport;
 use App\Models\Camps;
 use App\Models\CampUsers;
@@ -32,7 +33,9 @@ class ReportsController extends Controller
         return view('Reports.sales_reports', compact('camp'));
     }
 
-    //show daily sales
+    /*
+    * show daily sales
+    */
     public function showDailySalesReport()
     {
         $camp_id = Session::get('active_camp_id');
@@ -154,24 +157,27 @@ class ReportsController extends Controller
         // }
     }
 
-    public function showSaleSummaryReport()
+    /*
+    * Daily Sales Summary Report
+    */
+    public function showDailySummaryReport()
     {
         $camp_id = Session::get('active_camp_id');
         $camp = Camps::find($camp_id);
 
         $today = date('Y-m-d');
 
-        $sales = Subscriptions::selectRaw('package_id, SUM(subscriptions.price) as total_sales')
+        $sales = Subscriptions::selectRaw('package_id, COUNT(*) AS package_count, SUM(subscriptions.price) as total_sales')
             ->where('subscriptions.camp_id', $camp_id)
             ->whereDate('purchaseDate', $today)
             ->join('packages', 'subscriptions.package_id', '=', 'packages.id')
             ->groupBy('package_id')
             ->paginate(10);
 
-        return view('Reports.rpt_sales_summary', compact('camp', 'sales'));
+        return view('Reports.rpt_daily_summary', compact('camp', 'sales'));
     }
 
-    public function rptSalesSummarySearch(Request $request){
+    public function rptDailySummarySearch(Request $request){
         $camp_id = Session::get('active_camp_id');
         $camp = Camps::find($camp_id);
         $camp_name = $camp->name;
@@ -183,21 +189,21 @@ class ReportsController extends Controller
 
         switch ($request->action) {
             case 'search':
-                $sales = Subscriptions::selectRaw('package_id, SUM(subscriptions.price) as total_sales')
+                $sales = Subscriptions::selectRaw('package_id, COUNT(*) AS package_count, SUM(subscriptions.price) as total_sales')
                 ->where('subscriptions.camp_id', $camp_id)
                 ->whereBetween('purchaseDate', [$start_date, $end_date])
                 ->join('packages', 'subscriptions.package_id', '=', 'packages.id')
                 ->groupBy('package_id')
                 ->paginate(10);
-                return view('Reports.rpt_sales_summary', compact('camp', 'sales', 'start_date', 'end_date'));
+                return view('Reports.rpt_daily_summary', compact('camp', 'sales', 'start_date', 'end_date'));
                 break;
 
             case 'excel':
                  $data = Subscriptions::join('packages', 'subscriptions.package_id', '=', 'packages.id')
                     ->where('subscriptions.camp_id', $camp_id)
                     ->whereBetween('purchaseDate', [$start_date, $end_date])
-                    ->selectRaw('packages.name, COUNT(*) as package_count, SUM(subscriptions.price) as total_sales')
-                    ->groupBy('subscriptions.package_id', 'packages.name')
+                    ->selectRaw('packages.name, packages.duration, COUNT(*) as package_count, packages.price, SUM(subscriptions.price) as total_sales')
+                    ->groupBy('subscriptions.package_id', 'packages.name', 'packages.duration', 'packages.price')
                     ->get();
 
                  return Excel::download(
@@ -213,7 +219,7 @@ class ReportsController extends Controller
                         }
                         public function headings(): array
                         {
-                            return ['Package Name', 'Package Count', 'Sale'];
+                            return ['Package Name', 'Duration', 'Package Count', 'Price', 'Sale'];
                         }
                     },
                     'sales_summary_from_'.$start_date.'_to_'. $end_date .'.xlsx'
@@ -224,11 +230,11 @@ class ReportsController extends Controller
                 $data = Subscriptions::join('packages', 'subscriptions.package_id', '=', 'packages.id')
                     ->where('subscriptions.camp_id', $camp_id)
                     ->whereBetween('purchaseDate', [$start_date, $end_date])
-                    ->selectRaw('packages.name, COUNT(*) as package_count, SUM(subscriptions.price) as total_sales')
-                    ->groupBy('subscriptions.package_id', 'packages.name')
+                    ->selectRaw('packages.name, packages.duration, packages.price, COUNT(*) as package_count, SUM(subscriptions.price) as total_sales')
+                    ->groupBy('subscriptions.package_id', 'packages.name', 'packages.duration', 'packages.price')
                     ->get();
 
-                $pdf = Pdf::loadView('pdf.sales_summary_pdf', compact('data', 'camp_name', 'start_date', 'end_date'));
+                $pdf = Pdf::loadView('pdf.daily_summary_pdf', compact('data', 'camp_name', 'start_date', 'end_date'));
                 return $pdf->stream('daily_sales_from_'.$start_date.'_to_'. $end_date .'.pdf');
                 break;
 
@@ -236,6 +242,86 @@ class ReportsController extends Controller
                 # code...
                 break;
         }//switch
+    }
+
+    /*
+    * sales summary report
+    */
+    public function showSalesSummaryReport(){
+        $camp_id = Session::get('active_camp_id');
+        $camp = Camps::find($camp_id);
+
+        $sales = Subscriptions::selectRaw('purchaseDate, COUNT(*) AS invoice_count, SUM(subscriptions.price) as total_sales')
+            ->where('subscriptions.camp_id', $camp_id)
+            ->whereYear('purchaseDate', date('Y'))
+            ->whereMonth('purchaseDate', date('m'))
+            ->groupBy('purchaseDate')
+            ->paginate(10);
+
+        return view('Reports.rpt_sales_summary', compact('camp', 'sales'));
+    }
+
+    public function rptSalesSummarySearch(Request $request){
+        $camp_id = Session::get('active_camp_id');
+        $camp = Camps::find($camp_id);
+        $camp_name = $camp->name;
+
+        $year_month = $request->input('month') ?? date('Y-m');
+        $year = substr($year_month, 0, 4);
+        $month = substr($year_month, 5, 2);
+
+        switch($request->action){
+            case 'search':
+                $sales = Subscriptions::selectRaw('purchaseDate, COUNT(*) AS invoice_count, SUM(subscriptions.price) as total_sales')
+                ->where('subscriptions.camp_id', $camp_id)
+                ->whereYear('purchaseDate', $year)
+                ->whereMonth('purchaseDate', $month)
+                ->groupBy('purchaseDate')
+                ->paginate(10);
+
+            return view('Reports.rpt_sales_summary', compact('camp', 'sales', 'year_month'));
+            break;
+
+            case 'excel':
+                $data = Subscriptions::selectRaw('purchaseDate, COUNT(*) AS invoice_count, SUM(subscriptions.price) as total_sales')
+                    ->where('subscriptions.camp_id', $camp_id)
+                    ->whereYear('purchaseDate', $year)
+                    ->whereMonth('purchaseDate', $month)
+                    ->groupBy('purchaseDate')
+                    ->get();
+
+                return Excel::download(
+                    new class($data) implements FromCollection, WithHeadings {
+                        protected $data;
+                        public function __construct($data)
+                        {
+                            $this->data = $data;
+                        }
+                        public function collection()
+                        {
+                            return $this->data;
+                        }
+                        public function headings(): array
+                        {
+                            return ['Purchase Date', 'Invoice Count', 'Total Sales'];
+                        }
+                    },
+                    'sales_summary_'.$year_month.'.xlsx'
+                );
+            break;
+
+            case 'pdf':
+                $data = Subscriptions::selectRaw('purchaseDate, COUNT(*) AS invoice_count, SUM(subscriptions.price) as total_sales')
+                    ->where('subscriptions.camp_id', $camp_id)
+                    ->whereYear('purchaseDate', $year)
+                    ->whereMonth('purchaseDate', $month)
+                    ->groupBy('purchaseDate')
+                    ->get();
+
+                $monthName = Carbon::createFromFormat('Y-m', $year_month)->format('F');
+                $pdf = Pdf::loadView('pdf.sales_summary_pdf', compact('data', 'year_month', 'camp_name', 'monthName', 'year'));
+                return $pdf->stream('sales_summary_'.$year_month.'.pdf');
+        }
     }
 
     /*
@@ -318,7 +404,7 @@ class ReportsController extends Controller
                     ->where('subscriptions.camp_id', $camp_id)
                     ->whereBetween('purchaseDate', [$start_date, $end_date])
                     ->where('subscriptions.user_id', $selected_user)
-                    ->get(['subscriptions.id as id', 'purchaseDate', 'customers.username as username', 'packages.name as name', 'packages.duration as duration', 'subscriptions.price as price', 'users.name as user_name']);
+                    ->get(['subscriptions.id as id', 'purchaseDate', 'customers.fullname as fullname', 'customers.username as username', 'packages.name as name', 'packages.duration as duration', 'subscriptions.price as price', 'users.name as user_name']);
 
                 $pdf = Pdf::loadView('pdf.user_sale_pdf', compact('data','camp_name','start_date','end_date', 'user_name'));
                 return $pdf->stream('user_sales_from_'.$start_date.'_to_'. $end_date .'.pdf');

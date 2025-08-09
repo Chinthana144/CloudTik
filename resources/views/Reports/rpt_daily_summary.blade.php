@@ -7,25 +7,32 @@
                 @if (is_null($camp))
                     Daily Sales Report
                 @else
-                    Sales Summary Report in <b>{{ $camp->name }}</b>
+                    Daily Sales Summary Report in <b>{{ $camp->name }}</b>
                 @endif
             </h5>
         </div>
         <div class="card-body">
-            <form action="{{ route('rptSalesSummary.search') }}" method="get">
+            <form action="{{ route('rptDailySummary.search') }}" method="get">
                 <div class="row">
                     <div class="col-md-5">
-                        <label for="" class="form-label">Select Month</label>
-                        <input type="month" name="month" id="month" class="form-control"
-                            value="{{ isset($year_month) ? $year_month : '' }}">
+                        <label for="" class="form-label">Start Date</label>
+                        <input type="date" name="start_date" id="start_date" class="form-control"
+                            value="{{ isset($start_date) ? $start_date : '' }}">
+                    </div>
+                    <div class="col-md-5">
+                        <label for="" class="form-label">End Date</label>
+                        <input type="date" name="end_date" id="end_date" class="form-control"
+                            value="{{ isset($end_date) ? $end_date : '' }}">
                     </div>
                     <div class="col-md-2">
                         <button type="submit" name="action" value="search" class="btn btn-primary mt-4">Search</button>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         <button type="submit" name="action" value="excel" class="btn btn-success m-2">Download Excel</button>
+                    </div>
+                    <div class="col-md-3">
                         <button type="submit" name="action" value="pdf" class="btn btn-danger m-2">Download PDF</button>
                     </div>
                 </div>
@@ -34,15 +41,19 @@
             <table class="table">
                 <tr>
                     <th>No</th>
-                    <th>Date</th>
+                    <th>Package Name</th>
+                    <th>Duration</th>
                     <th>Count</th>
+                    <th>Price</th>
                     <th>Sale</th>
                 </tr>
                 @foreach ($sales as $sale)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $sale->purchaseDate }}</td>
-                        <td>{{ $sale->invoice_count }}</td>
+                        <td>{{ $sale->package->name }}</td>
+                        <td>{{ $sale->package->duration }}</td>
+                        <td>{{ $sale->package_count }}</td>
+                        <td>{{ $sale->package->price }}</td>
                         <td>{{ $sale->total_sales }}</td>
                     </tr>
                 @endforeach
@@ -52,4 +63,13 @@
             </div>
         </div>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            $("#start_date").change(function() {
+                var start_date = $(this).val();
+                $("#end_date").val(start_date);
+            });
+        });
+    </script>
 @endsection
