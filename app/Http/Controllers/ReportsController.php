@@ -349,6 +349,10 @@ class ReportsController extends Controller
         $camp_id = Session::get('active_camp_id');
         $camp = Camps::find($camp_id);
         $camp_name = $camp->name;
+        $users = CampUsers::selectRaw('users.id, users.name')
+            ->where('camp_id', $camp_id)
+            ->join('users', 'camp_users.user_id', '=', 'users.id')
+            ->get();
 
         $today = date('Y-m-d');
 
@@ -365,7 +369,7 @@ class ReportsController extends Controller
                     ->where('user_id', $selected_user)
                     ->paginate(10);
 
-                return view('Reports.rpt_user_sales', compact('camp', 'sales', 'start_date', 'end_date', 'selected_user'));
+                return view('Reports.rpt_user_sales', compact('camp', 'sales', 'users', 'start_date', 'end_date', 'selected_user'));
             break;
 
             case 'excel':
@@ -412,4 +416,184 @@ class ReportsController extends Controller
         }//switch
     }//user sales search
 
-}
+    /*
+    * user sales summary report
+    */
+    public function showUserPackageSummaryReport()
+    {
+        $camp_id = Session::get('active_camp_id');
+        $camp = Camps::find($camp_id);
+        $today = date('Y-m-d');
+
+        $users = CampUsers::selectRaw('users.id, users.name')
+            ->where('camp_id', $camp_id)
+            ->join('users', 'camp_users.user_id', '=', 'users.id')
+            ->get();
+        $user_id = $users->first()->id ?? 1;
+
+        $sales = Subscriptions::selectRaw('COUNT(*) AS row_count, SUM(subscriptions.price) as total_sales, packages.name as package_name, packages.duration as package_duration')
+            ->where('subscriptions.camp_id', $camp_id)
+            ->where('user_id', $user_id)
+            ->whereDate('purchaseDate', $today)
+            ->join('packages', 'subscriptions.package_id', '=', 'packages.id')
+            ->groupBy('package_id', 'packages.name', 'packages.duration')
+            ->paginate(10);
+
+        return view('Reports.rpt_user_package_summary', compact('camp', 'users', 'sales'));
+    }
+
+    public function rptUserPackageSummarySearch(Request $request)
+    {
+        $camp_id = Session::get('active_camp_id');
+        $camp = Camps::find($camp_id);
+        $camp_name = $camp->name;
+
+         $users = CampUsers::selectRaw('users.id, users.name')
+            ->where('camp_id', $camp_id)
+            ->join('users', 'camp_users.user_id', '=', 'users.id')
+            ->get();
+
+        $today = date('Y-m-d');
+
+        $selected_user = $request->input('cmb_salesman') ?? null;
+        $user = User::find($selected_user);
+        $user_name = $user->name;
+        $start_date = $request->input('start_date') ?? $today;
+        $end_date = $request->input('end_date') ?? $today;
+
+        switch ($request->action) {
+            case 'search':
+                $sales = Subscriptions::selectRaw('COUNT(*) AS row_count, SUM(subscriptions.price) as total_sales, packages.name as package_name, packages.duration as package_duration')
+                    ->where('subscriptions.camp_id', $camp_id)
+                    ->whereBetween('purchaseDate', [$start_date, $end_date])
+                    ->where('user_id', $selected_user)
+                    ->join('packages', 'subscriptions.package_id', '=', 'packages.id')
+                    ->groupBy('package_id', 'packages.name', 'packages.duration')
+                    ->paginate(10);
+
+                return view('Reports.rpt_user_package_summary', compact('camp', 'sales', 'users', 'start_date', 'end_date', 'selected_user'));
+            break;
+
+            case 'excel':
+                $data = Subscriptions::selectRaw('COUNT(*) AS row_count, SUM(subscriptions.price) as total_sales, packages.name as package_name, packages.duration as package_duration')
+                    ->where('subscriptions.camp_id', $camp_id)
+                    ->whereBetween('purchaseDate', [$start_date, $end_date])
+                    ->where('user_id', $selected_user)
+                    ->join('packages', 'subscriptions.package_id', '=', 'packages.id')
+                    ->groupBy('package_id', 'packages.name', 'packages.duration')
+                    ->get();
+
+                return Excel::download(
+                    new class($data) implements FromCollection, WithHeadings {
+                        protected $data;
+                        public function __construct($data)
+                        {
+                            $this->data = $data;
+                        }
+                        public function collection()
+                        {
+                            return $this->data;
+                        }
+                        public function headings(): array
+                        {
+                            return ['Package Name', 'Duration (days)', 'Count', 'Sale'];
+                        }
+                    },
+                    'user_package_summary_from_'.$start_date.'_to_'. $end_date .'.xlsx'
+                );
+            break;
+            case 'pdf':
+                $data = Subscriptions::selectRaw('COUNT(*) AS row_count, SUM(subscriptions.price) as total_sales, packages.name as package_name, packages.duration as package_duration')
+                    ->where('subscriptions.camp_id', $camp_id)
+                    ->whereBetween('purchaseDate', [$start_date, $end_date])
+                    ->where('user_id', $selected_user)
+                    ->join('packages', 'subscriptions.package_id', '=', 'packages.id')
+                    ->groupBy('package_id', 'packages.name', 'packages.duration')
+                    ->get();
+
+                $pdf = Pdf::loadView('pdf.user_package_summary_pdf', compact('data','camp_name','start_date','end_date', 'user_name'));
+                return $pdf->stream('user_package_summary_from_'.$start_date.'_to_'. $end_date .'.pdf');
+            break;
+        }//switch
+    } //rptUserPackageSummarySearch
+
+    public function showUserSalesSummaryReport()
+    {
+        $camp_id = Session::get('active_camp_id');
+        $camp = Camps::find($camp_id);
+        $today = date('Y-m-d');
+
+        $sales = Subscriptions::selectRaw('COUNT(*) AS row_count, SUM(subscriptions.price) as total_sales, users.name as user_name')
+            ->where('subscriptions.camp_id', $camp_id)
+            ->whereDate('purchaseDate', $today)
+            ->join('users', 'subscriptions.user_id', '=', 'users.id')
+            ->groupBy('user_id', 'users.name')
+            ->paginate(10);
+
+        return view('Reports.rpt_user_sales_summary', compact('camp', 'sales'));
+    }//showUserSalesSummaryReport
+
+    public function rptUserSalesSummarySearch(Request $request)
+    {
+        $camp_id = Session::get('active_camp_id');
+        $camp = Camps::find($camp_id);
+        $camp_name = $camp->name;
+
+        $today = date('Y-m-d');
+
+        $start_date = $request->input('start_date') ?? $today;
+        $end_date = $request->input('end_date') ?? $today;
+
+        switch ($request->action) {
+            case 'search':
+                $sales = Subscriptions::selectRaw('COUNT(*) AS row_count, SUM(subscriptions.price) as total_sales, users.name as user_name')
+                    ->where('subscriptions.camp_id', $camp_id)
+                    ->whereBetween('purchaseDate', [$start_date, $end_date])
+                    ->join('users', 'subscriptions.user_id', '=', 'users.id')
+                    ->groupBy('user_id', 'users.name')
+                    ->paginate(10);
+
+                return view('Reports.rpt_user_sales_summary', compact('camp', 'sales', 'start_date', 'end_date'));
+            break;
+
+            case 'excel':
+                $data = Subscriptions::selectRaw('COUNT(*) AS row_count, SUM(subscriptions.price) as total_sales, users.name as user_name')
+                    ->where('subscriptions.camp_id', $camp_id)
+                    ->whereBetween('purchaseDate', [$start_date, $end_date])
+                    ->join('users', 'subscriptions.user_id', '=', 'users.id')
+                    ->groupBy('user_id', 'users.name')
+                    ->get();
+
+                return Excel::download(
+                    new class($data) implements FromCollection, WithHeadings {
+                        protected $data;
+                        public function __construct($data)
+                        {
+                            $this->data = $data;
+                        }
+                        public function collection()
+                        {
+                            return $this->data;
+                        }
+                        public function headings(): array
+                        {
+                            return ['User Name', 'Count', 'Sale'];
+                        }
+                    },
+                    'user_sales_summary_from_'.$start_date.'_to_'. $end_date .'.xlsx'
+                );
+            break;
+
+            case 'pdf':
+                $data = Subscriptions::selectRaw('COUNT(*) AS row_count, SUM(subscriptions.price) as total_sales, users.name as user_name')
+                    ->where('subscriptions.camp_id', $camp_id)
+                    ->whereBetween('purchaseDate', [$start_date, $end_date])
+                    ->join('users', 'subscriptions.user_id', '=', 'users.id')
+                    ->groupBy('user_id', 'users.name')
+                    ->get();
+                $pdf = Pdf::loadView('pdf.user_sales_summary_pdf', compact('data','camp_name','start_date','end_date'));
+                return $pdf->stream('user_sales_summary_from_'.$start_date.'_to_'. $end_date .'.pdf');
+            break;
+        }//switch
+    } //rptUserSalesSummarySearch
+}//class

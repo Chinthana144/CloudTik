@@ -5,25 +5,15 @@
         <div class="card-header">
             <h5>
                 @if (is_null($camp))
-                    User Sales Report
+                    User Sales Summary Report
                 @else
-                    User Sales Report in <b>{{ $camp->name }}</b>
+                    User Sales Summary Report in <b>{{ $camp->name }}</b>
                 @endif
             </h5>
         </div>
         <div class="card-body">
-            <form action="{{ route('rptUserSales.search') }}" method="get">
+            <form action="{{ route('rptUserSalesSummary.search') }}" method="get">
                 <div class="row">
-                    <div class="col-md-3">
-                        <label for="" class="form-label">Select Salesman</label>
-                        <select name="cmb_salesman" id="cmb_salesman" class="form-select">
-                            @foreach ($users as $user)
-                                <option value="{{ $user->id }}" {{ isset($selected_user) && $selected_user == $user->id ? 'selected' : '' }}>
-                                    {{ $user->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
                     <div class="col-md-3">
                         <label for="" class="form-label">Start Date</label>
                         <input type="date" name="start_date" id="start_date" class="form-control"
@@ -39,11 +29,9 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-6">
                         <button type="submit" name="action" value="excel" class="btn btn-success m-2">Download Excel</button>
-                    </div>
-                    <div class="col-md-3">
-                        <button type="submit" name="action" value="pdf" class="btn btn-danger m-2">Download PDF</button>
+                         <button type="submit" name="action" value="pdf" class="btn btn-danger m-2">Download PDF</button>
                     </div>
                 </div>
             </form>
@@ -51,24 +39,16 @@
             <table class="table">
                 <tr>
                     <th>No</th>
-                    <th>Date</th>
-                    <th>Customer</th>
-                    <th>Uername</th>
-                    <th>Package</th>
-                    <th>Duration</th>
-                    <th>Price</th>
-                    <th>Salesman</th>
+                    <th>User</th>
+                    <th>Count</th>
+                    <th>Sale</th>
                 </tr>
                 @foreach ($sales as $sale)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ Str::substr($sale->purchaseDateTime, 0, 10) }}</td>
-                        <td>{{ $sale->customer->fullname }}</td>
-                        <td>{{ $sale->customer->username }}</td>
-                        <td>{{ $sale->package->name }}</td>
-                        <td>{{ $sale->package->duration }} days</td>
-                        <td>{{ $sale->price }}</td>
-                        <td>{{ $sale->user->name }}</td>
+                        <td>{{ $sale->user_name }}</td>
+                        <td>{{ $sale->row_count }}</td>
+                        <td>{{ $sale->total_sales }}</td>
                     </tr>
                 @endforeach
             </table>

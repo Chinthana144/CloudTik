@@ -20,7 +20,8 @@
                 <hr>
                 <p>Userwise sales reports</p>
                 <a href="/rpt_user_sales" class="btn btn-primary">User Sales Report</a>
-                <a href="#" class="btn btn-primary">User Sales Summary Report</a>
+                <a href="/rpt_user_package_summary" class="btn btn-primary">User Package Summary Report</a>
+                <a href="/rpt_user_sales_summary" class="btn btn-primary">User Sales Summary Report</a>
                 <hr>
                 <p>Campwise sales reports</p>
                 <a href="#" class="btn btn-primary">Camp Sales Report</a>
