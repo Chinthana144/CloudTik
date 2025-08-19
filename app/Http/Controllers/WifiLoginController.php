@@ -74,7 +74,7 @@ class WifiLoginController extends Controller
             ->where('status', 1) //active
             ->first();
 
-        if($customer){
+        if($customer && $hotspot_user->isConnected){
             $customer_id = $customer->id;
             $customer_camp = Camps::find($customer->camp_id);
 
@@ -149,7 +149,11 @@ class WifiLoginController extends Controller
                 }
             }//no running subscription
         }//have customer
-
+        else{
+            //no customer found or hotspot user not connected
+            return redirect()->route('wifilogin.index')
+                ->with('error', 'Invalid username or password, or hotspot service is not connected.');
+        }
 
     }//login
 

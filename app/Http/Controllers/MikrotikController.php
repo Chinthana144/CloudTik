@@ -16,7 +16,7 @@ class MikrotikController extends Controller
     public function index()
     {
         $service = new MikrotikServices();
-        $users = $service->getUsers();
+        // $users = $service->getUsers();
 
         $active_camp_id = Session::get('active_camp_id');
         $camp_data = Camps::find($active_camp_id);
@@ -25,11 +25,19 @@ class MikrotikController extends Controller
         $camp_password = $camp_data->mikrotikPassword;
         $port = $camp_data->mikritikPort;
 
-        $user_profile = new UserProfiles($host, $camp_user, $camp_password, $port);
+        // $user_profile = new UserProfiles($host, $camp_user, $camp_password, $port);
 
-        $profiles = $user_profile->getPackages();
+        // $profiles = $user_profile->getPackages();
 
-        return view('Test.mikrotik', compact('users', 'profiles'));
+        if($service->isConnected) {
+            // Fetch all users
+            $users = $service->getUsers();
+        } else {
+            $users = []; // Return empty array if not connected
+
+        }
+
+        return view('Test.mikrotik', compact('users'));
     }
 
     /**
@@ -90,5 +98,20 @@ class MikrotikController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function checkConnection()
+    {
+        $active_camp_id = Session::get('active_camp_id');
+        $camp_data = Camps::find($active_camp_id);
+        $host = $camp_data->mikritikIP;
+        $camp_user = $camp_data->mikrotikUsername;
+        $camp_password = $camp_data->mikrotikPassword;
+        $port = $camp_data->mikritikPort;
+
+        $service = new MikrotikServices();
+        // return $service->checkConnection();
+
+        dd($service->checkConnection());
     }
 }

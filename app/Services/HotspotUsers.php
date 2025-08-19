@@ -8,15 +8,25 @@ use RouterOS\Query;
 class HotspotUsers
 {
     protected $client;
+    public $isConnected = false;
 
     public function __construct($host, $user, $pwd, $port)
     {
-        $this->client = new Client([
-            'host' => $host,
-            'user' => $user,
-            'pass' => $pwd,
-            'port' => (int)$port,
-        ]);
+        try{
+            $this->client = new Client([
+                'host' => $host,
+                'user' => $user,
+                'pass' => $pwd,
+                'port' => (int)$port,
+                'timeout' => 3, // seconds
+            ]);
+            $this->isConnected = true; // success
+
+        } catch (\Exception $e) {
+            // Handle connection error
+            // echo "Connection failed: " . $e->getMessage();
+            $this->isConnected = false; // failed
+        }
     } //constructor
 
     public function addHotspotUser($username, $user_pwd, $package_name)

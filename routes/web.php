@@ -140,6 +140,7 @@ Route::middleware('auth')->group(function () {
     //for testing, delete this once testing is over
     Route::get('/mikrotik', [MikrotikController::class, 'index']);
     Route::post('/mikrotik_store', [MikrotikController::class, 'store'])->name('mikrotik.store');
+    Route::post('/checkConnection', [MikrotikController::class, 'checkConnection'])->name('mikrotik.checkConnection');
 });
 
 //Wifi log in controller

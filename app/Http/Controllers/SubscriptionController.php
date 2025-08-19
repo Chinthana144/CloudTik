@@ -286,7 +286,7 @@ class SubscriptionController extends Controller
         $username = $subscription->customer->username;
         $customer = Customers::find($customer_id);
 
-        if ($subscription) {
+        if ($subscription && $hotspot->isConnected) {
             // Delete the subscription
             $subscription->delete();
 
@@ -424,7 +424,6 @@ class SubscriptionController extends Controller
                 ],
             ]);
         }
-
         return response()->json(['success' => false, 'message' => 'Subscription not found'], 404);
     }
 
