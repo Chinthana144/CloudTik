@@ -8,14 +8,12 @@
         <div class="card-body">
             <p>calculate daily sale</p>
 
-            <br>
-            {{ $today_sale }}
+            <form action="{{ route('client.transferData') }}" method="post">
+                @csrf
+                <input type="date" name="transfer_date" class="form-control">
 
-            <br>
-            {{ $month_sale->monthly_sale }}
-
-            <br>
-            complete - {{ $transfer_amount }}
+                <button type="submit" class="btn btn-primary">Transfer Subscription</button>
+            </form>
         </div>
     </div>
 @endsection

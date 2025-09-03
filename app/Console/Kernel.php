@@ -12,7 +12,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
+        //execute
         $schedule->command('subscriptions:check-expired')->everyFifteenMinutes();
+
+        //daily client subscription transfer
+        $schedule->command('app:daily-sale-transfer')->dailyAt('01:00');
     }
 
     /**

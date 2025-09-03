@@ -144,6 +144,7 @@ Route::middleware('auth')->group(function () {
 
     //calculate daily sale
     Route::get('/showDailySale', [MikrotikController::class, 'showDailySale']);
+    Route::post('/transferData', [MikrotikController::class, 'dailySaleTransfer'])->name('client.transferData');
 });
 
 //Wifi log in controller
