@@ -24,18 +24,18 @@ class DashboardController extends Controller
 
         //daily subs
         $daily_subs_total = Subscriptions::where('camp_id', $camp_id)
-            ->whereDate('purchaseDateTime', $today)
+            ->whereDate('purchaseDate', $today)
             ->sum('price');
 
         //daily invoice count
         $daily_subs_count = Subscriptions::where('camp_id', $camp_id)
-            ->whereDate('purchaseDateTime', $today)
+            ->whereDate('purchaseDate', $today)
             ->count('id');
 
         //monthly sale
         $monthly_subs_sale = Subscriptions::where('camp_id', $camp_id)
-            ->whereYear('purchaseDateTime', $this_year)
-            ->whereMonth('purchaseDateTime', $this_month)
+            ->whereYear('purchaseDate', $this_year)
+            ->whereMonth('purchaseDate', $this_month)
             ->sum('price');
 
         //running users
@@ -107,7 +107,7 @@ class DashboardController extends Controller
 
         $camp_id = Session::get('active_camp_id');
         $dates = Subscriptions::where('camp_id', $camp_id)
-            ->selectRaw('DATE(purchaseDateTime) as date')
+            ->selectRaw('DATE(purchaseDate) as date')
             ->distinct()
             ->orderByDesc('date')
             ->limit($date_range)
@@ -117,7 +117,7 @@ class DashboardController extends Controller
             $camp_id = Session::get('active_camp_id');
 
             $total = Subscriptions::where('camp_id', $camp_id)
-                ->whereDate('purchaseDateTime', $date)
+                ->whereDate('purchaseDate', $date)
                 ->sum('price');
             return [
                 'date' => $date,

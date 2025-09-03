@@ -11,9 +11,7 @@
     <div id="div_background">
 
         <div id="div_login">
-            <a href="/" class="link_title">
-                <h1 id="h1_title">CloudTik</h1>
-            </a>
+            <img src="{{ asset('images/company/com_logo_1.png') }}" alt="" id="com_logo">
 
 
             <form action="{{ route('login') }}" method="post">

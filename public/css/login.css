@@ -9,6 +9,13 @@ body{
     font-family: Arial, sans-serif;
 }
 
+#com_logo{
+    width: 80%;
+    height: auto;
+    margin-left: 10%;
+    border-radius: 10px;
+}
+
 #div_background{
     background-size: cover;
     background-position: center;

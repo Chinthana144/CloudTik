@@ -46,7 +46,7 @@ class ClientController extends Controller
 
         $camp_id = Session::get('active_camp_id');
         $dates = ClientSubscriptions::where('camp_id', $camp_id)
-            ->selectRaw('DATE(purchaseDateTime) as date')
+            ->selectRaw('DATE(purchaseDate) as date')
             ->distinct()
             ->orderByDesc('date')
             ->limit($date_range)
@@ -56,7 +56,7 @@ class ClientController extends Controller
             $camp_id = Session::get('active_camp_id');
 
             $total = ClientSubscriptions::where('camp_id', $camp_id)
-                ->whereDate('purchaseDateTime', $date)
+                ->whereDate('purchaseDate', $date)
                 ->sum('price');
             return [
                 'date' => $date,

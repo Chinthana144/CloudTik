@@ -202,8 +202,10 @@ class SubscriptionController extends Controller
     public function show()
     {
         $camp_id = Session::get('active_camp_id');
+        $today = date('Y-m-d');
 
         $subscriptions = Subscriptions::where('camp_id', $camp_id)
+            ->whereDate('purchaseDate', $today)
             ->orderBy('id', 'DESC')
             ->paginate(10);
 

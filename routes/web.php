@@ -141,6 +141,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/mikrotik', [MikrotikController::class, 'index']);
     Route::post('/mikrotik_store', [MikrotikController::class, 'store'])->name('mikrotik.store');
     Route::post('/checkConnection', [MikrotikController::class, 'checkConnection'])->name('mikrotik.checkConnection');
+
+    //calculate daily sale
+    Route::get('/showDailySale', [MikrotikController::class, 'showDailySale']);
 });
 
 //Wifi log in controller
