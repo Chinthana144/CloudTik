@@ -197,6 +197,9 @@ package wise sales report
 * packages only for web not for Mikrotik ---------------------- done
 * subscription adds user to MikroTik (check package)
 * user page modal close
+* customer profile section
+* customer section show expire date time
+* customer section responsive design
 
 //new check list
 * customer register page, add back button using javascript ---- done

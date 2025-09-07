@@ -25,7 +25,7 @@
                 <a href="/login" id="link_user" class="link_button">User Login</a>
             </div>
             <div>
-                <a href="/userlogin" id="link_admin" class="link_button">Customer Login</a>
+                <a href="/cust_login" id="link_admin" class="link_button">Customer Login</a>
             </div>
         </div>
 

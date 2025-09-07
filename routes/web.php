@@ -6,6 +6,7 @@ use App\Http\Controllers\CampUserController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CounterController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\CustomerProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MikrotikController;
 use App\Http\Controllers\PackageController;
@@ -151,6 +152,16 @@ Route::middleware('auth')->group(function () {
 Route::get('/userlogin', [WifiLoginController::class, 'index'])->name('wifilogin.index');
 Route::get('/userregister', [WifiLoginController::class, 'register'])->name('wifilogin.register');
 Route::post('/register-store', [WifiLoginController::class, 'store'])->name('wifilogin.store');
+
+//customer profile
+Route::get('/cust_login', [CustomerProfileController::class, 'index'])->name('customer.custLogin');
+Route::post('/customer-login', [CustomerProfileController::class, 'login'])->name('customer.login');
+
+//customer auth middleware
+Route::middleware(['customerAuth'])->group(function(){
+    Route::get('/cust_home', [CustomerProfileController::class, 'custHome'])->name('customer.custHome');
+    Route::get('/cust_logout', [CustomerProfileController::class, 'logout'])->name('customer.custLogout');
+});
 
 Route::get('login1', function(){
     return view('auth.login1');

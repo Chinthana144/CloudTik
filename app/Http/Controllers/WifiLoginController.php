@@ -15,12 +15,15 @@ class WifiLoginController extends Controller
      */
     public function index(Request $request)
     {
+        $customer_id = $request->input('cust_id');
+        $customer = Customers::find($customer_id);
+
         $mac = $request->query('mac', null);  // if 'mac' doesn't exist, use null
         $ip = $request->query('ip', null);
         // $username = $request->query('username', null);
         $dst = $request->query('dst', null);
 
-        return view('WifiLogin.customer_dashboard', compact('mac', 'ip', 'dst'));
+        return view('WifiLogin.customer_dashboard', compact('mac', 'ip', 'dst', 'customer'));
     }
 
     /*
@@ -28,9 +31,9 @@ class WifiLoginController extends Controller
     */
     public function login(Request $request)
     {
-        /*
+       /*
         * PLEASE NOTE:
-        * The mac address and ip address are fetch from a custom login page,
+        * The mac address and ip address are fetched from a custom login page,
         * in the Mikrotik Files.
         * so that hotspot files and folders are not included in this project.
         */
@@ -170,7 +173,7 @@ class WifiLoginController extends Controller
      */
     public function store(Request $request)
     {
-        $default_camp_id = 1; // Default camp ID, can be changed as needed
+        $camp_id = $request->input('camp_id', 1); //default camp id 1
         $customer_type_id = 1; //labor
         $customer_name = $request->input('customer_name');
         $contact_no = $request->input('contact_no');
@@ -186,7 +189,7 @@ class WifiLoginController extends Controller
                 ->with('error', 'This phone number is already registered. Please use a different phone number.');
         } else {
             Customers::create([
-                'camp_id' =>  $default_camp_id,
+                'camp_id' =>  $camp_id,
                 'customerType_id' => $customer_type_id,
                 'fullname' => $customer_name,
                 'phone' => $contact_no,
@@ -233,7 +236,10 @@ class WifiLoginController extends Controller
         //
     }
 
-    public function register(){
-        return view('WifiLogin.customer_register');
+    public function register(Request $request){
+        $camp_id = $request->input('camp_id', 1); //default camp id 1
+        $camp = Camps::find($camp_id);
+
+        return view('WifiLogin.customer_register', compact('camp'));
     }
 }

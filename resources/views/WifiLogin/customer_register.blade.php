@@ -43,6 +43,7 @@
 
         <form action="{{ route('wifilogin.store') }}" method="post">
             @csrf
+            <input type="hidden" name="camp_id" value="{{ $camp->id }}">
             <h3>Register Here</h3>
 
             <div class="form-group mb-3">
