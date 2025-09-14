@@ -51,4 +51,4 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::post('/login', [UserController::class, 'login'])->name('api.login');
 
 // API route for WiFi login
-Route::post('/wifi_login', [WifiLoginController::class, 'login'])->name('api.wifi_login');
+Route::get('/wifi_login', [WifiLoginController::class, 'login'])->name('api.wifi_login');

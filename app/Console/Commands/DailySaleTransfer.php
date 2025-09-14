@@ -29,13 +29,11 @@ class DailySaleTransfer extends Command
      */
     public function handle()
     {
-                $camps = Camps::where('monthly_target', '>=', 0)
-            ->where('status', 1)
-            ->get();
+        $camps = Camps::where('monthly_target', '>=', 0)
+        ->where('status', 1)
+        ->get();
 
         foreach ($camps as $camp) {
-            $camp_id = $camp->id;
-
             $camp_id = $camp->id;
             $monthly_target = (float)$camp->monthly_target;
 
@@ -91,43 +89,47 @@ class DailySaleTransfer extends Command
 
                 $transfer_sale = 0;
 
-                //check percentage
-                /*
-                * the ceiling amount is less than 30 percent of daily sale
-                */
-                if($sale * 0.3 > $ceiling)
+                if($completed_target > 0)
                 {
-                    $subs = Subscriptions::where('camp_id', $camp_id)
-                    ->whereDate('purchaseDate', $yesterday)
-                    ->get();
+                    /*
+                    * the ceiling amount is less than 30 percent of daily sale
+                    */
+                    if($sale * 0.3 > $ceiling)
+                    {
+                        $subs = Subscriptions::where('camp_id', $camp_id)
+                        ->whereDate('purchaseDate', $yesterday)
+                        ->get();
 
-                    foreach ($subs as $sub) {
-                        $price = (float)$sub->price;
+                        foreach ($subs as $sub) {
+                            $price = (float)$sub->price;
 
-                        $transfer_sale += $price;
+                            $transfer_sale += $price;
 
-                        if($transfer_sale >= $transfer_amount)
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            // insert data to client table
-                            $client_sub = ClientSubscriptions::create([
-                                'camp_id' => $sub->camp_id,
-                                'user_id' => $sub->user_id,
-                                'customer_id' => $sub->customer_id,
-                                'package_id' => $sub->package_id,
-                                'paymethod_id' => $sub->paymethod_id,
-                                'purchaseDate' => $sub->purchaseDate,
-                                'purchaseDateTime' => $sub->purchaseDateTime,
-                                'price' => $sub->price,
-                                'macAddress' => '0',
-                                'status' => $sub->status,
-                            ]);
-                        }
-                    }//foreach
-                }//check sale
+                            if($transfer_sale >= $transfer_amount)
+                            {
+                                //break the loop when the transfer amount is completed
+                                break;
+                            }
+                            else
+                            {
+                                // insert data to client table
+                                $client_sub = ClientSubscriptions::create([
+                                    'camp_id' => $sub->camp_id,
+                                    'user_id' => $sub->user_id,
+                                    'customer_id' => $sub->customer_id,
+                                    'package_id' => $sub->package_id,
+                                    'paymethod_id' => $sub->paymethod_id,
+                                    'purchaseDate' => $sub->purchaseDate,
+                                    'purchaseDateTime' => $sub->purchaseDateTime,
+                                    'price' => $sub->price,
+                                    'macAddress' => '0',
+                                    'status' => $sub->status,
+                                ]);
+                            }
+                        }//foreach
+                    }//check sale
+                }//completed target > 0
+
             }//has daily sale
         }//foreach
     }//handle

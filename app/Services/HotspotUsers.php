@@ -29,20 +29,22 @@ class HotspotUsers
         }
     } //constructor
 
-    public function addHotspotUser($username, $user_pwd, $package_name)
+    public function addHotspotUser($username, $user_pwd)
     {
         $query = new Query('/ip/hotspot/user/add');
         $query->equal('name', $username);
         $query->equal('password', $user_pwd);
-        $query->equal('profile', $package_name); // Assign to created profile
+        // $query->equal('profile', $package_name); // Assign to created profile
         // $query->equal('comment', 'Created by CloudTik system');
 
-        try {
-            $this->client->query($query)->read();
-            // echo "Hotspot user created successfully!";
-        } catch (\Exception $e) {
-            echo "Error creating hotspot user: " . $e->getMessage();
-        }
+        $this->client->query($query)->read();
+
+        // try {
+        //     $this->client->query($query)->read();
+        //     // echo "Hotspot user created successfully!";
+        // } catch (\Exception $e) {
+        //     echo "Error creating hotspot user: " . $e->getMessage();
+        // }
     }
 
     public function getAllhotspotUsers()

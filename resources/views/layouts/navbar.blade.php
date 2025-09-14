@@ -149,12 +149,15 @@
                 </li>
             @endcan
 
-            <li class="sidebar-item">
-                <a href="/mikrotik" class="sidebar-link">
-                    <i class="bx bx-box fs-3"></i>
-                    <span>Mikrotik</span>
-                </a>
-            </li>
+            @can('access-admin')
+                <li class="sidebar-item">
+                    <a href="/mikrotik" class="sidebar-link">
+                        <i class="bx bx-box fs-3"></i>
+                        <span>Mikrotik</span>
+                    </a>
+                </li>
+            @endcan
+
 
             <li class="sidebar-item">
                 <a href="/userProfile" class="sidebar-link">
@@ -330,12 +333,14 @@
                         </li>
                     @endcan
 
-                    <li class="sidebar-item">
-                        <a href="/mikrotik" class="sidebar-link">
-                            <i class="bx bx-box fs-3"></i>
-                            <span>Mikrotik</span>
-                        </a>
-                    </li>
+                    @can('access-admin')
+                        <li class="sidebar-item">
+                            <a href="/mikrotik" class="sidebar-link">
+                                <i class="bx bx-box fs-3"></i>
+                                <span>Mikrotik</span>
+                            </a>
+                        </li>
+                    @endcan
 
                     <li class="sidebar-item">
                         <a href="/userProfile" class="sidebar-link">

@@ -31,6 +31,8 @@ class CustomerController extends Controller
     public function customerSearch(Request $request)
     {
         $camp_id = Session::get('active_camp_id');
+        $camps = Camps::where('status', 1)->get();
+        $customer_types = CustomerType::all();
         $camp = Camps::find($camp_id);
         $search = $request->input('customer_search');
 
@@ -41,7 +43,7 @@ class CustomerController extends Controller
                 ->orwhere('username', 'LIKE', "%$search%");
         })->paginate(10);
 
-        return view('Customers.customer_view', compact('customers', 'search', 'camp'));
+        return view('Customers.customer_view', compact('customers', 'search', 'camp', 'camps', 'customer_types'));
     } //search customers
 
     //get customers for api

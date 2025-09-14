@@ -15,7 +15,7 @@ class WifiLoginController extends Controller
      */
     public function index(Request $request)
     {
-        $customer_id = $request->input('cust_id');
+        $customer_id = $request->input('id');
         $customer = Customers::find($customer_id);
 
         $mac = $request->query('mac', null);  // if 'mac' doesn't exist, use null
@@ -102,11 +102,17 @@ class WifiLoginController extends Controller
                 $hotspot_user_data = $hotspot_user->getHotspotUserByUsername($username);
                 if(!empty($hotspot_user_data)){
                     //bind mac address to hotspot user
-                    $hotspot_user->bindMacAddressToUser($username, $mac);
+                    // $hotspot_user->bindMacAddressToUser($username, $mac);
                 }//has hotspot user
 
-                //give access
-                return redirect($link_login . "username=" . $username);
+                $hotspot_user->bindMacAddressToUser($username, $mac);
+
+                //redirect uri
+                $redirectUrl = $link_login . '?' . http_build_query([
+                    'dst' => 'https://cloudtik.trizent.net/userlogin?id=' . $customer->id,
+                ]);
+
+                return redirect()->away($redirectUrl);
 
             }//has running subscription
             else{
@@ -130,19 +136,18 @@ class WifiLoginController extends Controller
                     $customer->save();
 
                     //add hotspot user
-                    $hotspot_user->addHotspotUser($username, $mac, $customer_camp->mikritikIP, $customer_camp->mikrotikPort, $customer_camp->mikrotikUsername, $customer_camp->mikrotikPassword);
+                    $hotspot_user->addHotspotUser($username, $mac);
 
                     //bind mac address to hotspot user
                     $hotspot_user->bindMacAddressToUser($username, $mac);
 
                     //redirect uri
                     $redirectUrl = $link_login . '?' . http_build_query([
-                        'username' => $username,
                         'dst' => 'https://cloudtik.trizent.net/userlogin?id=' . $customer->id,
                     ]);
 
-                    //give access
                     return redirect($redirectUrl);
+
                 } //has active subscription
                 else{
                     //no active or running subscription

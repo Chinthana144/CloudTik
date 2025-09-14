@@ -27,6 +27,11 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
+        //admin access
+        Gate::define('access-admin', function($user){
+            return $user->role_id === 1;
+        });
+
         //home access
         Gate::define('access-home', function ($user) {
         $camp_id = Session::get('active_camp_id');

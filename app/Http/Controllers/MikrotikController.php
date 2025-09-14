@@ -6,6 +6,7 @@ use App\Models\Camps;
 use App\Models\ClientSubscriptions;
 use App\Models\Subscriptions;
 use App\Services\MikrotikServices;
+use App\Services\HotspotUsers;
 use App\Services\UserProfiles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -28,6 +29,8 @@ class MikrotikController extends Controller
         $camp_password = $camp_data->mikrotikPassword;
         $port = $camp_data->mikritikPort;
 
+        $camps = Camps::where('status', 1)->get();
+
         // $user_profile = new UserProfiles($host, $camp_user, $camp_password, $port);
 
         // $profiles = $user_profile->getPackages();
@@ -37,10 +40,9 @@ class MikrotikController extends Controller
             $users = $service->getUsers();
         } else {
             $users = []; // Return empty array if not connected
-
         }
 
-        return view('Test.mikrotik', compact('users'));
+        return view('Test.mikrotik', compact('users', 'camps'));
     }
 
     /**
@@ -69,6 +71,8 @@ class MikrotikController extends Controller
         $user_profile = new UserProfiles($host, $camp_user, $camp_password, $port);
 
         $user_profile->addHotspotUser($user_name, $user_pwd);
+
+        return redirect()->route('mikrotik.index');
     }
 
     /**
@@ -300,6 +304,25 @@ class MikrotikController extends Controller
         return view('Mikrotik.daily_sale');
     }
 
+    //bind mac address
+    public function bindMac(Request $request){
+        $camp_id = $request->input('cmb_camp');
+        $mac_address = $request->input('mac_address');
+
+        $camp = Camps::find($camp_id);
+
+        $host = $camp->mikritikIP;
+        $camp_user = $camp->mikrotikUsername;
+        $camp_password = $camp->mikrotikPassword;
+        $port = $camp->mikritikPort;
+
+        $hotspot_user = new HotspotUsers($host, $camp_user, $camp_password, $port);
+
+        $hotspot_user->bindMacAddressToUser("username", $mac_address);
+
+        return redirect()->route('mikrotik.index');
+    }
+
     public function checkConnection()
     {
         $active_camp_id = Session::get('active_camp_id');
@@ -314,4 +337,5 @@ class MikrotikController extends Controller
 
         dd($service->checkConnection());
     }
+
 }

@@ -48,10 +48,6 @@ class CustomerProfileController extends Controller
             ->where('status', 1)
             ->get();
 
-        $subscriptions = Subscriptions::where('customer_id', $customer_id)
-            ->where('status', '')
-            ->get();
-
         if($customer){
             return view('CustomerProfile.cust_home', compact('customer', 'running_package', 'active_packages'));
         }
