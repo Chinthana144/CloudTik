@@ -151,10 +151,22 @@
 
             @can('access-admin')
                 <li class="sidebar-item">
-                    <a href="/mikrotik" class="sidebar-link">
-                        <i class="bx bx-box fs-3"></i>
+                    <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
+                        data-bs-target="#mikrotik" aria-expanded="false" aria-controls="mikrotik">
+                        <i class="bx bx-wifi fs-3"></i>
                         <span>Mikrotik</span>
                     </a>
+                    <ul id="mikrotik" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                        <li class="sidebar-item">
+                            <a href="/mikrotik" class="sidebar-link">Mikrotik</a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="/add_hotspot_users" class="sidebar-link">Add Users</a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="/manual_subscriptions" class="sidebar-link">Subscription</a>
+                        </li>
+                    </ul>
                 </li>
             @endcan
 
@@ -334,11 +346,23 @@
                     @endcan
 
                     @can('access-admin')
-                        <li class="sidebar-item">
-                            <a href="/mikrotik" class="sidebar-link">
-                                <i class="bx bx-box fs-3"></i>
+                       <li class="sidebar-item">
+                            <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
+                                data-bs-target="#mikrotik" aria-expanded="false" aria-controls="mikrotik">
+                                <i class="bx bx-wifi fs-3"></i>
                                 <span>Mikrotik</span>
                             </a>
+                            <ul id="mikrotik" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                                <li class="sidebar-item">
+                                    <a href="/mikrotik" class="sidebar-link">Mikrotik</a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="/add_hotspot_users" class="sidebar-link">Add Users</a>
+                                </li>
+                                <li class="sidebar-item">
+                                    <a href="/manual_subscriptions" class="sidebar-link">Subscription</a>
+                                </li>
+                            </ul>
                         </li>
                     @endcan
 

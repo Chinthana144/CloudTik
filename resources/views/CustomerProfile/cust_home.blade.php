@@ -40,7 +40,6 @@
                 </div>
             @endforeach
         </div>
-
     @endif
 
     <div id="div_footer">

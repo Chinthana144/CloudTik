@@ -227,3 +227,8 @@ package wise sales report
 * user sales summary report
 * camp sales report
 * camp summary report
+
+//mikrotik
+* Check Mikrotik activity
+* add users bind/unbind
+* manual subscriptions

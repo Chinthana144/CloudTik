@@ -29,6 +29,21 @@ class HotspotUsers
         }
     } //constructor
 
+    public function getIdentity(){
+
+        $response = [];
+
+        if($this->isConnected){
+            $query = new Query('/system/identity/print');
+            $response = $this->client->query($query)->read();
+
+            return $response;
+        }
+        else{
+            return $response;
+        }
+    }//get identity
+
     public function addHotspotUser($username, $user_pwd)
     {
         $query = new Query('/ip/hotspot/user/add');

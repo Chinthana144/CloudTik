@@ -138,12 +138,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/analysis', [ClientController::class, 'dashboard'])->name('client.dashboard');
     Route::get('/getAnalysisBarchartData', [ClientController::class, 'getAnalysisBarchartData'])->name('client.getAnalysisBarchartData');
 
-    //calculate daily sale
-    Route::get('/showDailySale', [MikrotikController::class, 'showDailySale']);
-    Route::post('/transferData', [MikrotikController::class, 'dailySaleTransfer'])->name('client.transferData');
-
-     //for testing, delete this once testing is over
+    //mikrotik
     Route::get('/mikrotik', [MikrotikController::class, 'index'])->name('mikrotik.index');
+    Route::get('/add_hotspot_users', [MikrotikController::class, 'showAddUsers']);
+    Route::get('/manual_subscriptions', [MikrotikController::class, 'showSubscription']);
+
+    //for testing, delete this once testing is over
     Route::post('/mikrotik_store', [MikrotikController::class, 'store'])->name('mikrotik.store');
     Route::post('/checkConnection', [MikrotikController::class, 'checkConnection'])->name('mikrotik.checkConnection');
     Route::post('/bind_mac', [MikrotikController::class, 'bindMac'])->name('mikrotik.bindmac');
