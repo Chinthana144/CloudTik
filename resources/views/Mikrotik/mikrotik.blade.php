@@ -10,7 +10,5 @@
                 <p>Identity: <strong>{{ $response[0]['name'] }}</strong></p>
             @endif
         </div>
-
-
     </div>
 @endsection

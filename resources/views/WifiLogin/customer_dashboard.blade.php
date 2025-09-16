@@ -5,31 +5,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Trizent Network</title>
 
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/cust_dashboard.css') }}">
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
+
 </head>
 
 <body>
-    <h1>hi, you have successfully logged in</h1>
+    <div id="div_main">
+        <h1>
+            Hi, <strong>{{ $customer->fullname }}</strong>
+            <br>
+            {{ $customer->username }}
+            <br>
+            You have successfully logged in!
+        </h1>
 
-    @if (isset($running_data))
-        running package
-        <input type="hidden" id="running_end_date" value="{{ $running_data->subscriptionEndTime }}">
+        @if ($customer)
+            <img src="{{ asset('images/animations/checkmark.gif') }}" alt="" id="gif_correct">
 
-        <div id="div-countdown">
-            Remaining Time
-            <p id="countdown" class="text-center text-primary border border-primary"></p>
-        </div>
-    @elseif (isset($active_data))
-        active package
-    @elseif(isset($pending_data))
-        pending package activated
-    @else
-        redirect to login
-    @endif
+            <input type="hidden" id="running_end_date" value="{{ $customer->expiry_datetime }}">
+
+            <div id="div-countdown">
+                Expire Date
+                <p id="expire_date">{{ $customer->expiry_datetime }}</p>
+                Remaining Time
+                <p id="countdown"></p>
+            </div>
+
+            <div id="div_links">
+                <div class="div_links">
+                    <a href="https://youtube.com">
+                        <img src="{{ asset('images/icons/youtube.png') }}" alt="youtube" id="img_youtube">
+                    </a>
+                </div>
+                <div class="div_links">
+                    <a href="https://google.com">
+                        <img src="{{ asset('images/icons/google.png') }}" alt="youtube" id="img_youtube">
+                    </a>
+                </div>
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+    </div>
 
     <script>
         $(document).ready(function() {
