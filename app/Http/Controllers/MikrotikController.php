@@ -66,7 +66,7 @@ class MikrotikController extends Controller
 
         $user_profile->addHotspotUser($user_name, $user_pwd);
 
-        return redirect()->route('mikrotik.index');
+        return redirect()->route('mikrotik.hotspotusers');
     }
 
     /**
@@ -105,19 +105,38 @@ class MikrotikController extends Controller
     public function bindMac(Request $request){
         $camp_id = $request->input('cmb_camp');
         $mac_address = $request->input('mac_address');
+        $username = $request->input('username');
 
         $camp = Camps::find($camp_id);
 
         $host = $camp->mikritikIP;
         $camp_user = $camp->mikrotikUsername;
-        $camp_password = $camp->mikrotikPassword;
+        $camp_pwd = $camp->mikrotikPassword;
         $port = $camp->mikritikPort;
 
-        $hotspot_user = new HotspotUsers($host, $camp_user, $camp_password, $port);
+        $hotspot_user = new HotspotUsers($host, $camp_user, $camp_pwd, $port);
 
-        $hotspot_user->bindMacAddressToUser("username", $mac_address);
+        $hotspot_user->bindMacAddressToUser($username, $mac_address);
 
-        return redirect()->route('mikrotik.index');
+        return redirect()->route('mikrotik.hotspotusers');
+    }
+
+    public function unbindMac(Request $request){
+        $camp_id = $request->input('cmb_camp');
+        $mac_address = $request->input('mac_address');
+
+        $camp = Camps::find($camp_id);
+
+        $host = $camp->mikritikIP;
+        $camp_user = $camp->mikrotikUsername;
+        $camp_pwd = $camp->mikrotikPassword;
+        $port = $camp->mikritikPort;
+
+        $hotspot_user = new HotspotUsers($host, $camp_user, $camp_pwd, $port);
+
+        $hotspot_user->unbindMacAddressFromUser($mac_address);
+
+        return redirect()->route('mikrotik.hotspotusers');
     }
 
     //show add users in mikrotik

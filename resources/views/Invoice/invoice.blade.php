@@ -85,11 +85,8 @@
                         <button type="submit" id="btn_add_subscription" class="btn btn-primary">Submit</button>
 
                     </form>
-
                 </div>
-
             </div>
-
         </div>
     </div>
 

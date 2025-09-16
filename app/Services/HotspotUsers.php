@@ -110,7 +110,8 @@ class HotspotUsers
         $bindQuery = (new Query('/ip/hotspot/ip-binding/print'))->where('mac-address', $mac);
         $bound = $this->client->query($bindQuery)->read();
 
-        if (empty($bound)) {
+        if(empty($bound))
+        {
             $bindAdd = new Query('/ip/hotspot/ip-binding/add');
             $bindAdd->equal('mac-address', $mac)
                     ->equal('type', 'bypassed')

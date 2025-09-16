@@ -140,13 +140,15 @@ Route::middleware('auth')->group(function () {
 
     //mikrotik
     Route::get('/mikrotik', [MikrotikController::class, 'index'])->name('mikrotik.index');
-    Route::get('/add_hotspot_users', [MikrotikController::class, 'showAddUsers']);
+    Route::get('/add_hotspot_users', [MikrotikController::class, 'showAddUsers'])->name('mikrotik.hotspotusers');
     Route::get('/manual_subscriptions', [MikrotikController::class, 'showSubscription']);
+    Route::post('/mikrotik_store', [MikrotikController::class, 'store'])->name('mikrotik.store');
+    Route::post('/bind_mac', [MikrotikController::class, 'bindMac'])->name('mikrotik.bindmac');
+    Route::post('/unbind_mac', [MikrotikController::class, 'unbindMac'])->name('mikrotik.unbindmac');
 
     //for testing, delete this once testing is over
-    Route::post('/mikrotik_store', [MikrotikController::class, 'store'])->name('mikrotik.store');
     Route::post('/checkConnection', [MikrotikController::class, 'checkConnection'])->name('mikrotik.checkConnection');
-    Route::post('/bind_mac', [MikrotikController::class, 'bindMac'])->name('mikrotik.bindmac');
+
 });
 
 //Wifi log in controller
