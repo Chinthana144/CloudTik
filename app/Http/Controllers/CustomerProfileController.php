@@ -56,6 +56,46 @@ class CustomerProfileController extends Controller
         }
     }
 
+    public function custSubscription(){
+        $customer_id = session('customer_id');
+
+        $customer = Customers::find($customer_id);
+
+        $subscriptions = Subscriptions::where('customer_id', $customer_id)
+            ->orderBy('id', 'DESC')
+            ->limit(10)
+            ->get();
+
+        return view('CustomerProfile.cust_subscription', compact('customer', 'subscriptions'));
+    }
+
+    public function custProfile(){
+        $customer_id = session('customer_id');
+
+        $customer = Customers::find($customer_id);
+
+        return view('CustomerProfile.cust_profile', compact('customer'));
+    }
+
+    public function changePassword(Request $request){
+        $customer_id = $request->input("hide_customer_id");
+        $cust_pwd = $request->input('cust_pwd');
+        $cust_re_pwd = $request->input('cust_re_pwd');
+
+        if($cust_pwd == $cust_re_pwd){
+            $customer = Customers::find($customer_id);
+
+            $customer->password = $cust_pwd;
+
+            $customer->save();
+
+            return redirect()->route('customer.custProfile')->with('success', 'Password changed successfully!');
+        }
+        else{
+            return redirect()->route('customer.custProfile')->with('error', 'Password change failed!');
+        }
+    }
+
     public function logout(){
         session()->forget('customer_id');
         return redirect()->route('customer.custLogin');

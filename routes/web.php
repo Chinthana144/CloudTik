@@ -163,6 +163,9 @@ Route::post('/customer-login', [CustomerProfileController::class, 'login'])->nam
 //customer auth middleware
 Route::middleware(['customerAuth'])->group(function(){
     Route::get('/cust_home', [CustomerProfileController::class, 'custHome'])->name('customer.custHome');
+    Route::get('/cust_subscription', [CustomerProfileController::class, 'custSubscription'])->name('customer.custSubscription');
+    Route::get('/cust_profile', [CustomerProfileController::class, 'custProfile'])->name('customer.custProfile');
+    Route::post('/cust_change_pwd', [CustomerProfileController::class, 'changePassword'])->name('customer.changePassword');
     Route::get('/cust_logout', [CustomerProfileController::class, 'logout'])->name('customer.custLogout');
 });
 
