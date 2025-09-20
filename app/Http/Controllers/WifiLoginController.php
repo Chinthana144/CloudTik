@@ -8,6 +8,8 @@ use App\Models\Subscriptions;
 use App\Services\HotspotUsers;
 use Illuminate\Http\Request;
 
+use function PHPUnit\Framework\isEmpty;
+
 class WifiLoginController extends Controller
 {
     /**
@@ -184,7 +186,7 @@ class WifiLoginController extends Controller
 
     //use this login in future
     public function basicLogin(Request $request){
-        date_default_timezone_set('Asia/Dubai');
+       date_default_timezone_set('Asia/Dubai');
 
         $camp_id = $request->input('camp_id');
         $mac = $request->input('mac');
@@ -193,6 +195,15 @@ class WifiLoginController extends Controller
         $username = $request->input('cust_username');
         $password = $request->input('cust_password');
 
+        //camp data
+        $camp_data = Camps::find($camp_id);
+        $host = $camp_data->mikritikIP;
+        $camp_user = $camp_data->mikrotikUsername;
+        $camp_pwd = $camp_data->mikrotikPassword;
+        $port = $camp_data->mikritikPort;
+
+        $hotspot_user = new HotspotUsers($host, $camp_user, $camp_pwd, $port);
+
         //search customer by username
         $customer = Customers::where('username', $username)
             ->where('password', $password)
@@ -200,24 +211,85 @@ class WifiLoginController extends Controller
             ->first();
 
         if($customer){
-            $camp = Camps::find($camp_id);
+            //check camp
+            if($camp_id == $customer->camp_id){
+                $customer_id = $customer->id;
 
-            $host = $camp->mikritikIP;
-            $camp_user = $camp->mikrotikUsername;
-            $camp_pwd = $camp->mikrotikPassword;
-            $port = $camp->mikritikPort;
+                //check running subscriptions
+                $running_subscription = Subscriptions::where('customer_id', $customer_id)
+                    ->where('status', 2) //running
+                    ->whereDate('subscriptionEndTime', '>=', now())
+                    ->where('camp_id', $camp_id)
+                    ->first();
 
-            $hotspot_user = new HotspotUsers($host, $camp_user, $camp_pwd, $port);
+                //check active subscriptions
+                $active_subscription = Subscriptions::where('customer_id', $customer_id)
+                    ->where('status', 1) //active
+                    ->where('camp_id', $camp_id)
+                    ->first();
 
-            $hotspot_user->bindMacAddressToUser($username, $customer->mac_address);
+                if($running_subscription){
+                    if($customer->mac_address == '' || isEmpty($customer->mac_address)){
+                        //re assign mac address
+                        //update mac address
+                        $running_subscription->macAddress = $mac;
+                        $running_subscription->save();
 
-            //redirect uri
-            $redirectUrl = $link_login . '?' . http_build_query([
-                'dst' => 'https://cloudtik.trizent.net/userlogin?id=' . $customer->id,
-            ]);
+                        //update customer mac address
+                        $customer->mac_address = $mac;
+                        $customer->save();
 
-            return redirect()->away($redirectUrl);
-        }
+                        //bind new mac address
+                        $hotspot_user->bindMacAddressToUser($username, $mac);
+
+                        //redirect uri
+                        $redirectUrl = 'https://cloudtik.trizent.net/userlogin?id=' . $customer->id;
+                        return redirect($redirectUrl);
+                    }//no
+                    elseif($customer->mac_address == $mac){
+                        //bind new mac address
+                        $hotspot_user->bindMacAddressToUser($username, $mac);
+
+                        //redirect uri
+                        $redirectUrl = 'https://cloudtik.trizent.net/userlogin?id=' . $customer->id;
+                        return redirect($redirectUrl);
+                    }
+                    else{
+                        return redirect()->back()->with('error', 'Please reset your subscription.');
+                    }//mac address un match
+                }//has running subscription
+                elseif($active_subscription){
+                    //make it running
+                    $active_subscription->status = 2; //running
+                    $active_subscription->subscriptionStartTime = now();
+                    $active_subscription->subscriptionEndTime = now()->addDays($active_subscription->package->duration);
+                    $active_subscription->save();
+
+                    //update customer mac address
+                    $customer->login_datetime = now();
+                    $customer->expiry_datetime = now()->addDays($active_subscription->package->duration);
+                    $customer->mac_address = $mac;
+                    $customer->save();
+
+                    //bind mac address to hotspot user
+                    $hotspot_user->bindMacAddressToUser($username, $mac);
+
+                    //redirect uri
+                    $redirectUrl = 'https://cloudtik.trizent.net/userlogin?id=' . $customer->id;
+
+                    return redirect($redirectUrl);
+                }//active package
+                else{
+                    return redirect()->back()->with('error', 'No subscription found');
+                }//no active or running subscription
+            }//has camp
+            else{
+                return redirect()->back()->with('error', 'Please login with correct camp login page');
+            }
+        }//has customer
+        else{
+            return redirect()->back()->with('error', 'Invalid username or password, or hotspot service is not connected.');
+        }//no customer
 
     }//login 1 method
 

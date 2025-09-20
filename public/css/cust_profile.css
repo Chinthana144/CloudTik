@@ -69,6 +69,32 @@
 }
 
 /* customer subscription */
+#div_running_package{
+    padding: 10px;
+    border: 1px solid green;
+    border-radius: 10px;
+    width: 80%;
+    margin-left: 10%;
+}
+
+#div_running_package h4{
+    text-align: center;
+    color: green;
+}
+
+#countdown{
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: blue;
+
+    padding: 5px;
+    border: 1px solid blue;
+    border-radius: 5px;
+}
+
+/* customer subscription */
 .div_sub{
     display: flex;
     flex-direction: row;

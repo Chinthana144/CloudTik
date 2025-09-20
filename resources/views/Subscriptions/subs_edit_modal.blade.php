@@ -18,10 +18,11 @@
                     </div>
                 </div>
 
-                <input type="hidden" name="hide_subscription_id" id="hide_subscription_id" value="0">
+
                 <form action="{{ route('customer.updateExpireDate') }}" method="post">
                     @csrf
                     @method('PUT')
+                    <input type="hidden" name="hide_subscription_id" id="hide_subscription_id" value="0">
                     <input type="hidden" name="hide_customer_id" id="hide_customer_id" value="0">
                     <div class="row">
                         <div class="col-md-4">
@@ -43,6 +44,19 @@
                         </div>
                     </div>
                 </form>
+
+                <div class="mt-3 p-2">
+                    <h5 id="h5_reset_mac">
+                        Reset Subscription
+                    </h5>
+                    <form action="{{ route('subscription.reset') }}" method="post">
+                        @csrf
+                        <input type="hidden" name="reset_subscription_id" id="reset_subscription_id" value="0">
+                        <input type="hidden" name="reset_customer_id" id="reset_customer_id" value="0">
+
+                        <button type="submit" class="btn btn-success mt-2">Reset Subscription</button>
+                    </form>
+                </div>
 
             </div>
 

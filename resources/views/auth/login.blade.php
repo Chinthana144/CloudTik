@@ -11,8 +11,9 @@
     <div id="div_background">
 
         <div id="div_login">
-            <img src="{{ asset('images/company/com_logo_1.png') }}" alt="" id="com_logo">
-
+            <a href="/">
+                <img src="{{ asset('images/company/com_logo_1.png') }}" alt="" id="com_logo">
+            </a>
 
             <form action="{{ route('login') }}" method="post">
                 @csrf

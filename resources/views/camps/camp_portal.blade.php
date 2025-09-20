@@ -30,7 +30,7 @@
                     <div class="col-3 text-center">
                         <div class="div_camp">
                             <h4>{{ $camp->camps->name }}</h4>
-                            <a href="/gotoCamp/{{ $camp->camps->id }}" class="btn btn-primary">Goto Camp</a>
+                            <a href="/gotoCamp/{{ $camp->camps->id }}" class="btn btn-primary">Select Camp</a>
                         </div>
                     </div>
                 @endforeach

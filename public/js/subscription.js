@@ -34,6 +34,13 @@ $(document).ready(function () {
                 $("#p_sub_dates").html(sub_dates);
                 $("#hide_subscription_id").val(response.subscription_id);
                 $("#cmb_status").val(response.status);
+
+                //reset
+                $("#reset_customer_id").val(response.customer_id);
+                $("#reset_subscription_id").val(response.subscription_id);
+                var reset_title = "Reset MAC address <br> - " +  response.mac_address;
+
+                $("#h5_reset_mac").html(reset_title);
             }
         });
     });

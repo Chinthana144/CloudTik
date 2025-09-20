@@ -101,6 +101,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/getOneSubscription', [SubscriptionController::class, 'getOneSubscription'])->name('subscription.getOneSubscription');
     Route::post('/updateSubsStatus', [SubscriptionController::class, 'updateStatus']);
     Route::post('/deleteSubscription', [SubscriptionController::class, 'destroy'])->name('subscription.destroy');
+    Route::post('/resetSubscription', [SubscriptionController::class, 'resetMacAddress'])->name('subscription.reset');
     Route::get('/getCounterTotal', [SubscriptionController::class, 'getSubscriptionByCounter'])->name('subscription.total');
     Route::get('/getCustomerSubscriptions', [SubscriptionController::class, 'getSubscriptionByCustomer'])->name('subscription.customer');
     Route::get('/subscription-search', [SubscriptionController::class, 'subscriptionSearch'])->name('subscription.search');

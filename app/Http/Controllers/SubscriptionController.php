@@ -303,17 +303,27 @@ class SubscriptionController extends Controller
             $customer->expiry_datetime = null; // Set to null or any default value
             $customer->save();
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Subscription deleted successfully',
-            ]);
+            return redirect()->route('subscription.show')->with('success', 'Subscription removed successfully');
         }
-
-        return response()->json([
-            'success' => false,
-            'message' => 'Subscription not found',
-        ]);
+        return redirect()->route('subscription.show')->with('error', 'Subscription removed failed.');
     }
+
+    //reset mac address
+    public function resetMacAddress(Request $request){
+        $customer_id = $request->input('reset_customer_id');
+        $subscription_id = $request->input('reset_subscription_id');
+
+        $customer = Customers::find($customer_id);
+        $subscription = Subscriptions::find($subscription_id);
+
+        $customer->mac_address = '';
+        $subscription->macAddress = '';
+
+        $customer->save();
+        $subscription->save();
+
+        return redirect()->route('subscription.show')->with('success', 'MAC address reset successfully!');
+    }//reset mac address
 
     //receipt print
     public function receiptPrint(Request $request)
