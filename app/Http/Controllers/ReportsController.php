@@ -111,50 +111,6 @@ class ReportsController extends Controller
                 # code...
             break;
         }//switch
-
-        // if ($request->action == 'search') {
-        //     $sales = Subscriptions::where('camp_id', $camp_id)
-        //         ->whereBetween('purchaseDate', [$start_date, $end_date])
-        //         ->paginate(10);
-
-        //     return view('Reports.rpt_daily_sales', compact('camp', 'sales', 'start_date', 'end_date'));
-        // } //if search
-        // elseif ($request->action == 'excel') {
-        //     $data = Subscriptions::join('customers', 'subscriptions.customer_id', '=', 'customers.id')
-        //         ->join('packages', 'subscriptions.package_id', '=', 'packages.id')
-        //         ->where('subscriptions.camp_id', $camp_id)
-        //         ->whereBetween('purchaseDate', [$start_date, $end_date])
-        //         ->get(['subscriptions.id', 'purchaseDate', 'customers.username', 'packages.name', 'packages.duration', 'subscriptions.price']);
-
-        //     return Excel::download(
-        //         new class($data) implements FromCollection, WithHeadings {
-        //             protected $data;
-        //             public function __construct($data)
-        //             {
-        //                 $this->data = $data;
-        //             }
-        //             public function collection()
-        //             {
-        //                 return $this->data;
-        //             }
-        //             public function headings(): array
-        //             {
-        //                 return ['ID', 'Date Time', 'Customer', 'Package Name', 'Duration', 'Price'];
-        //             }
-        //         },
-        //         'daily_sales_from_'.$start_date.'_to_'. $end_date .'.xlsx'
-        //     );
-        // }
-        // elseif($request->action == 'pdf') {
-        //     $data = Subscriptions::join('customers', 'subscriptions.customer_id', '=', 'customers.id')
-        //         ->join('packages', 'subscriptions.package_id', '=', 'packages.id')
-        //         ->where('subscriptions.camp_id', $camp_id)
-        //         ->whereBetween('purchaseDate', [$start_date, $end_date])
-        //         ->get(['subscriptions.id as id', 'purchaseDate', 'customers.fullname', 'customers.username', 'packages.name', 'packages.duration', 'subscriptions.price']);
-
-        //     $pdf = Pdf::loadView('Reports.sales_pdf', compact('data', 'camp_name', 'start_date', 'end_date'));
-        //     return $pdf->stream('daily_sales_from_'.$start_date.'_to_'. $end_date .'.pdf');
-        // }
     }
 
     /*

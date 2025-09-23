@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\CampController;
 use App\Http\Controllers\CampUserController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ClientReportController;
 use App\Http\Controllers\CounterController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CustomerProfileController;
@@ -128,6 +129,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/rpt_user_package_summary_search', [ReportsController::class, 'rptUserPackageSummarySearch'])->name('rptUserPackageSummary.search');
     Route::get('/rpt_user_sales_summary', [ReportsController::class, 'showUserSalesSummaryReport']);
     Route::get('/rpt_user_sales_summary_search', [ReportsController::class, 'rptUserSalesSummarySearch'])->name('rptUserSalesSummary.search');
+
+    //client side reports
+    Route::get('/sale_reports', [ClientReportController::class, 'showSaleReports']);
+    Route::get('/rpt_daily_sale', [ClientReportController::class, 'showDailySaleReport']);
+    Route::get('/rpt_daily_sale_search', [ClientReportController::class, 'rptDailySaleSearch'])->name('rptDailySaleSearch.search');
+    Route::get('/rpt_sale_summary', [ClientReportController::class, 'showSaleSummary']);
+    Route::get('/rpt_sale_summary_search', [ClientReportController::class, 'rptSaleSummarySearch'])->name('rptSaleSummarySearch.search');
 
     //user page access
     Route::get('/useraccess', [UserAccessController::class, 'index'])->name('useraccess.index');

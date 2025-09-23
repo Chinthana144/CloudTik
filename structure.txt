@@ -203,15 +203,15 @@ package wise sales report
 
 //new check list
 * customer register page, add back button using javascript ---- done
-* login dst link
+* login dst link ---------------------------------------------- done
 * show mikrotik hotspot Users
 * invoice submit message
 * subscription edit modal (ADD TO RUNNING)
 * Mikrotik Control Panel
-* remove mac address binding in schedule
+* remove mac address binding in schedule ---------------------- done
 * user profile, change pwd ------------------------------------ done
-* route to home page after camp select
-* check mikrotik connection
+* route to home page after camp select ------------------------ done
+* check mikrotik connection ----------------------------------- done
 
 //client profile
 * client Dashboard -------------------------------------------- done
@@ -230,5 +230,5 @@ package wise sales report
 
 //mikrotik
 * Check Mikrotik activity
-* add users bind/unbind
-* manual subscriptions
+* add users bind/unbind -------------------------------------- done
+* manual subscriptions ---------------------------------------

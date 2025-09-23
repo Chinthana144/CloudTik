@@ -56,7 +56,6 @@
 
 #div_title{
     text-align: center;
-
 }
 
 #div_customer_details{
@@ -88,7 +87,6 @@
     font-weight: bold;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     color: blue;
-
     padding: 5px;
     border: 1px solid blue;
     border-radius: 5px;
