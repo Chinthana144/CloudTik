@@ -200,6 +200,9 @@ package wise sales report
 * customer profile section
 * customer section show expire date time
 * customer section responsive design
+* code reset -------------------------------------------------- done
+* Recharge
+* Camp Change
 
 //new check list
 * customer register page, add back button using javascript ---- done

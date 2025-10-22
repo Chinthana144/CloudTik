@@ -41,6 +41,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/getDonutChartData', [SubscriptionController::class, 'getDonutChartData'])->name('api.getDonutChartData');
     Route::get('/getBarChartData', [SubscriptionController::class, 'getBarChartData'])->name('api.getBarChartData');
     Route::get('/getOneSubscriptionAPI', [SubscriptionController::class, 'getOneSubscriptionAPI'])->name('api.getOneSubscriptionAPI');
+    Route::post('/resetMacAddressAPI', [SubscriptionController::class, 'resetMacAddressAPI'])->name('api.resetMacAddressAPI');
 
     // Add your authenticated routes here
     Route::post('/logout', [UserController::class, 'logout'])->name('api.logout');

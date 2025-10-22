@@ -53,7 +53,7 @@
             <h5>Invoice</h5>
         </div>
         <div class="card-body">
-            <div class="col-md-6">
+            <div class="col-md-6 offset-md-3">
                 <input type="hidden" name="hide_camp_id" id="hide_camp_id" value="{{ $camp->id }}">
 
                 <label for="">Select Customer</label>

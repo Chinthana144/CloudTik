@@ -325,6 +325,26 @@ class SubscriptionController extends Controller
         return redirect()->route('subscription.show')->with('success', 'MAC address reset successfully!');
     }//reset mac address
 
+    public function resetMacAddressAPI(Request $request)
+    {
+        $customer_id = $request->input('reset_customer_id');
+        $subscription_id = $request->input('reset_subscription_id');
+
+        $customer = Customers::find($customer_id);
+        $subscription = Subscriptions::find($subscription_id);
+
+        $customer->mac_address = '';
+        $subscription->macAddress = '';
+
+        $customer->save();
+        $subscription->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'MAC address reset successfully!',
+        ]);
+    }
+
     //receipt print
     public function receiptPrint(Request $request)
     {
