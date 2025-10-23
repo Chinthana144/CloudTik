@@ -2,6 +2,12 @@ $(document).ready(function () {
     //initialize
     $("#btn_customer_history").css('display', 'none');
     $("#btn_add_subscription").attr('disabled', 'true');
+    $("#btn_recharge_subscription").attr('disabled', 'true');
+
+    //close modal
+    $("#btn_close_history_modal").click(function(){
+        $("#history_modal").modal('hide');
+    });
 
     $("#cmb_customer").select2({
         placeholder: 'Search Customers',
@@ -102,53 +108,37 @@ $(document).ready(function () {
                     let package_data = "Package: <b>"+response['name']+"</b><br>Duration: <b>"+response['duration']+"</b><br>Price: <b>"+response['price']+" AED</b>"
 
                     $("#p_package_details").html(package_data);
+                    $("#btn_recharge_subscription").text('Recharge ' + response['duration'] + ' days');
+                    $("#btn_add_subscription").text('Add ' + response['duration'] + ' days');
                 }
             });
-        }
+
+            $.ajax({
+                type: "get",
+                url: "/getRunningSubscriptionByCustomer",
+                data: {
+                    customer_id:customer_id
+                },
+                // dataType: "dataType",
+                success: function (response) {
+                    // console.log("existing subscriptions");
+                    // console.log(response);
+                    if(response.id > 0)
+                    {
+                        $("#btn_recharge_subscription").attr('disabled', false);
+                    }
+                    else
+                    {
+                        $("#btn_recharge_subscription").attr('disabled', 'true');
+                    }
+                }
+            });
+        }//has package
         else
         {
             $("#btn_add_subscription").attr('disabled', true);
+            $("#btn_recharge_subscription").attr('disabled', true);
         }
-    });
-
-    $("#frm_subscription").submit(function (e) {
-        e.preventDefault();
-        var customer_id = $("#hide_customer_id").val();
-        var package_id = $("#hide_package_id").val();
-
-        $.ajax({
-            type: "post",
-            url: "/store-subscription",
-            data: $(this).serialize(),
-            // dataType: "dataType",
-            success: function (response) {
-                console.log(response);
-                var has_success = response['success'];
-                // var message = response['message'];
-
-                // alert('data - ' + has_success);
-
-                if(has_success)
-                {
-                    var subscription_id = response['subscription_id'];
-
-                    alert("Subscription added successfully. continue to QR code");
-
-                    window.location.reload();
-
-                    //print receipt
-                    // let printWindow = window.open('/receipt-print?subscription_id='+subscription_id, '_blank');
-
-                    // setTimeout(function(){
-                    //     window.location.href = '/invoice';
-                    // }, 500);
-                }
-                else
-                {
-                    alert('task failed...');
-                }
-            }
-        });
     });
 
 //=============================== Customer ===========================//
@@ -236,16 +226,16 @@ $("#btn_customer_history").click(function(){
                 sub_data += "<td>"+value['price']+"</td>";
                 switch (value['status']) {
                     case 1:
-                        status = "<p class='text-success border border-success rounded text-center' style='padding: 0px; margin:0px;'>Active</p>";
+                        status = "<span class='badge bg-primary'>ACTIVE</span>";
                     break;
                     case 2:
-                        status = "<p class='text-warning border border-warning rounded text-center' style='padding: 0px; margin:0px;'>Pending</p>";
+                        status = "<span class='badge bg-success'>RUNNING</span>";
                     break;
                     case 3:
-                        status = "<p class='text-primary border border-primary rounded text-center' style='padding: 0px; margin:0px;'>Cancled</p>";
+                        status = "<span class='badge bg-warning'>EXPIRED</span>";
                     break;
                     default:
-                        status = "<p class='text-danger border border-danger rounded text-center' style='padding: 0px; margin:0px;'>Expired</p>";
+                        status = "<span class='badge bg-danger'>CANCELED</span>";
                     break;
                 }
                 sub_data += "<td>"+status+"</td>";

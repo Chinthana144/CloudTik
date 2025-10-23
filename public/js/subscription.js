@@ -38,9 +38,9 @@ $(document).ready(function () {
                 //reset
                 $("#reset_customer_id").val(response.customer_id);
                 $("#reset_subscription_id").val(response.subscription_id);
-                var reset_title = "Reset MAC address <br> - " +  response.mac_address;
-
-                $("#h5_reset_mac").html(reset_title);
+                $("#status_subscription_id").val(response.subscription_id);
+                $("#mac_address").val(response.mac_address);
+                $("#cmb_status").val(response.status);
             }
         });
     });

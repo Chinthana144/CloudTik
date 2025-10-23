@@ -10,6 +10,7 @@ use App\Models\ClientSubscriptions;
 use App\Services\HotspotUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Carbon\Carbon;
 
 class SubscriptionController extends Controller
 {
@@ -42,42 +43,75 @@ class SubscriptionController extends Controller
         $camp_id = Session::get('active_camp_id');
         $camp_data = Camps::find($camp_id);
 
-        $customer_id = $request->input('hide_customer_id');
-        $package_id = $request->input('hide_package_id');
+        $customer_id = $request->input('cmb_customer');
+        $package_id = $request->input('cmb_packages');
         $purchased_date = date('Y-m-d');
         $purchased_time = date('Y-m-d H:i:s');
-
-        //check customer expiry date
-        $customer = Customers::find($customer_id);
-        $expiry_datetime = $customer->expiry_datetime;
 
         //get price
         $package = Packages::find($package_id);
         $price = $package->price;
 
-        $stat_id = 1; //active status id
-
         //set paymethod id for cash
         $paymethod_id = 1; //cash payment method id
 
-        $subscription = Subscriptions::create([
-            'camp_id' => $camp_id,
-            'user_id' => $user_id,
-            'customer_id' => $customer_id,
-            'package_id' => $package_id,
-            'paymethod_id' => $paymethod_id,
-            'purchaseDate' => $purchased_date,
-            'purchaseDateTime' => $purchased_time,
-            'price' => $price,
-            'macAddress' => '0',
-            'status' => $stat_id,
-        ]);
+        if($request->action == 'recharge')
+        {
+            $stat_id = 2; //active status id
+            //update running subscriptions
+            Subscriptions::where('customer_id', $customer_id)
+                ->where('status', 2)
+                ->update(['status' => 3]);
 
-        return response()->json([
-            'success' => true,
-            'subscription_id' => $subscription->id,
-            'message' => 'subscription added successfully',
-        ]);
+            //get current expiry date
+            $customer = Customers::find($customer_id);
+            $current_expiry = $customer->expiry_datetime;
+
+            $new_start_datetime = $current_expiry ?? date('Y-m-d H:i:s');
+            $new_start_datetime = Carbon::parse($new_start_datetime);
+            $new_end_datetime = $new_start_datetime->addDays($package->duration);
+
+            //update customer expiry date
+            $customer->expiry_datetime = $new_end_datetime;
+            $customer->save();
+
+            //create subscription
+            $subscription = Subscriptions::create([
+                'camp_id' => $camp_id,
+                'user_id' => $user_id,
+                'customer_id' => $customer_id,
+                'package_id' => $package_id,
+                'paymethod_id' => $paymethod_id,
+                'purchaseDate' => $purchased_date,
+                'purchaseDateTime' => $purchased_time,
+                'subscriptionStartTime'=> $new_start_datetime,
+                'subscriptionEndTime' => $new_end_datetime,
+                'price' => $price,
+                'macAddress' => '0',
+                'status' => $stat_id,
+            ]);
+
+            return redirect()->route('invoice.index')->with('success', 'Subscription recharged successfully');
+        }//add new subscription
+        else
+        {
+            $stat_id = 1; //active status id
+            //create subscription
+            $subscription = Subscriptions::create([
+                'camp_id' => $camp_id,
+                'user_id' => $user_id,
+                'customer_id' => $customer_id,
+                'package_id' => $package_id,
+                'paymethod_id' => $paymethod_id,
+                'purchaseDate' => $purchased_date,
+                'purchaseDateTime' => $purchased_time,
+                'price' => $price,
+                'macAddress' => '0',
+                'status' => $stat_id,
+            ]);
+
+            return redirect()->route('invoice.index')->with('success', 'Subscription added successfully');
+        }//add subscription
     }//store
 
     //add subscription from API
@@ -396,6 +430,20 @@ class SubscriptionController extends Controller
         ]);
     } //update status
 
+    public function changeStatusSubscription(Request $request)
+    {
+        $subscription_id = $request->input('status_subscription_id');
+        $status_id = $request->input('cmb_status');
+
+        $subscription = Subscriptions::find($subscription_id);
+
+        $subscription->status = $status_id;
+
+        $subscription->save();
+
+        return redirect()->route('subscription.show')->with('success', 'Subscription status changed successfully!');
+    }//change status subscription
+
     public function getSubscriptionByCounter(Request $request)
     {
         $counter_id = $request->input('counter_id');
@@ -426,6 +474,18 @@ class SubscriptionController extends Controller
 
         return response()->json($subs, 200);
     }
+
+    public function getRunningSubscriptionByCustomer(Request $request)
+    {
+        $customer_id = $request->input('customer_id');
+
+        $running_sub = Subscriptions::where('customer_id', $customer_id)
+            ->where('status', 2)
+            ->orderBy('id', 'DESC')
+            ->first();
+
+        return response()->json($running_sub);
+    }//get running subscription
 
     /*
     * get API methods here

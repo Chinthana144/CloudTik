@@ -45,7 +45,7 @@
                     </div>
                 </form>
 
-                <div class="mt-3 p-2">
+                <div class="border border-success rounded mt-3 p-2">
                     <h5 id="h5_reset_mac">
                         Reset Subscription
                     </h5>
@@ -53,17 +53,43 @@
                         @csrf
                         <input type="hidden" name="reset_subscription_id" id="reset_subscription_id" value="0">
                         <input type="hidden" name="reset_customer_id" id="reset_customer_id" value="0">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input type="text" id="mac_address" name="mac_address" class="form-control" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-success w-100">Reset Subscription</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
 
-                        <button type="submit" class="btn btn-success mt-2">Reset Subscription</button>
+                <div class="border border-primary rounded mt-3 p-2">
+                    <h5>
+                        Change Status
+                    </h5>
+                    <form action="{{ route('subscription.changeStatus') }}" method="post">
+                        @csrf
+                        <input type="hidden" name="status_subscription_id" id="status_subscription_id" value="0">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <select name="cmb_status" id="cmb_status" class="form-select">
+                                    <option value="1">Active</option>
+                                    <option value="2">Running</option>
+                                    <option value="3">Expired</option>
+                                    <option value="4">Cancelled</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-primary w-100">Change Status</button>
+                            </div>
+                        </div>
+                        
                     </form>
                 </div>
 
             </div>
 
-            {{-- <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Save changes</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div> --}}
         </div>
     </div>
 </div>
