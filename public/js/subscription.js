@@ -50,22 +50,35 @@ $(document).ready(function () {
         $("#subs_edit_modal").modal('hide');
     });
 
-    $("#frm_update_stat").submit(function(e){
-        e.preventDefault();
+    //open camp change modal
+    $("#tbl_subscription").on('click', '.btn_open_change', function(){
+        let row = $(this).closest('tr');
+	    let id = row.data('id');
 
-        var subscription_id = $("#hide_subscription_id").val();
-        var status_id = $("#cmb_status").val();
+        $("#camp_change_modal").modal('toggle');
 
         $.ajax({
-            type: "post",
-            url: "/updateSubsStatus",
-            data: $(this).serialize(),
+            type: "get",
+            url: "/getOneSubscription",
+            data: {
+                subscription_id: id,
+            },
             // dataType: "dataType",
             success: function (response) {
                 // console.log(response);
-                // alert('working');
-                location.reload();
+                $("#hide_change_subscription_id").val(response.subscription_id);
+                $("#cmb_camp").val(response.camp_id);
+
+                var sub_details = "Camp: <b>"+ response.camp_name +"</b><br>Customer: <b>"+ response.customer_name +"</b><br>Username: <b>"+ response.username +"</b><br>Package: <b>"+ response.package_name +"</b><br>Price: <b>"+response.package_price+"</b><br>Date: <b>"+response.purchase_date+"</b><br>";
+
+
+                $("#p_change_sub_details").html(sub_details);
             }
         });
     });
+
+    $("#btn_close_camp_change").click(function(){
+        $("#camp_change_modal").modal('hide');
+    });
+
 });//subscription jquery

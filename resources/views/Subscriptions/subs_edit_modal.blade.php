@@ -77,7 +77,8 @@
                                     <option value="1">Active</option>
                                     <option value="2">Running</option>
                                     <option value="3">Expired</option>
-                                    <option value="4">Cancelled</option>
+                                    <option value="4">Transferred</option>
+                                    <option value="5">Cancelled</option>
                                 </select>
                             </div>
                             <div class="col-md-6">

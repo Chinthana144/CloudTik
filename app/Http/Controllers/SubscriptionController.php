@@ -12,6 +12,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
 
+use function PHPUnit\Framework\isEmpty;
+use function PHPUnit\Framework\isNull;
+
 class SubscriptionController extends Controller
 {
     /**
@@ -244,6 +247,7 @@ class SubscriptionController extends Controller
             ->paginate(10);
 
         $camp = Camps::find($camp_id);
+        $all_camps = Camps::all();
 
         //check user client
         $user = auth()->user();
@@ -255,13 +259,14 @@ class SubscriptionController extends Controller
             return view('Client.client_subscription', compact('client_subs', 'camp'));
         }
 
-        return view('Subscriptions.subscription_view', compact('subscriptions', 'camp'));
+        return view('Subscriptions.subscription_view', compact('subscriptions', 'camp', 'all_camps'));
     }
 
     public function subscriptionSearch(Request $request)
     {
         $camp_id = Session::get('active_camp_id');
         $camp = Camps::find($camp_id);
+        $all_camps = Camps::all();
         $search = $request->input('subscription_search');
 
         $subscriptions = Subscriptions::where('camp_id', $camp_id)
@@ -280,15 +285,7 @@ class SubscriptionController extends Controller
             })
             ->paginate(10);
 
-        return view('Subscriptions.subscription_view', compact('subscriptions', 'camp', 'search'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        return view('Subscriptions.subscription_view', compact('subscriptions', 'camp', 'search', 'all_camps'));
     }
 
     /**
@@ -379,6 +376,58 @@ class SubscriptionController extends Controller
         ]);
     }
 
+    //change camp
+    public function changeCamp(Request $request)
+    {
+        $subscription_id = $request->input('hide_change_subscription_id');
+        $new_camp_id = $request->input('cmb_camp');
+
+        $subscription = Subscriptions::find($subscription_id);
+        $old_camp_id = $subscription->camp_id;
+
+        //change status
+        $subscription->status = 4; //transferred
+        $subscription->save();
+
+        //customer change camp
+        $customer = Customers::find($subscription->customer_id);
+        $customer->camp_id = $new_camp_id;
+        $customer->save();
+
+        //create new subscription in new camp
+        Subscriptions::create([
+            'camp_id' => $new_camp_id,
+            'user_id' => $subscription->user_id,
+            'customer_id' => $subscription->customer_id,
+            'package_id' => $subscription->package_id,
+            'paymethod_id' => $subscription->paymethod_id,
+            'purchaseDate' => $subscription->purchaseDate,
+            'purchaseDateTime' => $subscription->purchaseDateTime,
+            'subscriptionStartTime'=> $subscription->subscriptionStartTime,
+            'subscriptionEndTime' => $subscription->subscriptionEndTime,
+            'price' => "0",
+            'macAddress' => $subscription->macAddress,
+            'status' => 1, //active
+        ]);
+
+        //unbind hotspot user from old camp
+        $camp_data = Camps::find($old_camp_id);
+        $host = $camp_data->mikritikIP;
+        $camp_user = $camp_data->mikrotikUsername;
+        $camp_pwd = $camp_data->mikrotikPassword;
+        $port = $camp_data->mikritikPort;
+
+        $hotspot_user = new HotspotUsers($host, $camp_user, $camp_pwd, $port);
+
+        if($subscription->macAddress != '0' || !isEmpty($subscription->macAddress))
+        {
+            $hotspot_user->unbindMacAddressFromUser($customer->mac_address);
+        }
+
+        return redirect()->route('subscription.show')->with('success', 'Camp changed successfully!');
+
+    }//change camp
+
     //receipt print
     public function receiptPrint(Request $request)
     {
@@ -398,6 +447,8 @@ class SubscriptionController extends Controller
         return response()->json([
             'success' => true,
             'subscription_id' => $subscription->id,
+            'camp_id'=> $subscription->camp_id,
+            'camp_name' => $subscription->camp->name,
             'customer_id' => $subscription->customer_id,
             'customer_name' => $subscription->customer->fullname,
             'username' => $subscription->customer->username,

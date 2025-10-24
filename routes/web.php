@@ -108,6 +108,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/getCustomerSubscriptions', [SubscriptionController::class, 'getSubscriptionByCustomer'])->name('subscription.customer');
     Route::get('/subscription-search', [SubscriptionController::class, 'subscriptionSearch'])->name('subscription.search');
     Route::get('/getRunningSubscriptionByCustomer', [SubscriptionController::class, 'getRunningSubscriptionByCustomer']);
+    Route::post('/changeCamp', [SubscriptionController::class, 'changeCamp'])->name('subscription.changeCamp');
 
     //users
     Route::get('/users-list', [UserController::class, 'index'])->name('users.index');

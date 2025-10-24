@@ -48,6 +48,20 @@
         </div>
     </div>
 
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
     <div class="card mt-2">
         <div class="card-header">
             <h5>Invoice</h5>
@@ -80,10 +94,10 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            <button type="submit" name="action" value="recharge" class="btn btn-success w-100">Recharge</button>
+                            <button type="submit" name="action" value="recharge" id="btn_recharge_subscription" class="btn btn-success w-100">Recharge</button>
                         </div>
                         <div class="col-md-6">
-                            <button type="submit" name="action" value="add" class="btn btn-primary w-100">Add</button>
+                            <button type="submit" name="action" value="add" id="btn_add_subscription" class="btn btn-primary w-100">Add</button>
                         </div>
                     </div>
                 </div>

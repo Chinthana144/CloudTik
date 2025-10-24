@@ -195,13 +195,13 @@ package wise sales report
 * customer login_datetime, expiry_datetime -------------------- done
 * payment method added to subscription table (optional) ------- added for future
 * packages only for web not for Mikrotik ---------------------- done
-* subscription adds user to MikroTik (check package)
+* subscription adds user to MikroTik (check package) ---------- done
 * user page modal close
-* customer profile section
-* customer section show expire date time
-* customer section responsive design
+* customer profile section ------------------------------------ done
+* customer section show expire date time ---------------------- done
+* customer section responsive design -------------------------- done
 * code reset -------------------------------------------------- done
-* Recharge
+* Recharge ---------------------------------------------------- done
 * Camp Change
 
 //new check list
@@ -234,4 +234,4 @@ package wise sales report
 //mikrotik
 * Check Mikrotik activity
 * add users bind/unbind -------------------------------------- done
-* manual subscriptions ---------------------------------------
+* manual subscriptions

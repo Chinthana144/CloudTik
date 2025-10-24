@@ -55,6 +55,7 @@
                         <th>Status</th>
                         <th>User</th>
                         @can('update', App\Models\Subscription::class)
+                            <th>Change</th>
                             <th>Edit</th>
                         @endcan
                         @can('delete', App\Models\Subscription::class)
@@ -77,6 +78,8 @@
                                     <span class="badge bg-success">RUNNING</span>
                                 @elseif($subs->status == 3)
                                     <span class="badge bg-warning">EXPIRED</span>
+                                @elseif($subs->status == 4)
+                                    <span class="badge bg-secondary">TRANSFERRED</span>
                                 @else
                                     <span class="badge bg-danger">CANCLED</span>
                                 @endif
@@ -84,6 +87,11 @@
                             <td>{{ $subs->user->name }}</td>
 
                             @can('update', App\Models\Subscription::class)
+                            <td>
+                                <button type="button" class="btn btn-success btn-sm btn_open_change" {{ $subs->status >= 3 ? 'disabled' : '' }}>
+                                    <i class="bx bx-refresh"></i>
+                                </button>
+                            </td>
                             <td>
                                 <button type="button" class="btn btn-warning btn-sm btn_open_edit"><i class="bx bx-edit"></i></button>
                             </td>
@@ -109,6 +117,7 @@
     </div>
 
     @include('Subscriptions.subs_edit_modal')
+    @include('Subscriptions.camp_change_modal')
 
     <script src="{{ asset('js/subscription.js') }}"></script>
 @endsection

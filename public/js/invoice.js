@@ -234,6 +234,9 @@ $("#btn_customer_history").click(function(){
                     case 3:
                         status = "<span class='badge bg-warning'>EXPIRED</span>";
                     break;
+                    case 4:
+                        status = "<span class='badge bg-secondary'>TRANSFERRED</span>";
+                    break;
                     default:
                         status = "<span class='badge bg-danger'>CANCELED</span>";
                     break;
