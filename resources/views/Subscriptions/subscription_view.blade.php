@@ -81,7 +81,7 @@
                                 @elseif($subs->status == 4)
                                     <span class="badge bg-secondary">TRANSFERRED</span>
                                 @else
-                                    <span class="badge bg-danger">CANCLED</span>
+                                    <span class="badge bg-danger">CANCELED</span>
                                 @endif
                             </td>
                             <td>{{ $subs->user->name }}</td>
