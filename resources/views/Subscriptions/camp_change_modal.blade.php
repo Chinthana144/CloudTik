@@ -12,7 +12,7 @@
         @csrf
         <input type="hidden" name="hide_change_subscription_id" id="hide_change_subscription_id" value="0">
         <div class="modal-body">
-          <p class="text-danger">Note: when camp is changed, subscription and the customer will be transferred to the camp.</p>
+          <p class="text-danger">Note: <b>when camp is changed, subscription and the customer will be transferred to the camp.</b></p>
 
           <div class="mb-3">
             <p id="p_change_sub_details">apple</p>

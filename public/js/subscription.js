@@ -41,6 +41,14 @@ $(document).ready(function () {
                 $("#status_subscription_id").val(response.subscription_id);
                 $("#mac_address").val(response.mac_address);
                 $("#cmb_status").val(response.status);
+
+                //cancel
+                $("#cancel_subscription_id").val(response.subscription_id);
+                $("#cancel_mac_address").val(response.mac_address);
+
+                //enable, disable cancel button => running subscription only
+                response.status == 2 ? $("#btn_cancel_subscription").attr('disabled', false) : $("#btn_cancel_subscription").attr('disabled', true);
+            
             }
         });
     });

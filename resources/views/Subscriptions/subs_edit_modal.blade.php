@@ -64,6 +64,24 @@
                     </form>
                 </div>
 
+                <div class="border border-danger rounded mt-3 p-2">
+                    <h5 id="h5_reset_mac">
+                        Cancel Subscription
+                    </h5>
+                    <form action="{{ route('subscription.cancel') }}" method="post">
+                        @csrf
+                        <input type="hidden" name="cancel_subscription_id" id="cancel_subscription_id" value="0">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input type="text" id="cancel_mac_address" name="cancel_mac_address" class="form-control" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-danger w-100" id="btn_cancel_subscription" >Cancel Subscription</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
                 <div class="border border-primary rounded mt-3 p-2">
                     <h5>
                         Change Status
@@ -77,8 +95,6 @@
                                     <option value="1">Active</option>
                                     <option value="2">Running</option>
                                     <option value="3">Expired</option>
-                                    <option value="4">Transferred</option>
-                                    <option value="5">Cancelled</option>
                                 </select>
                             </div>
                             <div class="col-md-6">

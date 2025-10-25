@@ -339,6 +339,36 @@ class SubscriptionController extends Controller
         return redirect()->route('subscription.show')->with('error', 'Subscription removed failed.');
     }
 
+    //cancel subscription
+    public function cancelSubscription(Request $request)
+    {
+        $subscription_id = $request->input('cancel_subscription_id');
+
+        $subscription = Subscriptions::find($subscription_id);
+
+        $camp_id = $subscription->camp_id;
+
+        //change status
+        $subscription->status = 5;
+        $subscription->save();
+
+        //unbind hotspot user from old camp
+        $camp_data = Camps::find($camp_id);
+        $host = $camp_data->mikritikIP;
+        $camp_user = $camp_data->mikrotikUsername;
+        $camp_pwd = $camp_data->mikrotikPassword;
+        $port = $camp_data->mikritikPort;
+
+        $hotspot_user = new HotspotUsers($host, $camp_user, $camp_pwd, $port);
+
+        if($subscription->macAddress != '0' || !isEmpty($subscription->macAddress))
+        {
+            $hotspot_user->unbindMacAddressFromUser($subscription->macAddress);
+        }
+
+        return redirect()->route('subscription.show')->with('success', 'Subscription canceled successfully!');
+    }//cancel subscription
+
     //reset mac address
     public function resetMacAddress(Request $request){
         $customer_id = $request->input('reset_customer_id');
@@ -421,7 +451,7 @@ class SubscriptionController extends Controller
 
         if($subscription->macAddress != '0' || !isEmpty($subscription->macAddress))
         {
-            $hotspot_user->unbindMacAddressFromUser($customer->mac_address);
+            $hotspot_user->unbindMacAddressFromUser($subscription->macAddress);
         }
 
         return redirect()->route('subscription.show')->with('success', 'Camp changed successfully!');

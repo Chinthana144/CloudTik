@@ -109,6 +109,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/subscription-search', [SubscriptionController::class, 'subscriptionSearch'])->name('subscription.search');
     Route::get('/getRunningSubscriptionByCustomer', [SubscriptionController::class, 'getRunningSubscriptionByCustomer']);
     Route::post('/changeCamp', [SubscriptionController::class, 'changeCamp'])->name('subscription.changeCamp');
+    Route::post('/cancelSubscription', [SubscriptionController::class, 'cancelSubscription'])->name('subscription.cancel');
 
     //users
     Route::get('/users-list', [UserController::class, 'index'])->name('users.index');
