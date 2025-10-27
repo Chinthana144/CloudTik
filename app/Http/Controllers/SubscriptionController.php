@@ -90,7 +90,7 @@ class SubscriptionController extends Controller
                 'subscriptionStartTime'=> $new_start_datetime,
                 'subscriptionEndTime' => $new_end_datetime,
                 'price' => $price,
-                'macAddress' => '0',
+                'macAddress' => $customer->mac_address,
                 'status' => $stat_id,
             ]);
 
@@ -158,6 +158,77 @@ class SubscriptionController extends Controller
             'message' => 'Subscription added successfully',
         ]);
     }//add subscription from api
+
+    public function rechargeSubscriptionFromAPI(Request $request)
+    {
+        $user_id = $request->input('user_id');
+        $camp_id = $request->input('camp_id');
+
+        $customer_id = $request->input('customer_id');
+        $package_id = $request->input('package_id');
+
+        $purchased_date = date('Y-m-d');
+        $purchased_time = date('Y-m-d H:i:s');
+
+        //get price
+        $package = Packages::find($package_id);
+        $price = $package->price;
+
+        //set paymethod id for cash
+        $paymethod_id = 1; //cash payment method id
+
+        //check running sub
+        $has_running_subscription = Subscriptions::where('customer_id', $customer_id)
+            ->where('status', 2)
+            ->exists();
+
+        if($has_running_subscription){
+            $stat_id = 2; //active status id
+            //update running subscriptions
+            Subscriptions::where('customer_id', $customer_id)
+                ->where('status', 2)
+                ->update(['status' => 3]);
+
+            //get current expiry date
+            $customer = Customers::find($customer_id);
+            $current_expiry = $customer->expiry_datetime;
+
+            $new_start_datetime = $current_expiry ?? date('Y-m-d H:i:s');
+            $new_start_datetime = Carbon::parse($new_start_datetime);
+            $new_end_datetime = $new_start_datetime->addDays($package->duration);
+
+            //update customer expiry date
+            $customer->expiry_datetime = $new_end_datetime;
+            $customer->save();
+
+            //create subscription
+            Subscriptions::create([
+                'camp_id' => $camp_id,
+                'user_id' => $user_id,
+                'customer_id' => $customer_id,
+                'package_id' => $package_id,
+                'paymethod_id' => $paymethod_id,
+                'purchaseDate' => $purchased_date,
+                'purchaseDateTime' => $purchased_time,
+                'subscriptionStartTime'=> $new_start_datetime,
+                'subscriptionEndTime' => $new_end_datetime,
+                'price' => $price,
+                'macAddress' => $customer->mac_address,
+                'status' => $stat_id,
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Customer subscription recharged!',
+            ]);
+        }//has running subscription
+        else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Customer does not have running subscription!',
+            ]);
+        }//else no running subscription
+    }
 
     /*
     * Get subscription by user and date

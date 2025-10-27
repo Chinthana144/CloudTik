@@ -36,6 +36,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //subscriptions
     Route::post('/addSubscriptionFromAPI', [SubscriptionController::class, 'addSubscriptionFromAPI'])->name('api.addSubscriptionFromAPI');
+    Route::post('/rechargeSubscriptionFromAPI', [SubscriptionController::class, 'rechargeSubscriptionFromAPI'])->name('api.rechargeSubscriptionFromAPI');
     Route::get('/getSubscriptionByUserDate', [SubscriptionController::class, 'getSubscriptionByUserDate'])->name('api.getSubscriptionByUserDate');
     Route::get('/searchSubscriptionsByUser', [SubscriptionController::class, 'searchSubscriptionsByUser'])->name('api.searchSubscriptionsByUser');
     Route::get('/getDonutChartData', [SubscriptionController::class, 'getDonutChartData'])->name('api.getDonutChartData');
