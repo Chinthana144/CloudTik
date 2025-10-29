@@ -213,7 +213,7 @@ class SubscriptionController extends Controller
                 'subscriptionStartTime'=> $new_start_datetime,
                 'subscriptionEndTime' => $new_end_datetime,
                 'price' => $price,
-                'macAddress' => $customer->mac_address,
+                'macAddress' => $customer->mac_address ?? '0',
                 'status' => $stat_id,
             ]);
 
@@ -619,7 +619,7 @@ class SubscriptionController extends Controller
 
         $subs = Subscriptions::join('packages', 'subscriptions.package_id', '=', 'packages.id')
             ->where('customer_id', $customer_id)
-            ->select('packages.name', 'packages.duration', 'subscriptions.subscriptionStartTime', 'subscriptions.subscriptionEndTime', 'subscriptions.price', 'subscriptions.status')
+            ->select('packages.name', 'packages.duration', 'subscriptions.purchaseDate', 'subscriptions.subscriptionStartTime', 'subscriptions.subscriptionEndTime', 'subscriptions.price', 'subscriptions.status')
             ->orderBy('subscriptions.id', 'DESC')
             ->limit(10)
             ->get();
