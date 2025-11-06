@@ -450,6 +450,7 @@ class SubscriptionController extends Controller
 
         $customer->mac_address = '';
         $subscription->macAddress = '';
+        $subscription->status = 1; //set to active status
 
         $customer->save();
         $subscription->save();

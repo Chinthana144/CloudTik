@@ -259,15 +259,21 @@ class WifiLoginController extends Controller
                     }//mac address un match
                 }//has running subscription
                 elseif($active_subscription){
+                    /*
+                    * assign subscription start and expire datetime only if null
+                    * when user mac address changes, running state change to 'Active' state,
+                    * hence subscription start and end time should not be changed.
+                    */
                     //make it running
                     $active_subscription->status = 2; //running
-                    $active_subscription->subscriptionStartTime = now();
-                    $active_subscription->subscriptionEndTime = now()->addDays($active_subscription->package->duration);
+                    $active_subscription->subscriptionStartTime ??= now();
+                    $active_subscription->subscriptionEndTime ??= now()->addDays($active_subscription->package->duration);
+                    $active_subscription->macAddress = $mac;
                     $active_subscription->save();
 
                     //update customer mac address
-                    $customer->login_datetime = now();
-                    $customer->expiry_datetime = now()->addDays($active_subscription->package->duration);
+                    $customer->login_datetime ??= now();
+                    $customer->expiry_datetime ??= now()->addDays($active_subscription->package->duration);
                     $customer->mac_address = $mac;
                     $customer->save();
 

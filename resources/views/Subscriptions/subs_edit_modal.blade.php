@@ -70,10 +70,10 @@
                     </h5>
                     <form action="{{ route('subscription.cancel') }}" method="post">
                         @csrf
-                        <input type="hidden" name="cancel_subscription_id" id="cancel_subscription_id" value="0">
+                        <input type="hidden" name="cancel_subscription_id" id="cancel_subscriptionID" value="0">
                         <div class="row">
                             <div class="col-md-6">
-                                <input type="text" id="cancel_mac_address" name="cancel_mac_address" class="form-control" readonly>
+                                <input type="text" name="cancel_mac_address" id="cancel_macAddress" class="form-control" readonly>
                             </div>
                             <div class="col-md-6">
                                 <button type="submit" class="btn btn-danger w-100" id="btn_cancel_subscription" >Cancel Subscription</button>
