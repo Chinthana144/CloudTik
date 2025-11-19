@@ -52,10 +52,10 @@
                         <th>Package</th>
                         <th>Duration</th>
                         <th>Price</th>
+                        <th>Expire</th>
                         <th>Status</th>
                         <th>User</th>
                         @can('update', App\Models\Subscription::class)
-                            <th>Change</th>
                             <th>Edit</th>
                         @endcan
                         @can('delete', App\Models\Subscription::class)
@@ -67,10 +67,19 @@
                         <tr data-id="{{ $subs->id }}">
                             <td>{{ $subs->purchaseDate }}</td>
                             <td>{{ $subs->customer->fullname }}</td>
-                            <td>{{ $subs->customer->username }}</td>
+                            <td>
+                                {{ $subs->customer->username }}
+                                <br>
+                                {{ $subs->macAddress }}
+                            </td>
                             <td>{{ $subs->package->name }}</td>
                             <td>{{ $subs->package->duration }}</td>
                             <td>{{ $subs->price }}</td>
+                            <td>
+                                {{ $subs->subscriptionEndTime }}
+                                <br>
+                                <span class="expiry" data-expire="{{ $subs->subscriptionEndTime  }}"></span>
+                            </td>
                             <td>
                                 @if ($subs->status == 1)
                                     <span class="badge bg-primary">ACTIVE</span>
@@ -91,8 +100,7 @@
                                 <button type="button" class="btn btn-success btn-sm btn_open_change" {{ $subs->status >= 3 ? 'disabled' : '' }}>
                                     <i class="bx bx-refresh"></i>
                                 </button>
-                            </td>
-                            <td>
+                            
                                 <button type="button" class="btn btn-warning btn-sm btn_open_edit"><i class="bx bx-edit"></i></button>
                             </td>
                             @endcan

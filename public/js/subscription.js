@@ -1,4 +1,7 @@
 $(document).ready(function () {
+    //countdown
+    updateCountdown();
+
     $("#tbl_subscription").on('click', '.btn_open_edit', function(){
         let row = $(this).closest('tr');
 	    let id = row.data('id');
@@ -88,5 +91,36 @@ $(document).ready(function () {
     $("#btn_close_camp_change").click(function(){
         $("#camp_change_modal").modal('hide');
     });
+
+    function updateCountdown() {
+        $('.expiry').each(function () {
+
+            const expireTime = new Date($(this).data('expire')).getTime();
+            const now = new Date().getTime();
+            let distance = expireTime - now;
+
+            if (distance <= 0) {
+                $(this).text("Expired");
+                return;
+            }
+
+            if(isNaN(distance))
+            {
+                $(this).text("N/A");
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            $(this).text(`${days}d ${hours}h ${minutes}m ${seconds}s`);
+            $(this).css('color', 'green');
+        });
+    }//countdown
+
+    // Update countdown every second
+    setInterval(updateCountdown, 1000);
 
 });//subscription jquery
