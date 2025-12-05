@@ -69,23 +69,25 @@ The CloudTik Sales mobile app (Flutter) integrates with this backend to allow sa
 Follow the steps below to install and run the CloudTik web application on your local environment.
 
 ### Clone the Repository
-git clone https://github.com/your-username/CloudTik.git
-cd CloudTik
+    git clone https://github.com/your-username/CloudTik.git
+    cd CloudTik
 
 ### Install PHP Dependencies
-composer install
+    composer install
 
 ### Install Frontend Dependencies
-npm install
-npm run build
+    npm install
+    npm run build
 (Or use npm run dev during development.)
 
 ### Environment Setup
 Copy the example environment file:
-cp .env.example .env
+
+    cp .env.example .env
 
 Generate application key:
-php artisan key:generate
+
+    php artisan key:generate
 
 Now update your .env file with:
 - **Database credentials**
@@ -94,19 +96,19 @@ Now update your .env file with:
 - **APP_URL**
 
 ## Run Migrations
-php artisan migrate
+    php artisan migrate
 
 **Note: After migration is completed run the 'initialize.sql' file in database to initialize settings and access**
 
 ## Start the Development Server
-php artisan serve
+    php artisan serve
 
 The CloudTik web system should now be running locally.
 
 ## Deployment Instructions for cloud
-    - add the files in hotspot folder to the files in Mikrotik (login is executed by API, change the API link in login.html as necessary)
-    - add Walled Garden rule to Mikrotik depending on the hosting domain.
-    - add schedule to hosting platform to execute expired users, **subscriptions:check-expired**
+ - add the files in hotspot folder to the files in Mikrotik (login is executed by API, change the API link in login.html as necessary)
+ - add Walled Garden rule to Mikrotik depending on the hosting domain.
+ - add schedule to hosting platform to execute expired users, **subscriptions:check-expired**
 
 ## Future Improvements
  - Implement voucher issue for none registered customers
