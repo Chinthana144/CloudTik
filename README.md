@@ -103,6 +103,11 @@ php artisan serve
 
 The CloudTik web system should now be running locally.
 
+## Deployment Instructions for cloud
+    - add the files in hotspot folder to the files in Mikrotik (login is executed by API, change the API link in login.html as necessary)
+    - add Walled Garden rule to Mikrotik depending on the hosting domain.
+    - add schedule to hosting platform to execute expired users, **subscriptions:check-expired**
+
 ## Future Improvements
  - Implement voucher issue for none registered customers
  - Advanced analytics and reporting
