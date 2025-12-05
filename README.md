@@ -65,3 +65,53 @@ The CloudTik Sales mobile app (Flutter) integrates with this backend to allow sa
 ![Customer List](screenshots/subscriptions.png)
 ![Invoice Page](screenshots/logged.png)
 
+## Installation Guide
+Follow the steps below to install and run the CloudTik web application on your local environment.
+
+### Clone the Repository
+git clone https://github.com/your-username/CloudTik.git
+cd CloudTik
+
+### Install PHP Dependencies
+composer install
+
+### Install Frontend Dependencies
+npm install
+npm run build
+(Or use npm run dev during development.)
+
+### Environment Setup
+Copy the example environment file:
+cp .env.example .env
+
+Generate application key:
+php artisan key:generate
+
+Now update your .env file with:
+- **Database credentials**
+- **MikroTik API settings**
+- **Stripe keys (if using payments)**
+- **APP_URL**
+
+## Run Migrations
+php artisan migrate
+
+**Note: After migration is completed run the 'initialize.sql' file in database to initialize settings and access**
+
+## Start the Development Server
+php artisan serve
+
+The CloudTik web system should now be running locally.
+
+## Future Improvements
+ - Implement voucher issue for none registered customers
+ - Advanced analytics and reporting
+ - Auto-expiry notifications via WhatsApp / SMS
+ - Complete multi-language support
+ - More detailed hotspot user analytics
+
+## Connect with me  
+- LinkedIn: *www.linkedin.com/in/chinthana-edirisinghe-42399321a*  
+- Email: *chinthana144@gmail.com*  
+
+Thanks for visiting my profile!
