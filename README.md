@@ -60,7 +60,8 @@ The CloudTik Sales mobile app (Flutter) integrates with this backend to allow sa
  - View sales performance
 (Separate README will cover the mobile app.)
 
+## Screenshots
+![Dashboard](screenshots/dashboard.png)
+![Customer List](screenshots/subscriptions.png)
+![Invoice Page](screenshots/logged.png)
 
- - Reset MAC address
-View sales performance
-(Separate README will cover the mobile app.)
