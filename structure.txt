@@ -195,7 +195,6 @@ package wise sales report
 * customer login_datetime, expiry_datetime -------------------- done
 * payment method added to subscription table (optional) ------- added for future
 * packages only for web not for Mikrotik ---------------------- done
-<<<<<<< HEAD
 * subscription adds user to MikroTik (check package)
 * user page modal close
 * customer profile section
@@ -205,35 +204,14 @@ package wise sales report
 //new check list
 * customer register page, add back button using javascript ---- done
 * login dst link
-=======
-* subscription adds user to MikroTik (check package) ---------- done
-* user page modal close
-* customer profile section ------------------------------------ done
-* customer section show expire date time ---------------------- done
-* customer section responsive design -------------------------- done
-* code reset -------------------------------------------------- done
-* Recharge ---------------------------------------------------- done
-* Camp Change
-
-//new check list
-* customer register page, add back button using javascript ---- done
-* login dst link ---------------------------------------------- done
->>>>>>> chinthana_dev
 * show mikrotik hotspot Users
 * invoice submit message
 * subscription edit modal (ADD TO RUNNING)
 * Mikrotik Control Panel
-<<<<<<< HEAD
-* remove mac address binding in schedule
-* user profile, change pwd ------------------------------------ done
-* route to home page after camp select
-* check mikrotik connection
-=======
 * remove mac address binding in schedule ---------------------- done
 * user profile, change pwd ------------------------------------ done
 * route to home page after camp select ------------------------ done
 * check mikrotik connection ----------------------------------- done
->>>>>>> chinthana_dev
 
 //client profile
 * client Dashboard -------------------------------------------- done
