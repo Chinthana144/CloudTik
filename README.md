@@ -47,12 +47,12 @@ The system supports customer registration, subscription management, invoicing, M
 
 ## Tech Stack
 
--**Backend:** Laravel 10
--**Frontend:** Blade, jQuery, Bootstrap
--**Database:** MySQL
--**API Integration:** MikroTik RouterOS API
--**Auth:** Laravel Breeze / Sanctum
--**Other Tools:** Postman
+- **Backend:** Laravel 10
+- **Frontend:** Blade, jQuery, Bootstrap
+- **Database:** MySQL
+- **API Integration:** MikroTik RouterOS API
+- **Auth:** Laravel Breeze / Sanctum
+- **Other Tools:** Postman
 
 ## Connected Mobile Application
 The CloudTik Sales mobile app (Flutter) integrates with this backend to allow sales teams to:
@@ -64,11 +64,11 @@ The CloudTik Sales mobile app (Flutter) integrates with this backend to allow sa
 
 ## Screenshots
 
-!\[Dashboard](screenshots/dashboard.png)
+![Dashboard](screenshots/dashboard.png)
 
-!\[Subscription List](screenshots/subscriptions.png)
+![Subscription List](screenshots/subscriptions.png)
 
-!\[Logged user](screenshots/logged.png)
+![Logged user](screenshots/logged.png)
 
 
 ## Installation Guide
