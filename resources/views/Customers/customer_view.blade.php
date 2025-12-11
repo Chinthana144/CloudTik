@@ -70,7 +70,11 @@
                             <td>{{ $customer->customerType->customerType }}</td>
                             <td>{{ $customer->fullname }}</td>
                             <td>{{ $customer->phone }}</td>
-                            <td>{{ $customer->username }}</td>
+                            <td>
+                                {{ $customer->username }}
+                                <br>
+                                {{ $customer->mac_address }}
+                            </td>
                             <td>{{ $customer->password }}</td>
                             <td>
                                 {{ $customer->expiry_datetime != null ? $customer->expiry_datetime : 'N/A' }}

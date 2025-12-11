@@ -48,12 +48,28 @@
         </div>
     </div>
 
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
     <div class="card mt-2">
         <div class="card-header">
             <h5>Invoice</h5>
         </div>
-        <div class="card-body">
-            <div class="col-md-6">
+    <div class="card-body">
+        <form action="{{ route('subscription.store') }}" method="post">
+            @csrf
+            <div class="col-md-6 offset-md-3">
                 <input type="hidden" name="hide_camp_id" id="hide_camp_id" value="{{ $camp->id }}">
 
                 <label for="">Select Customer</label>
@@ -76,18 +92,18 @@
                 <div id="div_package_details">
                     <p id="p_package_details">Select Package</p>
 
-                    <form id="frm_subscription">
-                        @csrf
-
-                        <input type="hidden" name="hide_customer_id" id="hide_customer_id" value="0">
-                        <input type="hidden" name="hide_package_id" id="hide_package_id" value="0">
-
-                        <button type="submit" id="btn_add_subscription" class="btn btn-primary">Submit</button>
-
-                    </form>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button type="submit" name="action" value="recharge" id="btn_recharge_subscription" class="btn btn-success w-100">Recharge</button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="submit" name="action" value="add" id="btn_add_subscription" class="btn btn-primary w-100">Add</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
+    </div>
     </div>
 
     @include('Invoice.customer_modal')

@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\CampController;
 use App\Http\Controllers\CampUserController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ClientReportController;
 use App\Http\Controllers\CounterController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CustomerProfileController;
@@ -101,9 +102,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/getOneSubscription', [SubscriptionController::class, 'getOneSubscription'])->name('subscription.getOneSubscription');
     Route::post('/updateSubsStatus', [SubscriptionController::class, 'updateStatus']);
     Route::post('/deleteSubscription', [SubscriptionController::class, 'destroy'])->name('subscription.destroy');
+    Route::post('/resetSubscription', [SubscriptionController::class, 'resetMacAddress'])->name('subscription.reset');
+    Route::post('/changeStatusSubscription', [SubscriptionController::class, 'changeStatusSubscription'])->name('subscription.changeStatus');
     Route::get('/getCounterTotal', [SubscriptionController::class, 'getSubscriptionByCounter'])->name('subscription.total');
     Route::get('/getCustomerSubscriptions', [SubscriptionController::class, 'getSubscriptionByCustomer'])->name('subscription.customer');
     Route::get('/subscription-search', [SubscriptionController::class, 'subscriptionSearch'])->name('subscription.search');
+    Route::get('/getRunningSubscriptionByCustomer', [SubscriptionController::class, 'getRunningSubscriptionByCustomer']);
+    Route::post('/changeCamp', [SubscriptionController::class, 'changeCamp'])->name('subscription.changeCamp');
+    Route::post('/cancelSubscription', [SubscriptionController::class, 'cancelSubscription'])->name('subscription.cancel');
 
     //users
     Route::get('/users-list', [UserController::class, 'index'])->name('users.index');
@@ -127,6 +133,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/rpt_user_package_summary_search', [ReportsController::class, 'rptUserPackageSummarySearch'])->name('rptUserPackageSummary.search');
     Route::get('/rpt_user_sales_summary', [ReportsController::class, 'showUserSalesSummaryReport']);
     Route::get('/rpt_user_sales_summary_search', [ReportsController::class, 'rptUserSalesSummarySearch'])->name('rptUserSalesSummary.search');
+
+    //client side reports
+    Route::get('/sale_reports', [ClientReportController::class, 'showSaleReports']);
+    Route::get('/rpt_daily_sale', [ClientReportController::class, 'showDailySaleReport']);
+    Route::get('/rpt_daily_sale_search', [ClientReportController::class, 'rptDailySaleSearch'])->name('rptDailySaleSearch.search');
+    Route::get('/rpt_sale_summary', [ClientReportController::class, 'showSaleSummary']);
+    Route::get('/rpt_sale_summary_search', [ClientReportController::class, 'rptSaleSummarySearch'])->name('rptSaleSummarySearch.search');
 
     //user page access
     Route::get('/useraccess', [UserAccessController::class, 'index'])->name('useraccess.index');
@@ -163,6 +176,9 @@ Route::post('/customer-login', [CustomerProfileController::class, 'login'])->nam
 //customer auth middleware
 Route::middleware(['customerAuth'])->group(function(){
     Route::get('/cust_home', [CustomerProfileController::class, 'custHome'])->name('customer.custHome');
+    Route::get('/cust_subscription', [CustomerProfileController::class, 'custSubscription'])->name('customer.custSubscription');
+    Route::get('/cust_profile', [CustomerProfileController::class, 'custProfile'])->name('customer.custProfile');
+    Route::post('/cust_change_pwd', [CustomerProfileController::class, 'changePassword'])->name('customer.changePassword');
     Route::get('/cust_logout', [CustomerProfileController::class, 'logout'])->name('customer.custLogout');
 });
 

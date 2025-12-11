@@ -9,7 +9,10 @@
 </head>
 <body>
     <div id="div_customer_login">
-        <img src="{{ asset('images/company/com_logo_1.png') }}" alt="" id="img_logo">
+        <a href="/">
+            <img src="{{ asset('images/company/com_logo_1.png') }}" alt="" id="img_logo">
+        </a>
+
 
         <h3>Customer Login</h3>
 

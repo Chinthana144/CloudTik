@@ -29,6 +29,20 @@
                 </div>
             </div>
 
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show mt-1" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="alert alert-danger alert-dismissible fade show mt-1" role="alert">
+                    {{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
             <div class="table_responsive">
                 <table class="table" id="tbl_subscription">
                     <tr>
@@ -38,6 +52,7 @@
                         <th>Package</th>
                         <th>Duration</th>
                         <th>Price</th>
+                        <th>Expire</th>
                         <th>Status</th>
                         <th>User</th>
                         @can('update', App\Models\Subscription::class)
@@ -52,10 +67,19 @@
                         <tr data-id="{{ $subs->id }}">
                             <td>{{ $subs->purchaseDate }}</td>
                             <td>{{ $subs->customer->fullname }}</td>
-                            <td>{{ $subs->customer->username }}</td>
+                            <td>
+                                {{ $subs->customer->username }}
+                                <br>
+                                {{ $subs->macAddress }}
+                            </td>
                             <td>{{ $subs->package->name }}</td>
                             <td>{{ $subs->package->duration }}</td>
                             <td>{{ $subs->price }}</td>
+                            <td>
+                                {{ $subs->subscriptionEndTime }}
+                                <br>
+                                <span class="expiry" data-expire="{{ $subs->subscriptionEndTime  }}"></span>
+                            </td>
                             <td>
                                 @if ($subs->status == 1)
                                     <span class="badge bg-primary">ACTIVE</span>
@@ -63,14 +87,20 @@
                                     <span class="badge bg-success">RUNNING</span>
                                 @elseif($subs->status == 3)
                                     <span class="badge bg-warning">EXPIRED</span>
+                                @elseif($subs->status == 4)
+                                    <span class="badge bg-secondary">TRANSFERRED</span>
                                 @else
-                                    <span class="badge bg-danger">CANCLED</span>
+                                    <span class="badge bg-danger">CANCELED</span>
                                 @endif
                             </td>
                             <td>{{ $subs->user->name }}</td>
 
                             @can('update', App\Models\Subscription::class)
                             <td>
+                                <button type="button" class="btn btn-success btn-sm btn_open_change" {{ $subs->status >= 3 ? 'disabled' : '' }}>
+                                    <i class="bx bx-refresh"></i>
+                                </button>
+                            
                                 <button type="button" class="btn btn-warning btn-sm btn_open_edit"><i class="bx bx-edit"></i></button>
                             </td>
                             @endcan
@@ -95,6 +125,7 @@
     </div>
 
     @include('Subscriptions.subs_edit_modal')
+    @include('Subscriptions.camp_change_modal')
 
     <script src="{{ asset('js/subscription.js') }}"></script>
 @endsection

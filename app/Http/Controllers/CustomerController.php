@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Camps;
 use App\Models\Customers;
+use App\Models\Subscriptions;
 use App\Models\CustomerType;
 use App\Models\Packages;
 use Illuminate\Http\Request;
@@ -196,6 +197,10 @@ class CustomerController extends Controller
         $expire_date = $request->input('expire_date');
         $expire_time = $request->input('expire_time');
 
+        //subscription
+        $subscription_id = $request->input('hide_subscription_id');
+        $subscription = Subscriptions::find($subscription_id);
+
         // dd($expire_date, $expire_time);
         $expire_time_formatted = date('H:i:s', strtotime($expire_time));
         $expire_datetime = $expire_date . ' ' . $expire_time_formatted;
@@ -203,8 +208,13 @@ class CustomerController extends Controller
          $customer = Customers::find($customer_id);
         // dd($expire_datetime);
         if($customer){
+            //update customer expire date
             $customer->expiry_datetime = $expire_datetime;
             $customer->save();
+
+            //update subscription expire date
+            $subscription->subscriptionEndTime = $expire_datetime;
+            $subscription->save();
 
             return redirect()->route('subscription.show')->with('success', 'Expire date updated successfully!');
         }
@@ -290,9 +300,16 @@ class CustomerController extends Controller
                 ->where('status', 1)
                 ->get();
 
+            $has_running_subscription = Subscriptions::where('customer_id', $customer->id)
+                ->where('status', 2)
+                ->exists();
+
+            $has_running_subscription = $has_running_subscription == 1 ? true : false;
+
             $customer_packages[] = [
                 'customer' => $customer,
                 'packages' => $packages,
+                'has_running_subscription' => $has_running_subscription,
             ];
         }
 

@@ -1,29 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Trizent Infratech</title>
-    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/cust_profile.css') }}">
-</head>
-<body>
-    <div id="div_top_bar">
-        <div>
-            Welcome, {{ $customer->fullname}} <br>
-            Username: {{ $customer->username }} <br>
-        </div>
-        <div>
-            <a href="/cust_logout" id="btn_logout">Logout</a>
-        </div>
+@extends('CustomerProfile.cust_layout')
+
+@section('content')
+
+    <div id="div_customer_details">
+        <h5>
+            Hi, {{ $customer->fullname }}
+            <br>
+            {{ $customer->username }}
+        </h5>
     </div>
 
+    {{-- has running package --}}
     @if ($running_package)
-        <div>
+        <div id="div_running_package">
+            <input type="hidden" id="running_end_date" value="{{ $customer->expiry_datetime }}">
             <h4>
-                Expire Date: <strong>{{ $customer->expiry_datetime }}</strong>
+                Expire Date:
+                <br>
+                <strong>{{ $customer->expiry_datetime }}</strong>
             </h4>
+
+            <h4 class="mt-3">Remaining Time</h4>
+            <p id="countdown"></p>
         </div>
     @endif
 
@@ -42,12 +40,32 @@
         </div>
     @endif
 
-    <div id="div_footer">
-        <p>
-            &copy; 2025 Trizent Infratech. All rights reserved.
-            Powered by Trizent Infratech
-        </p>
+    <script>
+        $(document).ready(function () {
+            var get_time = $("#running_end_date").val();
+            var endTime = new Date(get_time).getTime();
 
-    </div>
-</body>
-</html>
+            var countdownTimer = setInterval(() => {
+                var now = new Date().getTime(); // Get current time
+                var distance = endTime - now; // Calculate the difference
+
+                if (distance < 0) {
+                    clearInterval(countdownTimer);
+                    $('#countdown').html("Package expired");
+                    return;
+                }
+
+                // Time calculations
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // Display the result
+                $('#countdown').html(
+                    days + "d " + hours + "h " + minutes + "m " + seconds + "s "
+                );
+            }, 1000);
+        });
+    </script>
+@endsection
