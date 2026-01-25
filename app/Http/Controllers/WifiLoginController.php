@@ -31,7 +31,7 @@ class WifiLoginController extends Controller
     /*
     * validate customer login
     */
-    public function login(Request $request)
+    public function basicLogin(Request $request)
     {
         /*
         * find customer
@@ -185,8 +185,8 @@ class WifiLoginController extends Controller
     }//login
 
     //use this login in future
-    public function basicLogin(Request $request){
-       date_default_timezone_set('Asia/Dubai');
+    public function login(Request $request){
+        date_default_timezone_set('Asia/Dubai');
 
         $camp_id = $request->input('camp_id');
         $mac = $request->input('mac');
@@ -259,15 +259,21 @@ class WifiLoginController extends Controller
                     }//mac address un match
                 }//has running subscription
                 elseif($active_subscription){
+                    /*
+                    * assign subscription start and expire datetime only if null
+                    * when user mac address changes, running state change to 'Active' state,
+                    * hence subscription start and end time should not be changed.
+                    */
                     //make it running
                     $active_subscription->status = 2; //running
-                    $active_subscription->subscriptionStartTime = now();
-                    $active_subscription->subscriptionEndTime = now()->addDays($active_subscription->package->duration);
+                    $active_subscription->subscriptionStartTime ??= now();
+                    $active_subscription->subscriptionEndTime ??= now()->addDays($active_subscription->package->duration);
+                    $active_subscription->macAddress = $mac;
                     $active_subscription->save();
 
                     //update customer mac address
-                    $customer->login_datetime = now();
-                    $customer->expiry_datetime = now()->addDays($active_subscription->package->duration);
+                    $customer->login_datetime ??= now();
+                    $customer->expiry_datetime ??= now()->addDays($active_subscription->package->duration);
                     $customer->mac_address = $mac;
                     $customer->save();
 

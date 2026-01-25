@@ -36,11 +36,14 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //subscriptions
     Route::post('/addSubscriptionFromAPI', [SubscriptionController::class, 'addSubscriptionFromAPI'])->name('api.addSubscriptionFromAPI');
+    Route::post('/rechargeSubscriptionFromAPI', [SubscriptionController::class, 'rechargeSubscriptionFromAPI'])->name('api.rechargeSubscriptionFromAPI');
     Route::get('/getSubscriptionByUserDate', [SubscriptionController::class, 'getSubscriptionByUserDate'])->name('api.getSubscriptionByUserDate');
     Route::get('/searchSubscriptionsByUser', [SubscriptionController::class, 'searchSubscriptionsByUser'])->name('api.searchSubscriptionsByUser');
     Route::get('/getDonutChartData', [SubscriptionController::class, 'getDonutChartData'])->name('api.getDonutChartData');
     Route::get('/getBarChartData', [SubscriptionController::class, 'getBarChartData'])->name('api.getBarChartData');
     Route::get('/getOneSubscriptionAPI', [SubscriptionController::class, 'getOneSubscriptionAPI'])->name('api.getOneSubscriptionAPI');
+    Route::post('/resetMacAddressAPI', [SubscriptionController::class, 'resetMacAddressAPI'])->name('api.resetMacAddressAPI');
+    Route::get('/getSubscriptionByCustomer', [SubscriptionController::class,'getSubscriptionByCustomer'])->name('api.getSubscriptionByCustomer');
 
     // Add your authenticated routes here
     Route::post('/logout', [UserController::class, 'logout'])->name('api.logout');
