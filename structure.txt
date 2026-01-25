@@ -231,4 +231,4 @@ package wise sales report
 //mikrotik
 * Check Mikrotik activity
 * add users bind/unbind -------------------------------------- done
-* manual subscriptions ---------------------------------------
+* manual subscriptions --------------------------------------- pending
