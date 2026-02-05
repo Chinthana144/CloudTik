@@ -53,11 +53,6 @@ class CheckExpiredSubscriptions extends Command
                     // Remove the user from MikroTik
                     $hotspotService->deleteHotspotUser($customer_username);
 
-                    if(!empty($customer_mac)) {
-                        // Unbind the MAC address from the user
-                        $hotspotService->unbindMacAddressFromUser($customer_mac);
-                    }
-
                     $this->info("Removed expired user: {$customer_username} from camp: {$camp_data->name}");
                 }//check connection
 

@@ -82,29 +82,6 @@
                     </form>
                 </div>
 
-                <div class="border border-primary rounded mt-3 p-2">
-                    <h5>
-                        Change Status
-                    </h5>
-                    <form action="{{ route('subscription.changeStatus') }}" method="post">
-                        @csrf
-                        <input type="hidden" name="status_subscription_id" id="status_subscription_id" value="0">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <select name="cmb_status" id="cmb_status" class="form-select">
-                                    <option value="1">Active</option>
-                                    <option value="2">Running</option>
-                                    <option value="3">Expired</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <button type="submit" class="btn btn-primary w-100">Change Status</button>
-                            </div>
-                        </div>
-                        
-                    </form>
-                </div>
-
             </div>
 
         </div>

@@ -17,7 +17,7 @@ class HotspotUsers
                 'host' => $host,
                 'user' => $user,
                 'pass' => $pwd,
-                'port' => (int)$port,
+                'port' => intval($port),
                 'timeout' => 3, // seconds
             ]);
             $this->isConnected = true; // success
@@ -44,23 +44,50 @@ class HotspotUsers
         }
     }//get identity
 
-    public function addHotspotUser($username, $user_pwd)
+    public function addHotspotUser($username, $user_pwd, $macAddress = null)
     {
         $query = new Query('/ip/hotspot/user/add');
+
         $query->equal('name', $username);
         $query->equal('password', $user_pwd);
-        // $query->equal('profile', $package_name); // Assign to created profile
+
+        // Limit login to 1 device
+        // $query->equal('shared-users', '1');
+
+        // Bind MAC address (optional but recommended)
+        if (!empty($macAddress)) {
+            $query->equal('mac-address', $macAddress);
+        }
+
+        // Optional extras
+        // $query->equal('profile', $package_name);
         // $query->equal('comment', 'Created by CloudTik system');
 
         $this->client->query($query)->read();
-
-        // try {
-        //     $this->client->query($query)->read();
-        //     // echo "Hotspot user created successfully!";
-        // } catch (\Exception $e) {
-        //     echo "Error creating hotspot user: " . $e->getMessage();
-        // }
     }
+
+    public function bindMacToUser($username, $macAddress)
+    {
+        $query = new Query('/ip/hotspot/user/set');
+        $query->equal('numbers', $username);
+        $query->equal('mac-address', $macAddress);
+
+        $this->client->query($query)->read();
+    }
+
+    public function deleteHotspotUser($username)
+    {
+        $query = new Query('/ip/hotspot/user/remove');
+        $query->equal('numbers', $username);
+
+        try {
+            $this->client->query($query)->read();
+            // echo "Hotspot user deleted successfully!";
+        } catch (\Exception $e) {
+            echo "Error deleting hotspot user: " . $e->getMessage();
+        }
+    }
+
 
     public function getAllhotspotUsers()
     {
@@ -88,19 +115,6 @@ class HotspotUsers
         } catch (\Exception $e) {
             echo "Error fetching hotspot user: " . $e->getMessage();
             return [];
-        }
-    }
-
-    public function deleteHotspotUser($username)
-    {
-        $query = new Query('/ip/hotspot/user/remove');
-        $query->equal('numbers', $username);
-
-        try {
-            $this->client->query($query)->read();
-            // echo "Hotspot user deleted successfully!";
-        } catch (\Exception $e) {
-            echo "Error deleting hotspot user: " . $e->getMessage();
         }
     }
 

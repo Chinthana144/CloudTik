@@ -215,50 +215,13 @@ class WifiLoginController extends Controller
             if($camp_id == $customer->camp_id){
                 $customer_id = $customer->id;
 
-                //check running subscriptions
-                $running_subscription = Subscriptions::where('customer_id', $customer_id)
-                    ->where('status', 2) //running
-                    ->whereDate('subscriptionEndTime', '>=', now())
-                    ->where('camp_id', $camp_id)
-                    ->first();
-
                 //check active subscriptions
                 $active_subscription = Subscriptions::where('customer_id', $customer_id)
                     ->where('status', 1) //active
                     ->where('camp_id', $camp_id)
                     ->first();
 
-                if($running_subscription){
-                    if($customer->mac_address == '' || isEmpty($customer->mac_address)){
-                        //re assign mac address
-                        //update mac address
-                        $running_subscription->macAddress = $mac;
-                        $running_subscription->save();
-
-                        //update customer mac address
-                        $customer->mac_address = $mac;
-                        $customer->save();
-
-                        //bind new mac address
-                        $hotspot_user->bindMacAddressToUser($username, $mac);
-
-                        //redirect uri
-                        $redirectUrl = 'https://cloudtik.trizent.net/userlogin?id=' . $customer->id;
-                        return redirect($redirectUrl);
-                    }//no
-                    elseif($customer->mac_address == $mac){
-                        //bind new mac address
-                        $hotspot_user->bindMacAddressToUser($username, $mac);
-
-                        //redirect uri
-                        $redirectUrl = 'https://cloudtik.trizent.net/userlogin?id=' . $customer->id;
-                        return redirect($redirectUrl);
-                    }
-                    else{
-                        return redirect()->back()->with('error', 'Please reset your subscription.');
-                    }//mac address un match
-                }//has running subscription
-                elseif($active_subscription){
+                if($active_subscription){
                     /*
                     * assign subscription start and expire datetime only if null
                     * when user mac address changes, running state change to 'Active' state,
@@ -278,6 +241,8 @@ class WifiLoginController extends Controller
                     $customer->save();
 
                     //bind mac address to hotspot user
+                    $hotspot_user->addHotspotUser($username, $password, $mac);
+
                     $hotspot_user->bindMacAddressToUser($username, $mac);
 
                     //redirect uri

@@ -62,9 +62,10 @@ class MikrotikController extends Controller
         $camp_password = $camp_data->mikrotikPassword;
         $port = $camp_data->mikritikPort;
 
-        $user_profile = new UserProfiles($host, $camp_user, $camp_password, $port);
+        $hotspot_user = new HotspotUsers($host, $camp_user, $camp_password, $port);
+        // $user_profile = new UserProfiles($host, $camp_user, $camp_password, $port);
 
-        $user_profile->addHotspotUser($user_name, $user_pwd);
+        $hotspot_user->addHotspotUser($user_name, $user_pwd);
 
         return redirect()->route('mikrotik.hotspotusers');
     }

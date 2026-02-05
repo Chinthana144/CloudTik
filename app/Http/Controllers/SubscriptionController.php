@@ -391,6 +391,9 @@ class SubscriptionController extends Controller
         $customer = Customers::find($customer_id);
 
         if ($subscription && $hotspot->isConnected) {
+            // unbind mac address from hotspot user
+            $hotspot->deleteHotspotUser($customer->username);
+
             // Delete the subscription
             $subscription->delete();
 
@@ -416,6 +419,8 @@ class SubscriptionController extends Controller
         $subscription_id = $request->input('cancel_subscription_id');
 
         $subscription = Subscriptions::find($subscription_id);
+        $customer_id = $subscription->customer_id;
+        $customer = Customers::find($customer_id);
 
         $camp_id = $subscription->camp_id;
 
@@ -432,10 +437,7 @@ class SubscriptionController extends Controller
 
         $hotspot_user = new HotspotUsers($host, $camp_user, $camp_pwd, $port);
 
-        if($subscription->macAddress != '0' || !isEmpty($subscription->macAddress))
-        {
-            $hotspot_user->unbindMacAddressFromUser($subscription->macAddress);
-        }
+        $hotspot_user->deleteHotspotUser($customer->username);
 
         return redirect()->route('subscription.show')->with('success', 'Subscription canceled successfully!');
     }//cancel subscription
@@ -452,6 +454,18 @@ class SubscriptionController extends Controller
         $subscription->macAddress = '';
         $subscription->status = 1; //set to active status
 
+        //unbind mac address
+        //unbind hotspot user from old camp
+        $camp_data = Camps::find($subscription->camp_id);
+        $host = $camp_data->mikritikIP;
+        $camp_user = $camp_data->mikrotikUsername;
+        $camp_pwd = $camp_data->mikrotikPassword;
+        $port = $camp_data->mikritikPort;
+
+        $hotspot_user = new HotspotUsers($host, $camp_user, $camp_pwd, $port);
+
+        $hotspot_user->deleteHotspotUser($customer->username);
+
         $customer->save();
         $subscription->save();
 
@@ -465,6 +479,17 @@ class SubscriptionController extends Controller
 
         $customer = Customers::find($customer_id);
         $subscription = Subscriptions::find($subscription_id);
+
+        //unbind hotspot user from old camp
+        $camp_data = Camps::find($subscription->camp_id);
+        $host = $camp_data->mikritikIP;
+        $camp_user = $camp_data->mikrotikUsername;
+        $camp_pwd = $camp_data->mikrotikPassword;
+        $port = $camp_data->mikritikPort;
+
+        $hotspot_user = new HotspotUsers($host, $camp_user, $camp_pwd, $port);
+
+        $hotspot_user->deleteHotspotUser($customer->username);
 
         $customer->mac_address = '';
         $subscription->macAddress = '';
@@ -521,10 +546,7 @@ class SubscriptionController extends Controller
 
         $hotspot_user = new HotspotUsers($host, $camp_user, $camp_pwd, $port);
 
-        if($subscription->macAddress != '0' || !isEmpty($subscription->macAddress))
-        {
-            $hotspot_user->unbindMacAddressFromUser($subscription->macAddress);
-        }
+        $hotspot_user->deleteHotspotUser($customer->username);
 
         return redirect()->route('subscription.show')->with('success', 'Camp changed successfully!');
 
@@ -582,20 +604,6 @@ class SubscriptionController extends Controller
             'message' => 'Successfully status changed',
         ]);
     } //update status
-
-    public function changeStatusSubscription(Request $request)
-    {
-        $subscription_id = $request->input('status_subscription_id');
-        $status_id = $request->input('cmb_status');
-
-        $subscription = Subscriptions::find($subscription_id);
-
-        $subscription->status = $status_id;
-
-        $subscription->save();
-
-        return redirect()->route('subscription.show')->with('success', 'Subscription status changed successfully!');
-    }//change status subscription
 
     public function getSubscriptionByCounter(Request $request)
     {
