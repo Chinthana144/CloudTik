@@ -66,14 +66,34 @@ class HotspotUsers
         $this->client->query($query)->read();
     }
 
-    public function bindMacToUser($username, $macAddress)
+    public function getHotspotUser($username)
     {
-        $query = new Query('/ip/hotspot/user/set');
-        $query->equal('numbers', $username);
-        $query->equal('mac-address', $macAddress);
+        $printQuery = (new Query('/ip/hotspot/user/print'))->where('name', $username);
 
-        $this->client->query($query)->read();
+        $activeUser = $this->client->query($printQuery)->read();
+
+        return $activeUser;
     }
+
+    public function removeHotspotUserAndSession($username)
+    {
+        $printQuery = (new Query('/ip/hotspot/user/print'))->where('name', $username);
+
+        $activeUser = $this->client->query($printQuery)->read();
+
+        if (!empty($activeUser)) {
+
+            $activeId = $activeUser[0]['.id'];
+
+            //Remove active session
+            $removeQuery = (new Query('/ip/hotspot/active/remove'))->where('.id', $activeId);
+            $this->client->query($removeQuery)->read();
+
+            //Remove user
+            $deleteQuery = (new Query('/ip/hotspot/user/remove'))->where('.id', $activeId);
+            $this->client->query($deleteQuery)->read();
+        }
+    }//remove hotspot user and session
 
     public function deleteHotspotUser($username)
     {
@@ -86,8 +106,16 @@ class HotspotUsers
         } catch (\Exception $e) {
             echo "Error deleting hotspot user: " . $e->getMessage();
         }
-    }
+    }//delete hotspot user
 
+    public function bindMacToUser($username, $macAddress)
+    {
+        $query = new Query('/ip/hotspot/user/set');
+        $query->equal('numbers', $username);
+        $query->equal('mac-address', $macAddress);
+
+        $this->client->query($query)->read();
+    }
 
     public function getAllhotspotUsers()
     {

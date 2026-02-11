@@ -158,6 +158,16 @@ Route::middleware('auth')->group(function () {
     Route::post('/bind_mac', [MikrotikController::class, 'bindMac'])->name('mikrotik.bindmac');
     Route::post('/unbind_mac', [MikrotikController::class, 'unbindMac'])->name('mikrotik.unbindmac');
 
+    Route::get('/getHotspotUser', [MikrotikController::class, 'getHotspotUser']);
+
+    //status
+    Route::get('/showStatus', [MikrotikController::class, 'showStatus'])->name('mikrotik.showStatus');
+    Route::get('/fetchAnyQuery', [MikrotikController::class, 'fetchAnyQuery']);
+    Route::get('/getIdentity', [MikrotikController::class, 'getIdentity']);
+    Route::get('/getConnection', [MikrotikController::class, 'getConnection']);
+    Route::get('/getDhcpLease', [MikrotikController::class, 'getDhcpLease']);
+    Route::get('/getHotspotActive', [MikrotikController::class, 'getHotspotActive']);
+
     //for testing, delete this once testing is over
     Route::post('/checkConnection', [MikrotikController::class, 'checkConnection'])->name('mikrotik.checkConnection');
 
