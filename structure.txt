@@ -230,9 +230,5 @@ package wise sales report
 
 //mikrotik
 * Check Mikrotik activity
-<<<<<<< HEAD
-* add users bind/unbind
-=======
 * add users bind/unbind -------------------------------------- done
->>>>>>> chinthana_dev
 * manual subscriptions
