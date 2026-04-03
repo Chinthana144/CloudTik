@@ -188,7 +188,7 @@
                             <a href="/add_hotspot_users" class="sidebar-link">Add Users</a>
                         </li>
                         <li class="sidebar-item">
-                            <a href="/manual_subscriptions" class="sidebar-link">Subscription</a>
+                            <a href="/showStatus" class="sidebar-link">Status</a>
                         </li>
                     </ul>
                 </li>

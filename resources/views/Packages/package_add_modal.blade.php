@@ -2,7 +2,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Modal title</h5>
+        <h5 class="modal-title">Add New Package</h5>
         <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" id="btn_close_package_add">
           {{-- <span aria-hidden="true">&times;</span> --}}
         </button>

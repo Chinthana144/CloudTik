@@ -7,6 +7,7 @@ use App\Models\ClientSubscriptions;
 use App\Models\Subscriptions;
 use App\Services\MikrotikServices;
 use App\Services\HotspotUsers;
+use App\Services\MikrotikStatus;
 use App\Services\UserProfiles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -62,9 +63,10 @@ class MikrotikController extends Controller
         $camp_password = $camp_data->mikrotikPassword;
         $port = $camp_data->mikritikPort;
 
-        $user_profile = new UserProfiles($host, $camp_user, $camp_password, $port);
+        $hotspot_user = new HotspotUsers($host, $camp_user, $camp_password, $port);
+        // $user_profile = new UserProfiles($host, $camp_user, $camp_password, $port);
 
-        $user_profile->addHotspotUser($user_name, $user_pwd);
+        $hotspot_user->addHotspotUser($user_name, $user_pwd);
 
         return redirect()->route('mikrotik.hotspotusers');
     }
@@ -153,7 +155,30 @@ class MikrotikController extends Controller
         return view('Mikrotik.subscription', compact('camps'));
     }
 
-    public function checkConnection()
+    //============================ Mikrotik Status ============================//
+    public function showStatus(){
+        return view('Mikrotik.status');
+    }
+
+    public function fetchAny(Request $request)
+    {
+        $query = $request->input('query');
+
+        $active_camp_id = Session::get('active_camp_id');
+        $camp_data = Camps::find($active_camp_id);
+        $host = $camp_data->mikritikIP;
+        $camp_user = $camp_data->mikrotikUsername;
+        $camp_password = $camp_data->mikrotikPassword;
+        $port = $camp_data->mikritikPort;
+
+        $mikrotik_status = new MikrotikStatus($host, $camp_user, $camp_password, $port);
+
+        $response = $mikrotik_status->fetchAny($query);
+
+        return response()->json($response);
+    }
+
+    public function getIdentity()
     {
         $active_camp_id = Session::get('active_camp_id');
         $camp_data = Camps::find($active_camp_id);
@@ -162,10 +187,77 @@ class MikrotikController extends Controller
         $camp_password = $camp_data->mikrotikPassword;
         $port = $camp_data->mikritikPort;
 
-        $service = new MikrotikServices();
-        // return $service->checkConnection();
+        $mikrotik_status = new MikrotikStatus($host, $camp_user, $camp_password, $port);
 
-        dd($service->checkConnection());
+        $response = $mikrotik_status->getIdentity();
+
+        return response()->json($response);
     }
 
-}
+    public function getConnection()
+    {
+        $active_camp_id = Session::get('active_camp_id');
+        $camp_data = Camps::find($active_camp_id);
+        $host = $camp_data->mikritikIP;
+        $camp_user = $camp_data->mikrotikUsername;
+        $camp_password = $camp_data->mikrotikPassword;
+        $port = $camp_data->mikritikPort;
+
+        $mikrotik_status = new MikrotikStatus($host, $camp_user, $camp_password, $port);
+
+        $response = $mikrotik_status->getConnection();
+
+        return response()->json($response);
+    }
+
+    public function getDhcpLease()
+    {
+        $active_camp_id = Session::get('active_camp_id');
+        $camp_data = Camps::find($active_camp_id);
+        $host = $camp_data->mikritikIP;
+        $camp_user = $camp_data->mikrotikUsername;
+        $camp_password = $camp_data->mikrotikPassword;
+        $port = $camp_data->mikritikPort;
+
+        $mikrotik_status = new MikrotikStatus($host, $camp_user, $camp_password, $port);
+
+        $response = $mikrotik_status->dhcpLease();
+
+        return response()->json($response);
+    }
+
+    public function getHotspotActive()
+    {
+        $active_camp_id = Session::get('active_camp_id');
+        $camp_data = Camps::find($active_camp_id);
+        $host = $camp_data->mikritikIP;
+        $camp_user = $camp_data->mikrotikUsername;
+        $camp_password = $camp_data->mikrotikPassword;
+        $port = $camp_data->mikritikPort;
+
+        $mikrotik_status = new MikrotikStatus($host, $camp_user, $camp_password, $port);
+
+        $response = $mikrotik_status->hotspotActive();
+
+        return response()->json($response);
+    }
+
+    public function getHotspotUser(Request $request)
+    {
+        $username = $request->input('username');
+
+        $active_camp_id = Session::get('active_camp_id');
+        $camp_data = Camps::find($active_camp_id);
+        $host = $camp_data->mikritikIP;
+        $camp_user = $camp_data->mikrotikUsername;
+        $camp_password = $camp_data->mikrotikPassword;
+        $port = $camp_data->mikritikPort;
+
+        $hotspot_user = new HotspotUsers($host, $camp_user, $camp_password, $port);
+
+        $response = $hotspot_user->getHotspotUser($username);
+
+        return response()->json($response);
+    }
+
+}//class

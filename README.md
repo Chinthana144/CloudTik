@@ -1,7 +1,7 @@
 
 ## CloudTik – ISP Management System (Web Application)
 CloudTik is a full-featured Internet Service Provider (ISP) Management System designed for labor camps and shared internet environments.
-The system supports customer registration, subscription management, invoicing, MikroTik integration, and multi-camp operations.
+The system supports customer registration, subscription management, invoicing, MikroTik integration, and multi-camp (location) operations.
 
 ## Features
 ### Customer Management
@@ -62,14 +62,26 @@ The CloudTik Sales mobile app (Flutter) integrates with this backend to allow sa
 - View sales performance
 (Separate README will cover the mobile app.)
 
+--- 
+
 ## Screenshots
 
-![Dashboard](screenshots/dashboard.png)
+<p align="center">
+    <img src="screenshots/dashboard.png" alt="ScreenShots" width="45%">
+    <img src="screenshots/customers.png" alt="ScreenShots" width="45%">
+</p>
 
-![Subscription List](screenshots/subscriptions.png)
+<p align="center">
+    <img src="screenshots/invoice.png" alt="ScreenShots" width="45%">
+    <img src="screenshots/logged.png" alt="ScreenShots" width="45%">
+</p>
 
-![Logged user](screenshots/logged.png)
+<p align="center">
+    <img src="screenshots/subscriptions.png" alt="ScreenShots" width="45%">
+    <img src="screenshots/user_access.png" alt="ScreenShots" width="45%">
+</p>
 
+--- 
 
 ## Installation Guide
 
@@ -125,7 +137,7 @@ The CloudTik web system should now be running locally.
 ## Deployment Instructions for cloud
 - add the files in hotspot folder to the files in Mikrotik (login is executed by API, change the API link in login.html as necessary)
 - add Walled Garden rule to Mikrotik depending on the hosting domain.
-- add schedule to hosting platform to execute expired users, **subscriptions:check-expired**
+- add schedule to hosting platform to execute expired users,
 
 ## Future Improvements
 - Implement voucher issue for none registered customers
@@ -134,7 +146,7 @@ The CloudTik web system should now be running locally.
 - Complete multi-language support
 - More detailed hotspot user analytics
 
-## 
+--- 
 
 ## Connect with me  
 
@@ -142,5 +154,4 @@ The CloudTik web system should now be running locally.
 
 - Email: \*chinthana144@gmail.com\*  
 
-Thanks for visiting my profile!2753a514935a4062d93d73441b5
->>>>>>> chinthana_dev
+Thanks for visiting my profile!

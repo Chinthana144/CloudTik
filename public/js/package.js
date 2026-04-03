@@ -8,6 +8,10 @@ $("#btn_close_package_add").click(function(){
     $("#packageAddModal").modal('hide');
 });
 
+$("#btn_close_package_edit").click(function(){
+    $("#packageEditModal").nodel('hide');
+});
+
 $("#tbl_packages").on('click', '.btn_edit_package', function(){
     let row = $(this).closest('tr');
     let id = row.data('id');

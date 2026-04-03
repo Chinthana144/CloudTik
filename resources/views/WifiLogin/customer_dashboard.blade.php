@@ -29,24 +29,17 @@
 
             <input type="hidden" id="running_end_date" value="{{ $customer->expiry_datetime }}">
 
+            <form id="frm_mikrotik_login" action="http://wifi.net/login" method="post" style="display:none;">
+                <input type="hidden" id="customer_username" value="{{ $customer->username }}">
+                <input type="hidden" id="customer_pwd" value="{{ $customer->password }}">
+                <input type="hidden" name="popup" value="true">
+            </form>
+
             <div id="div-countdown">
                 Expire Date
                 <p id="expire_date">{{ $customer->expiry_datetime }}</p>
                 Remaining Time
                 <p id="countdown"></p>
-            </div>
-
-            <div id="div_links">
-                <div class="div_links">
-                    <a href="https://youtube.com">
-                        <img src="{{ asset('images/icons/youtube.png') }}" alt="youtube" id="img_youtube">
-                    </a>
-                </div>
-                <div class="div_links">
-                    <a href="https://google.com">
-                        <img src="{{ asset('images/icons/google.png') }}" alt="youtube" id="img_youtube">
-                    </a>
-                </div>
             </div>
         @endif
 
@@ -60,6 +53,9 @@
 
     <script>
         $(document).ready(function() {
+            //submitting form to mikrotik login page
+            $("#frm_mikrotik_login").submit();
+
             var get_time = $("#running_end_date").val();
             var endTime = new Date(get_time).getTime();
 

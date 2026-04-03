@@ -103,7 +103,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/updateSubsStatus', [SubscriptionController::class, 'updateStatus']);
     Route::post('/deleteSubscription', [SubscriptionController::class, 'destroy'])->name('subscription.destroy');
     Route::post('/resetSubscription', [SubscriptionController::class, 'resetMacAddress'])->name('subscription.reset');
-    Route::post('/changeStatusSubscription', [SubscriptionController::class, 'changeStatusSubscription'])->name('subscription.changeStatus');
     Route::get('/getCounterTotal', [SubscriptionController::class, 'getSubscriptionByCounter'])->name('subscription.total');
     Route::get('/getCustomerSubscriptions', [SubscriptionController::class, 'getSubscriptionByCustomer'])->name('subscription.customer');
     Route::get('/subscription-search', [SubscriptionController::class, 'subscriptionSearch'])->name('subscription.search');
@@ -158,6 +157,16 @@ Route::middleware('auth')->group(function () {
     Route::post('/mikrotik_store', [MikrotikController::class, 'store'])->name('mikrotik.store');
     Route::post('/bind_mac', [MikrotikController::class, 'bindMac'])->name('mikrotik.bindmac');
     Route::post('/unbind_mac', [MikrotikController::class, 'unbindMac'])->name('mikrotik.unbindmac');
+
+    Route::get('/getHotspotUser', [MikrotikController::class, 'getHotspotUser']);
+
+    //status
+    Route::get('/showStatus', [MikrotikController::class, 'showStatus'])->name('mikrotik.showStatus');
+    Route::get('/fetchAnyQuery', [MikrotikController::class, 'fetchAnyQuery']);
+    Route::get('/getIdentity', [MikrotikController::class, 'getIdentity']);
+    Route::get('/getConnection', [MikrotikController::class, 'getConnection']);
+    Route::get('/getDhcpLease', [MikrotikController::class, 'getDhcpLease']);
+    Route::get('/getHotspotActive', [MikrotikController::class, 'getHotspotActive']);
 
     //for testing, delete this once testing is over
     Route::post('/checkConnection', [MikrotikController::class, 'checkConnection'])->name('mikrotik.checkConnection');

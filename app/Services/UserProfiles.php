@@ -82,9 +82,9 @@ class UserProfiles
         $query->equal('name', $user_name);
         $query->equal('password', $user_pwd);
 
-        $this->client->query($query);
+        $this->client->query($query)->read();
 
-        $response = $this->client->read();
+        // $response = $this->client->read();
         //dd($response);
     }
 }//class user profiles
