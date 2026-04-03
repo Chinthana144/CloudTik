@@ -89,7 +89,7 @@ Follow the steps below to install and run the CloudTik web application on your l
 
 ### Clone the Repository
 
-    git clone https://github.com/your-username/CloudTik.git
+    git clone https://github.com/Chinthana144/CloudTik.git
 
     cd CloudTik
 
