@@ -35,8 +35,8 @@ class WifiLoginController extends Controller
 
         $camp_id = $request->input('camp_id');
         $mac = $request->input('mac') ?? "";
-        $username = $request->input('cust_username');
-        $password = $request->input('cust_password');
+        $username = $request->input('username');
+        $password = $request->input('password');
 
         //camp data
         $camp_data = Camps::find($camp_id);
